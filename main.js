@@ -46,7 +46,7 @@ const planeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
 const plane = new THREE.Mesh(planeGeometry,planeMaterial);
 scene.add(plane); */
 
-const group1 = new THREE.Group();//قروب الحركي الافقيه
+const deviceGroup = new THREE.Group();//قروب الحركي الافقيه
 const group2 = new THREE.Group();//قروب الحركي العمودي
 
 //جنب يسار
@@ -90,7 +90,7 @@ window.onkeydown = function (e) {
     var code = e.keyCode ? e.keyCode : e.which;
     if(code === 37) //left key
     {
-        group1.rotation.y += 0.1;
+        deviceGroup.rotation.y += 0.1;
     }
     else if (code === 38) 
     { //up key
@@ -98,7 +98,7 @@ window.onkeydown = function (e) {
         lathe.rotation.x += 0.1;
     } 
     else if (code === 39) { //right key
-        group1.rotation.y -= 0.1;
+        deviceGroup.rotation.y -= 0.1;
     }
     else if (code === 40) { //down key
         cube2.rotation.x -= 0.1;
@@ -259,9 +259,9 @@ animate();
 group2.add(cube2,lathe);
 scene.add(group2);
 
-group1.add(cube6,cube2,lathe,cube7,cube8,cylinder7,cylinder8,cylinder9
+deviceGroup.add(cube6,cube2,lathe,cube7,cube8,cylinder7,cylinder8,cylinder9
     ,cube9,cube10);
-scene.add(group1);
+scene.add(deviceGroup);
 
 
 const points = [];
