@@ -53,7 +53,9 @@ const plane = new THREE.Mesh(planeGeometry,planeMaterial);
 scene.add(plane); */
 
 const deviceGroup = new THREE.Group();//قروب الحركي الافقيه
+
 const verticalGroup = new THREE.Group();//قروب الحركي العمودي
+
 
 
 
@@ -122,7 +124,7 @@ window.onkeydown = function (e) {
     } 
     else if (code === 39) { //right key
         deviceGroup.rotation.y -= 0.1;
-        
+
     }
     else if (code === 40) { //down key
        // verticalGroup.rotation.x -=0.1
@@ -285,8 +287,10 @@ animate();
 verticalGroup.add(cube2,lathe);
 scene.add(verticalGroup);
 
+
 deviceGroup.add(cube6,cube7,cube8,cylinder7,cylinder8,cylinder9
     ,cube9,cube10 ,verticalGroup);
+
 scene.add(deviceGroup);
 
 var boundingBox = verticalGroup.geometry.boundingBox;
