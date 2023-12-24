@@ -49,3 +49,36 @@ const mesh = new THREE.Mesh( geometry10, material10 );
 scene.add( mesh );
 mesh.position.set(0,10,-10)
 ///////////////////////////
+
+else if(code === 65) //a
+{
+    scene.position.x -= 0.1;
+}
+else if (code === 87) 
+{ //up key
+    scene.position.y += 0.1;
+} 
+else if (code === 83) { //right key
+
+    scene.position.y -= 0.1;
+}
+else if (code === 68) { //down key
+    scene.position.x += 0.1;
+    }
+//..................
+else if(code === 98) //2
+{
+    camera.position.z -= 0.1;
+}
+else if (code === 104) //8
+{ //up key
+    camera.position.z += 0.1;
+} 
+else if (code === 100) { //right key
+
+    camera.position.x += 0.1;
+}
+else if (code === 102) { //down key
+    camera.position.x -= 0.1;
+    }
+///////////////////////////////////////////////

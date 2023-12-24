@@ -97,72 +97,40 @@ scene.background = new THREE.Color('skyblue');
 
 
 window.onkeydown = function (e) {
+    
+    const GRADE = 0.01575;
+
     var code = e.keyCode ? e.keyCode : e.which;
     var vertcaltest = document.getElementById("vertcaltest");
     var horizontaltest = document.getElementById("horizontaltest");
     var latheHorizontalTest= document.getElementById("latheHorizontalTest")
    
-   
-    vertcaltest.innerText="vertical test="+ deviceGroup.rotation.x;
-    latheHorizontalTest.innerText=cube2.rotation.x;
-
-    horizontaltest.innerText="horizontal test="+deviceGroup.rotation.y;
-
-    vertcaltest.innerText="vertical test="+ deviceGroup.rotation.x;
-        latheHorizontalTest.innerText=cube2.rotation.y;
-
     if(code === 37) //left key
     {
-        deviceGroup.rotation.y += 0.1;
+        deviceGroup.rotation.y += 100* GRADE;
     }
     else if (code === 38) 
     { //up key
        // verticalGroup.rotation.x +=0.1
-        cube2.rotation.x += 0.1;
-        lathe.rotation.x += 0.1;
-       
+        cube2.rotation.x += 100* GRADE;
+        lathe.rotation.x += 100* GRADE;
     } 
     else if (code === 39) { //right key
-        deviceGroup.rotation.y -= 0.1;
+        deviceGroup.rotation.y -= 100* GRADE;
 
     }
     else if (code === 40) { //down key
        // verticalGroup.rotation.x -=0.1
-        cube2.rotation.x -= 0.1;
-        lathe.rotation.x -= 0.1;
+        cube2.rotation.x -= 100* GRADE;
+        lathe.rotation.x -= 100* GRADE;
         
     }
-else if(code === 65) //a
-{
-    scene.position.x -= 0.1;
-}
-else if (code === 87) 
-{ //up key
-    scene.position.y += 0.1;
-} 
-else if (code === 83) { //right key
 
-    scene.position.y -= 0.1;
-}
-else if (code === 68) { //down key
-    scene.position.x += 0.1;
-    }
-//..................
-else if(code === 98) //2
-{
-    camera.position.z -= 0.1;
-}
-else if (code === 104) //8
-{ //up key
-    camera.position.z += 0.1;
-} 
-else if (code === 100) { //right key
 
-    camera.position.x += 0.1;
-}
-else if (code === 102) { //down key
-    camera.position.x -= 0.1;
-    }
+
+vertcaltest.innerText="vertical test="+ Math.abs( (-Math.round( cube2.rotation.x * 400 / 6.3,4)+100))%400 + " x = " + cube2.rotation.x;
+latheHorizontalTest.innerText="lathe horizontal test="+Math.abs((Math.round( lathe.rotation.y * 400 / 6.3,4)))%400;
+horizontaltest.innerText="horizontal test="+Math.abs(Math.round( deviceGroup.rotation.y * 400 / 6.3,4))%400;
 
 };
 //  لاضافه خطوط المحاور بشكل ملون
@@ -293,16 +261,4 @@ deviceGroup.add(cube6,cube7,cube8,cylinder7,cylinder8,cylinder9
 
 scene.add(deviceGroup);
 
-var boundingBox = verticalGroup.geometry.boundingBox;
-var center = new THREE.Vector3(0,2,0);
-boundingBox.setCenter(center);
-verticalGroup.geometry.center();
-
-const points = [];
-points.push( new THREE.Vector3( 10, 2, 0 ) );
-points.push( new THREE.Vector3( -10, 2, 0 ) );
-	
-const geometry5 = new THREE.BufferGeometry().setFromPoints( points );
-const line = new THREE.Line( geometry5, material );
-scene.add( line );
 renderer.render( scene, camera );
