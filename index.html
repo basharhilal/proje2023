@@ -1,30 +1,33 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
-		</style>
-		<link rel="stylesheet" href="main.css">
-	</head>
-	<body>
-		
-		<div id="info">Description 
-       <p id="vertcaltest" >vertcaltest=100  </p>
-	   <p id="horizontaltest">horizontaltest=0 </p>
-	  <label>vertcaltest</label>
-	  <input type="text" >
-	  <br>
-	  <label >horizontalttest </label>
-<input type="text" >
-<br>
+  <head>
+    <meta charset="utf-8" />
+    <title>My first three.js app</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div id="info">Values
+	  <table style="margin: 10px;">
+		<tr>
+			<td> <label>vertcal rotation in grad: </label></td>
+			<td> <input id="vertcaltest" type="number" value="100"/> <label>grad </label> </td>
+		</tr>
+		<tr>
+			<td> <label>horizontal rotation in grad: </label></td>
+			<td> <input id="horizontaltest" type="number" value="0"/> <label>grad </label> </td>
+		</tr>
+		<tr>
+			<td> </td>
+			<td> <input type="button" value="reset"> <input id="btnSet" type="button" value="set"></td>
+		</tr>
+	  </table>
+    </div>
 
-		</div>
-
-		<script type="module" src="/main.js"></script>
-        
-
-	</body>
-</html> 
-
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
