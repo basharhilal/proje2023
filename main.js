@@ -92,13 +92,13 @@ scene.add(cube8);
 
 
 // Set the background color
-scene.background = new THREE.Color('skyblue');
+scene.background = new THREE.Color('');
  
 
 
 window.onkeydown = function (e) {
-    
-    const GRADE = 0.01575;
+
+    const GRADE = (2*Math.PI)/400;//convert radian to grad
 
     var code = e.keyCode ? e.keyCode : e.which;
     var vertcaltest = document.getElementById("vertcaltest");
@@ -107,30 +107,30 @@ window.onkeydown = function (e) {
    
     if(code === 37) //left key
     {
-        deviceGroup.rotation.y += 100* GRADE;
+        deviceGroup.rotation.y += 10* GRADE;
     }
     else if (code === 38) 
     { //up key
        // verticalGroup.rotation.x +=0.1
-        cube2.rotation.x += 100* GRADE;
-        lathe.rotation.x += 100* GRADE;
+        cube2.rotation.x += 10* GRADE;
+        lathe.rotation.x += 10* GRADE;
     } 
     else if (code === 39) { //right key
-        deviceGroup.rotation.y -= 100* GRADE;
+        deviceGroup.rotation.y -= 10* GRADE;
 
     }
     else if (code === 40) { //down key
        // verticalGroup.rotation.x -=0.1
-        cube2.rotation.x -= 100* GRADE;
-        lathe.rotation.x -= 100* GRADE;
+        cube2.rotation.x -= 10* GRADE;
+        lathe.rotation.x -= 10* GRADE;
         
     }
 
 
 
-vertcaltest.innerText="vertical test="+ Math.abs( (-Math.round( cube2.rotation.x * 400 / 6.3,4)+100))%400 + " x = " + cube2.rotation.x;
-latheHorizontalTest.innerText="lathe horizontal test="+Math.abs((Math.round( lathe.rotation.y * 400 / 6.3,4)))%400;
-horizontaltest.innerText="horizontal test="+Math.abs(Math.round( deviceGroup.rotation.y * 400 / 6.3,4))%400;
+vertcaltest.innerText="vertical rotation ="+ Math.abs( (-Math.round( cube2.rotation.x * 400 /(Math.PI*2),4)+100))%400 ;
+//latheHorizontalTest.innerText="lathe horizontal rotation ="+Math.abs((Math.round( lathe.rotation.y * 400 /(Math.PI*2),4)))%400;
+horizontaltest.innerText="horizontal test="+Math.abs(Math.round( deviceGroup.rotation.y * 400 /(Math.PI*2),4))%400;
 
 };
 //  لاضافه خطوط المحاور بشكل ملون
@@ -212,7 +212,7 @@ lathe.rotation.x =Math.PI/2;
 // الشاشه الاماميه
 const cube9 = new THREE.Mesh(
     new THREE.BoxGeometry( 2.3,1.2, 0.5 ),
-    new THREE.MeshBasicMaterial( {color: 0x12365} )); 
+    new THREE.MeshBasicMaterial( {color: 0x16365} )); 
     //cube9.rotation.y=Math.PI/4;
     cube9.rotation.x=-Math.PI/5;
     //cylinder10.rotation.z=Math.PI/2;
@@ -231,7 +231,7 @@ const cube10 = new THREE.Mesh(
 
 
 const loader = new THREE.TextureLoader();
-scene.background = loader.load( 'background.png' );
+//scene.background = loader.load( 'background.png' );
 
 
 
