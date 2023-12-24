@@ -6,10 +6,16 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 
+
 const renderer = new THREE.WebGLRenderer();
 const orbit = new OrbitControls(camera, renderer.domElement);
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
+
+//var rotationPoint = new THREE.Vector3(0, 2, 0);
+//verticalGroup.position.sub(rotationPoint);
+//verticalGroup
+
 //قدم يسار
 const geometry = new THREE.BoxGeometry( 0.4, 10, 1 );
 const material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
@@ -46,8 +52,10 @@ const planeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
 const plane = new THREE.Mesh(planeGeometry,planeMaterial);
 scene.add(plane); */
 
-const group1 = new THREE.Group();//قروب الحركي الافقيه
-const group2 = new THREE.Group();//قروب الحركي العمودي
+const deviceGroup = new THREE.Group();//قروب الحركي الافقيه
+const verticalGroup = new THREE.Group();//قروب الحركي العمودي
+
+
 
 //جنب يسار
 const geometry6 = new THREE.BoxGeometry(0.9,3,1)
@@ -88,21 +96,39 @@ scene.background = new THREE.Color('skyblue');
 
 window.onkeydown = function (e) {
     var code = e.keyCode ? e.keyCode : e.which;
+    var vertcaltest = document.getElementById("vertcaltest");
+    var horizontaltest = document.getElementById("horizontaltest");
+    var latheHorizontalTest= document.getElementById("latheHorizontalTest")
+   
+   
+    vertcaltest.innerText="vertical test="+ deviceGroup.rotation.x;
+    latheHorizontalTest.innerText=cube2.rotation.x;
+
+    horizontaltest.innerText="horizontal test="+deviceGroup.rotation.y;
+
+    vertcaltest.innerText="vertical test="+ deviceGroup.rotation.x;
+        latheHorizontalTest.innerText=cube2.rotation.y;
+
     if(code === 37) //left key
     {
-        group1.rotation.y += 0.1;
+        deviceGroup.rotation.y += 0.1;
     }
     else if (code === 38) 
     { //up key
+       // verticalGroup.rotation.x +=0.1
         cube2.rotation.x += 0.1;
         lathe.rotation.x += 0.1;
+       
     } 
     else if (code === 39) { //right key
-        group1.rotation.y -= 0.1;
+        deviceGroup.rotation.y -= 0.1;
+        
     }
     else if (code === 40) { //down key
+       // verticalGroup.rotation.x -=0.1
         cube2.rotation.x -= 0.1;
         lathe.rotation.x -= 0.1;
+        
     }
 else if(code === 65) //a
 {
@@ -256,13 +282,17 @@ animate();
 
 
 
-group2.add(cube2,lathe);
-scene.add(group2);
+verticalGroup.add(cube2,lathe);
+scene.add(verticalGroup);
 
-group1.add(cube6,cube2,lathe,cube7,cube8,cylinder7,cylinder8,cylinder9
-    ,cube9,cube10);
-scene.add(group1);
+deviceGroup.add(cube6,cube7,cube8,cylinder7,cylinder8,cylinder9
+    ,cube9,cube10 ,verticalGroup);
+scene.add(deviceGroup);
 
+var boundingBox = verticalGroup.geometry.boundingBox;
+var center = new THREE.Vector3(0,2,0);
+boundingBox.setCenter(center);
+verticalGroup.geometry.center();
 
 const points = [];
 points.push( new THREE.Vector3( 10, 2, 0 ) );
