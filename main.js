@@ -130,7 +130,7 @@ window.onkeydown = function (e) {
 
 vertcaltest.innerText="vertical rotation ="+ Math.abs( (-Math.round( cube2.rotation.x * 400 /(Math.PI*2),4)+100))%400 ;
 //latheHorizontalTest.innerText="lathe horizontal rotation ="+Math.abs((Math.round( lathe.rotation.y * 400 /(Math.PI*2),4)))%400;
-horizontaltest.innerText="horizontal test="+Math.abs(Math.round( deviceGroup.rotation.y * 400 /(Math.PI*2),4))%400;
+horizontaltest.innerText="horizontal rotation ="+Math.abs(Math.round( deviceGroup.rotation.y * 400 /(Math.PI*2),4))%400;
 
 };
 //  لاضافه خطوط المحاور بشكل ملون

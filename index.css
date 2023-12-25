@@ -1,0 +1,122 @@
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+  * {
+    font-family: 'Ubuntu', sans-serif;
+    padding: 0%;
+    margin: 0%;
+
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    /*لحذف الخط اسفل الروابط*/
+
+
+  }
+
+  body {
+    background-image: linear-gradient(rgba(26, 9, 81, 0.768), #000);
+    height: 100vh;
+    display: flex;
+    /*لغير مكان المحتوى*/
+    justify-content: center;
+    /*نحريك المحتوى للمركز يمين شمال*/
+    align-items: center;
+    /*نحريك المحتوى للمركز فوق تحت*/
+  }
+
+  .container {
+
+    background-image:
+      linear-gradient(rgba(24, 76, 104, 0.619), rgba(28, 8, 72, 0.326)),
+
+      url(background.jpg);
+
+    background-position: center;
+    /*جعل الصوره تبين اذا كبر او صغر المتصفح*/
+    width: 90%;
+    height: 650px;
+
+  }
+/*
+  .container:hover {
+    background-image:
+      linear-gradient(to right, transparent, rgba(28, 24, 104, 0.619)),
+
+      url(3.jpg);
+  } */
+
+  header {
+    display: flex;
+    /*الشكل الافقي*/
+    justify-content: space-between;
+    /*يترك فراغ بين العناصر حسب الانوع*/
+    align-items: center;
+    /*عالنص بشكل افقي يقربهم*/
+    padding: 10px;
+  }
+
+  .logo {
+    font-size: 30px;
+    text-transform: uppercase;
+    /*الاحرف كبيره بالانكليزي*/
+
+
+  }
+
+  ul {
+    width: 60%;
+    list-style: none;
+    /*ازاله الدوائر بجانب عناصر القاىمه*/
+    display: flex;
+    /*الشكل الافقي*/
+    justify-content: space-evenly;
+    /*  يعطي مسافات بينهم لكن يجب تحديد عرض القائمه الاساسيه */
+  }
+
+  ul a {
+    border-bottom: 2px solid transparent;
+    /*transparent تعني انه اللون شفاف*/
+  }
+
+  ul a:hover {
+    border-bottom-color: white;
+    font-size: 20px;
+  }
+
+  .content {
+
+    color: white;
+    width: 50%;
+    margin-top: 50px;
+    padding: 30px;
+
+  }
+
+  .content h2 {
+    font-size: 100px;
+    text-transform: uppercase;
+    /*احرف كبيره*/
+  }
+
+  .content p {
+    letter-spacing: 3px;
+    /*تباعد الاحرف عن بعض*/
+    width: 350px;
+    padding: 20px 0;
+  }
+
+
+  .content button {
+    font-size: 30px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+  }
+
+  .content button:hover {
+    background-color: transparent;
+    border-color: white;
+    color: white;
+  }
