@@ -24,7 +24,7 @@ const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const cube = new THREE.Mesh(geometry, material);
 cube.position.set(-3, -4.5, -1.5);
 scene.add(cube);
-const gridHelper = new THREE.GridHelper(30, 100);
+const gridHelper = new THREE.GridHelper(100, 100);
 scene.add(gridHelper);
 cube.rotation.z = -Math.PI / 5;
 cube.rotation.y = -Math.PI / 7;
@@ -191,6 +191,40 @@ const cylinder7 = new THREE.Mesh(
 cylinder7.position.set(0, 0.6, 0);
 cylinder7.rotation.y = Math.PI / 3;
 
+
+const geometrycircle = new THREE.CircleGeometry( 2, 32 ); 
+const materialcircle = new THREE.MeshBasicMaterial( { color: 0x00ffff } ); 
+const circle1 = new THREE.Mesh( geometrycircle, materialcircle ); 
+const circle2 = new THREE.Mesh( geometrycircle, materialcircle ); 
+circle1.position.set(0,8,-20);
+circle2.position.set(10,12,-20);
+
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+document.addEventListener('click', onDocumentClick, false);
+function onDocumentClick(event) {
+    // Calculate mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // Update the raycaster
+    raycaster.setFromCamera(mouse, camera);
+
+    // Check for intersections with the cube
+    var intersects = raycaster.intersectObject(circle1);
+
+    if (intersects.length > 0) {
+        alert('circle1 clicked!');
+    }
+
+    var intersects2 = raycaster.intersectObject(circle2);
+
+    if (intersects2.length > 0) {
+        alert('circle2 clicked!');
+    }
+}
+
+
 scene.add(
   cylinder,
   cylinder1,
@@ -199,7 +233,9 @@ scene.add(
   cylinder4,
   cylinder5,
   cylinder6,
-  cylinder7
+  cylinder7,
+  circle1,
+  circle2
 );
 
 const points1 = [];
@@ -253,6 +289,8 @@ camera.position.x = 2;
 camera.position.y = 2;
 
 //logic
+
+
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
   console.log(deviceGroup.rotation.y);
