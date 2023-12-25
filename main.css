@@ -8,3 +8,8 @@
     background-color: blueviolet;
 	margin-top: 10px;
 }
+
+label.label1{
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: bold;
+}

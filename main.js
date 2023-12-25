@@ -203,9 +203,9 @@ scene.add(
 );
 
 const points1 = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 40; i++) {
   points1.push(
-    new THREE.Vector2(Math.sin(i * 0.3) * 0.2 + 0.3, (i - 10) * 0.15)
+    new THREE.Vector2(Math.sin(i * 0.3) * 0.2 + 0.3, (i - 20) * 0.075)
   );
 }
 
