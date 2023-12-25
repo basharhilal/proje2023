@@ -14,19 +14,30 @@
 
 <body>
 
-	<div id="info">Description
-		<p id="vertcaltest">vertical rotation = 100 </p>
-		<p id="horizontaltest">horizontal rotation = 0 </p>
-		<label>vertical rotation :</label>
-		<input type="text">
-		<br>
-		<label>horizontal rotation :</label>
-		<input type="text">
-		<br>
+	
+	 
+		<div id="info">Values
+		  <table style="margin: 10px;">
+			<tr>
+				<td> <label>vertcal rotation in grad: </label></td>
+				<td> <input id="vertcaltest" type="number" value="100"/> <label>grad </label> </td>
+			</tr>
+			<tr>
+				<td> <label>horizontal rotation in grad: </label></td>
+				<td> <input id="horizontaltest" type="number" value="0"/> <label>grad </label> </td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td> <input type="button" value="reset"> <input id="btnSet" type="button" value="set"></td>
+			</tr>
+		  </table>
+		</div>
+	
+		<script type="module" src="/main.js"></script>
+	 
+	
 
-	</div>
 
-	<script type="module" src="/main.js"></script>
 
 <a href="index.html">main</a>
 </body>
