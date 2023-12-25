@@ -14,6 +14,10 @@ const orbit = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+//referencial points
+var horizontalReferenceValue = 0;
+var verticalReferenceValue = 0;
+
 //var rotationPoint = new THREE.Vector3(0, 2, 0);
 //verticalGroup.position.sub(rotationPoint);
 //verticalGroup
@@ -125,11 +129,15 @@ window.onkeydown = function (e) {
     lathe.rotation.x -= 10 * GRADE;
   }
 
-  var verticalValue = -Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100;
+  var verticalValue =
+    -Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100;
   while (verticalValue < 0) verticalValue += 400;
   verticalResult.textContent = (verticalValue + 400) % 400;
-  
-  var horizontalValue = -Math.round((deviceGroup.rotation.y * 400) / (Math.PI * 2), 4);
+
+  var horizontalValue = -Math.round(
+    (deviceGroup.rotation.y * 400) / (Math.PI * 2),
+    4
+  );
   console.log(horizontalValue);
   while (horizontalValue < 0) horizontalValue += 400;
   horizontalResult.textContent = horizontalValue % 400;
@@ -191,39 +199,121 @@ const cylinder7 = new THREE.Mesh(
 cylinder7.position.set(0, 0.6, 0);
 cylinder7.rotation.y = Math.PI / 3;
 
+const geometrycircle = new THREE.CircleGeometry(2, 32);
+const materialcircle = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+const circle1 = new THREE.Mesh(geometrycircle, materialcircle);
+const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
+circle1.position.set(0, 8, -20);
+circle2.position.set(10, 12, -20);
 
-const geometrycircle = new THREE.CircleGeometry( 2, 32 ); 
-const materialcircle = new THREE.MeshBasicMaterial( { color: 0x00ffff } ); 
-const circle1 = new THREE.Mesh( geometrycircle, materialcircle ); 
-const circle2 = new THREE.Mesh( geometrycircle, materialcircle ); 
-circle1.position.set(0,8,-20);
-circle2.position.set(10,12,-20);
+//create line
+var geometryLine = new THREE.BufferGeometry();
+
+// Define line material
+var materialLine = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+
+// Create the line
+var line = new THREE.Line(geometryLine, materialLine);
+scene.add(line);
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-document.addEventListener('click', onDocumentClick, false);
+document.addEventListener("click", onDocumentClick, false);
+
+
+
 function onDocumentClick(event) {
-    // Calculate mouse position in normalized device coordinates
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  // Calculate mouse position in normalized device coordinates
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Update the raycaster
-    raycaster.setFromCamera(mouse, camera);
+  // Update the raycaster
+  raycaster.setFromCamera(mouse, camera);
 
-    // Check for intersections with the cube
-    var intersects = raycaster.intersectObject(circle1);
+ 
+  // Check for intersections with the cube
 
-    if (intersects.length > 0) {
-        alert('circle1 clicked!');
-    }
+  var intersects = raycaster.intersectObject(circle1);
+  var circle1X = document.getElementById("circle1X");
+  var circle1Y = document.getElementById("circle1Y");
+  var circle1Z = document.getElementById("circle1Z");
+  if (intersects.length > 0) {
+    alert("circle1 clicked!");
+    circle1X.textContent = circle1.position.x;
+    circle1Y.textContent = circle1.position.y;
+    circle1Z.textContent = circle1.position.z;
 
-    var intersects2 = raycaster.intersectObject(circle2);
+    var verticalAngel = Math.atan(
+        (circle1.position.z - cube2.position.z)/
+        -(circle1.position.y - cube2.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
 
-    if (intersects2.length > 0) {
-        alert('circle2 clicked!');
-    }
+    vertcaltest.value = verticalAngel;
+
+
+    var horizontalAngel = Math.atan(
+        (circle1.position.x - cube2.position.x) /
+          -(circle1.position.z - cube2.position.z)
+      );
+      horizontalAngel = ConvertRadToGrad(horizontalAngel);
+      horizontaltest.value = horizontalAngel;
+
+            // Define line geometry
+var points = [];
+points.push(new THREE.Vector3(0, 2.5, 0));
+points.push(new THREE.Vector3(circle1.position.x, circle1.position.y, circle1.position.z));
+geometryLine.setFromPoints(points);
+
+  }
+
+  var intersects2 = raycaster.intersectObject(circle2);
+  var circle2X = document.getElementById("circle2X");
+  var circle2Y = document.getElementById("circle2Y");
+  var circle2Z = document.getElementById("circle2Z");
+  if (intersects2.length > 0) {
+    alert("circle2 clicked!");
+    circle2X.textContent = circle2.position.x;
+    circle2Y.textContent = circle2.position.y;
+    circle2Z.textContent = circle2.position.z;
+
+    var verticalAngel = Math.atan(
+        (circle2.position.z - cube2.position.z)/
+        -(circle2.position.y - cube2.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+
+    vertcaltest.value = verticalAngel;
+
+    
+    var horizontalAngel = Math.atan(
+        (circle2.position.x - cube2.position.x) /
+          -(circle2.position.z - cube2.position.z)
+      );
+      horizontalAngel = ConvertRadToGrad(horizontalAngel);
+      horizontaltest.value = horizontalAngel;
+
+      // Define line geometry
+var points = [];
+points.push(new THREE.Vector3(0, 2.5, 0));
+points.push(new THREE.Vector3(circle2.position.x, circle2.position.y, circle2.position.z));
+
+geometryLine.setFromPoints(points);
+
+  }
+
+  var intersects3 = raycaster.intersectObject(cube2);
+
+  var cubeX = document.getElementById("cubeX");
+  var cubeY = document.getElementById("cubeY");
+  var cubeZ = document.getElementById("cubeZ");
+  if (intersects3.length > 0) {
+    alert("cube clicked!");
+    cubeX.textContent = cube2.position.x;
+    cubeY.textContent = cube2.position.y;
+    cubeZ.textContent = cube2.position.z;
+  }
 }
-
 
 scene.add(
   cylinder,
@@ -251,6 +341,7 @@ const material2 = new THREE.MeshBasicMaterial({ color: 0x55325 });
 const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
+
 //الوسط
 /**/
 const geometry11 = new THREE.LatheGeometry(points1);
@@ -290,7 +381,6 @@ camera.position.y = 2;
 
 //logic
 
-
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
   console.log(deviceGroup.rotation.y);
@@ -302,7 +392,7 @@ btnSet.onclick = function () {
   horizontalRotation %= 400;
 
   verticalRotation = 100 - verticalRotation;
-  horizontalRotation = - horizontalRotation;
+  horizontalRotation = -horizontalRotation;
 
   verticalRotation *= (Math.PI * 2) / 400;
   horizontalRotation *= (Math.PI * 2) / 400;
@@ -312,11 +402,9 @@ btnSet.onclick = function () {
   deviceGroup.rotation.y = horizontalRotation;
   console.log(deviceGroup.rotation.y);
 
-  
   verticalResult.textContent = vertcaltest.value;
   horizontalResult.textContent = horizontaltest.value;
 };
-
 
 document.getElementById("vertcaltest").onchange = function () {
   var vertcaltest = document.getElementById("vertcaltest");
@@ -324,7 +412,7 @@ document.getElementById("vertcaltest").onchange = function () {
     vertcaltest.value = 400 + Number(vertcaltest.value);
   if (vertcaltest.value >= 400)
     vertcaltest.value = -400 + Number(vertcaltest.value);
-    verticalResult.textContent = vertcaltest.value;
+  verticalResult.textContent = vertcaltest.value;
 };
 
 document.getElementById("horizontaltest").onchange = function () {
@@ -336,9 +424,25 @@ document.getElementById("horizontaltest").onchange = function () {
   if (horizontaltest.value >= 400)
     horizontaltest.value = -400 + Number(horizontaltest.value);
   console.log(horizontaltest.value);
-  
+
   horizontalResult.textContent = horizontaltest.value;
 };
+
+function calculateDistance(point1, point2) {
+  var dx = point2.x - point1.x;
+  var dy = point2.y - point1.y;
+  var dz = point2.z - point1.z;
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function ConvertRadToGrad(angel)
+{
+    var result = angel * 400 /( 2 * Math.PI);
+    if(result<0)
+    result += 400;
+return result;
+}
 
 function animate() {
   requestAnimationFrame(animate);
