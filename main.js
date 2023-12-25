@@ -92,6 +92,11 @@ const cube8 = new THREE.Mesh(geometry8, material8);
 cube8.position.set(0, 4.1, 0);
 scene.add(cube8);
 
+// define html controls
+
+var verticalResult = document.getElementById("verticalResult");
+var horizontalResult = document.getElementById("horizontalResult");
+
 // Set the background color
 scene.background = new THREE.Color("");
 
@@ -99,8 +104,6 @@ window.onkeydown = function (e) {
   const GRADE = (2 * Math.PI) / 400; //convert radian to grad
 
   var code = e.keyCode ? e.keyCode : e.which;
-  var verticalRotation = document.getElementById("vertcaltest");
-  var horizontalRotation = document.getElementById("horizontaltest");
 
   if (code === 37) {
     //left key
@@ -124,13 +127,12 @@ window.onkeydown = function (e) {
 
   var verticalValue = -Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100;
   while (verticalValue < 0) verticalValue += 400;
-  verticalRotation.value = (verticalValue + 400) % 400;
-  //latheHorizontalTest.innerText="lathe horizontal rotation ="+Math.abs((Math.round( lathe.rotation.y * 400 /(Math.PI*2),4)))%400;
-
+  verticalResult.textContent = (verticalValue + 400) % 400;
+  
   var horizontalValue = -Math.round((deviceGroup.rotation.y * 400) / (Math.PI * 2), 4);
   console.log(horizontalValue);
   while (horizontalValue < 0) horizontalValue += 400;
-  horizontalRotation.value = horizontalValue % 400;
+  horizontalResult.textContent = horizontalValue % 400;
 };
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
@@ -271,13 +273,20 @@ btnSet.onclick = function () {
   lathe.rotation.x = verticalRotation + Math.PI / 2;
   deviceGroup.rotation.y = horizontalRotation;
   console.log(deviceGroup.rotation.y);
+
+  
+  verticalResult.textContent = vertcaltest.value;
+  horizontalResult.textContent = horizontaltest.value;
 };
+
+
 document.getElementById("vertcaltest").onchange = function () {
   var vertcaltest = document.getElementById("vertcaltest");
   if (vertcaltest.value < 0)
     vertcaltest.value = 400 + Number(vertcaltest.value);
   if (vertcaltest.value >= 400)
     vertcaltest.value = -400 + Number(vertcaltest.value);
+    verticalResult.textContent = vertcaltest.value;
 };
 
 document.getElementById("horizontaltest").onchange = function () {
@@ -289,6 +298,8 @@ document.getElementById("horizontaltest").onchange = function () {
   if (horizontaltest.value >= 400)
     horizontaltest.value = -400 + Number(horizontaltest.value);
   console.log(horizontaltest.value);
+  
+  horizontalResult.textContent = horizontaltest.value;
 };
 
 function animate() {
