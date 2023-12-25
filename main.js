@@ -104,10 +104,8 @@ window.onkeydown = function (e) {
 
   if (code === 37) {
     //left key
-   
-    deviceGroup.rotation.y += 10 * GRADE;
-   
 
+    deviceGroup.rotation.y += 10 * GRADE;
   } else if (code === 38) {
     //up key
     // verticalGroup.rotation.x +=0.1
@@ -115,9 +113,8 @@ window.onkeydown = function (e) {
     lathe.rotation.x += 10 * GRADE;
   } else if (code === 39) {
     //right key
-    
+
     deviceGroup.rotation.y -= 10 * GRADE;
-    
   } else if (code === 40) {
     //down key
     // verticalGroup.rotation.x -=0.1
@@ -125,13 +122,15 @@ window.onkeydown = function (e) {
     lathe.rotation.x -= 10 * GRADE;
   }
 
-  verticalRotation.value =
-    ((-Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100)+400)%400
-      ;
+  var verticalValue = -Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100;
+  while (verticalValue < 0) verticalValue += 400;
+  verticalRotation.value = (verticalValue + 400) % 400;
   //latheHorizontalTest.innerText="lathe horizontal rotation ="+Math.abs((Math.round( lathe.rotation.y * 400 /(Math.PI*2),4)))%400;
-  horizontalRotation.value =
-    (-Math.round((deviceGroup.rotation.y * 400) / (Math.PI * 2), 4) %
-      400);
+
+  var horizontalValue = -Math.round((deviceGroup.rotation.y * 400) / (Math.PI * 2), 4);
+  console.log(horizontalValue);
+  while (horizontalValue < 0) horizontalValue += 400;
+  horizontalRotation.value = horizontalValue % 400;
 };
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
@@ -253,54 +252,44 @@ camera.position.y = 2;
 
 //logic
 var btnSet = document.getElementById("btnSet");
-btnSet.onclick = function()
-{
-    
-    
-    console.log(deviceGroup.rotation.y);
+btnSet.onclick = function () {
+  console.log(deviceGroup.rotation.y);
 
-    var verticalRotation = document.getElementById("vertcaltest").value;
-    var horizontalRotation = document.getElementById("horizontaltest").value;
+  var verticalRotation = document.getElementById("vertcaltest").value;
+  var horizontalRotation = document.getElementById("horizontaltest").value;
 
-    
-    verticalRotation %= 400;
-    horizontalRotation %= 400;
+  verticalRotation %= 400;
+  horizontalRotation %= 400;
 
-    
-    verticalRotation = 100 - verticalRotation;
+  verticalRotation = 100 - verticalRotation;
+  horizontalRotation = - horizontalRotation;
 
-   
-    verticalRotation *= (Math.PI * 2)/400;
-    horizontalRotation *= (Math.PI * 2)/400;
+  verticalRotation *= (Math.PI * 2) / 400;
+  horizontalRotation *= (Math.PI * 2) / 400;
 
-   
-    cube2.rotation.x = verticalRotation;
-    lathe.rotation.x = verticalRotation + Math.PI / 2;
-    deviceGroup.rotation.y = horizontalRotation;
-    console.log(deviceGroup.rotation.y);
-  
+  cube2.rotation.x = verticalRotation;
+  lathe.rotation.x = verticalRotation + Math.PI / 2;
+  deviceGroup.rotation.y = horizontalRotation;
+  console.log(deviceGroup.rotation.y);
+};
+document.getElementById("vertcaltest").onchange = function () {
+  var vertcaltest = document.getElementById("vertcaltest");
+  if (vertcaltest.value < 0)
+    vertcaltest.value = 400 + Number(vertcaltest.value);
+  if (vertcaltest.value >= 400)
+    vertcaltest.value = -400 + Number(vertcaltest.value);
+};
 
-}
-document.getElementById("vertcaltest").onchange=function()
-{
-    var vertcaltest= document.getElementById("vertcaltest");
-    if( vertcaltest.value<0)
-     vertcaltest.value = 400+Number(vertcaltest.value);
-     if( vertcaltest.value>=400)
-     vertcaltest.value = -400+Number(vertcaltest.value);
-}
-
-document.getElementById("horizontaltest").onchange=function()
-{ 
-    console.log("horizontaltest.onchange");
-    var horizontaltest= document.getElementById("horizontaltest");
-    console.log(horizontaltest.value);
-    if( horizontaltest.value<0)
-     horizontaltest.value = 400+Number(horizontaltest.value);
-     if( horizontaltest.value>=400)
-     horizontaltest.value = -400+Number(horizontaltest.value);
-     console.log(horizontaltest.value);
-}
+document.getElementById("horizontaltest").onchange = function () {
+  console.log("horizontaltest.onchange");
+  var horizontaltest = document.getElementById("horizontaltest");
+  console.log(horizontaltest.value);
+  if (horizontaltest.value < 0)
+    horizontaltest.value = 400 + Number(horizontaltest.value);
+  if (horizontaltest.value >= 400)
+    horizontaltest.value = -400 + Number(horizontaltest.value);
+  console.log(horizontaltest.value);
+};
 
 function animate() {
   requestAnimationFrame(animate);
