@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
+const NumberOfGrads = 1;
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -112,21 +114,21 @@ window.onkeydown = function (e) {
   if (code === 37) {
     //left key
 
-    deviceGroup.rotation.y += 10 * GRADE;
+    deviceGroup.rotation.y += NumberOfGrads * GRADE;
   } else if (code === 38) {
     //up key
     // verticalGroup.rotation.x +=0.1
-    cube2.rotation.x += 10 * GRADE;
-    lathe.rotation.x += 10 * GRADE;
+    cube2.rotation.x += NumberOfGrads * GRADE;
+    lathe.rotation.x += NumberOfGrads * GRADE;
   } else if (code === 39) {
     //right key
 
-    deviceGroup.rotation.y -= 10 * GRADE;
+    deviceGroup.rotation.y -= NumberOfGrads * GRADE;
   } else if (code === 40) {
     //down key
     // verticalGroup.rotation.x -=0.1
-    cube2.rotation.x -= 10 * GRADE;
-    lathe.rotation.x -= 10 * GRADE;
+    cube2.rotation.x -= NumberOfGrads * GRADE;
+    lathe.rotation.x -= NumberOfGrads * GRADE;
   }
 
   var verticalValue =
@@ -199,13 +201,23 @@ const cylinder7 = new THREE.Mesh(
 cylinder7.position.set(0, 0.6, 0);
 cylinder7.rotation.y = Math.PI / 3;
 
-const geometrycircle = new THREE.CircleGeometry(2, 32);
+const geometrycircle = new THREE.CircleGeometry(1, 32);
 const materialcircle = new THREE.MeshBasicMaterial({ color: 0x00ffff });
 const circle1 = new THREE.Mesh(geometrycircle, materialcircle);
 const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
 circle1.position.set(0, 8, -20);
 circle2.position.set(10, 12, -20);
 
+const geometryCylinder = new THREE.CylinderGeometry( 0.1, 0.1, 14, 32 ); 
+const materialCylinder = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
+const cylinderCircle1 = new THREE.Mesh( geometryCylinder, materialCylinder ); scene.add( cylinder );
+cylinderCircle1.position.set(0, 0, -20.1);
+scene.add(cylinderCircle1);
+
+const geometryCylinder2 = new THREE.CylinderGeometry( 0.1, 0.1, 19, 32 ); 
+const cylinderCircle2 = new THREE.Mesh( geometryCylinder2, materialCylinder ); scene.add( cylinder );
+cylinderCircle2.position.set(10, 2, -20.1);
+scene.add(cylinderCircle2);
 //create line
 var geometryLine = new THREE.BufferGeometry();
 
@@ -250,6 +262,9 @@ function onDocumentClick(event) {
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     vertcaltest.value = verticalAngel;
+    console.log(vertcaltest.value );
+    vertcaltest.value =parseFloat(vertcaltest.value).toFixed(4);
+    console.log(vertcaltest.value );
 
 
     var horizontalAngel = Math.atan(
@@ -258,6 +273,7 @@ function onDocumentClick(event) {
       );
       horizontalAngel = ConvertRadToGrad(horizontalAngel);
       horizontaltest.value = horizontalAngel;
+      horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
             // Define line geometry
 var points = [];
@@ -284,6 +300,9 @@ geometryLine.setFromPoints(points);
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     vertcaltest.value = verticalAngel;
+    console.log(vertcaltest.value );
+    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
+    console.log(vertcaltest.value );
 
     
     var horizontalAngel = Math.atan(
@@ -292,6 +311,7 @@ geometryLine.setFromPoints(points);
       );
       horizontalAngel = ConvertRadToGrad(horizontalAngel);
       horizontaltest.value = horizontalAngel;
+      horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
       // Define line geometry
 var points = [];
@@ -337,11 +357,16 @@ for (let i = 0; i < 40; i++) {
 
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
-const material2 = new THREE.MeshBasicMaterial({ color: 0x55325 });
+const material2 = new THREE.MeshPhongMaterial({ color: 0x55325 });
 const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
+// Create a point light
+var pointLight = new THREE.PointLight(0xffffff); // Color: white
+pointLight.position.set(cube2.position.x , cube2.position.y, cube2.position.z); // Set the position of the light
 
+// Add the light to the scene
+scene.add(pointLight);
 //الوسط
 /**/
 const geometry11 = new THREE.LatheGeometry(points1);
@@ -412,6 +437,10 @@ document.getElementById("vertcaltest").onchange = function () {
     vertcaltest.value = 400 + Number(vertcaltest.value);
   if (vertcaltest.value >= 400)
     vertcaltest.value = -400 + Number(vertcaltest.value);
+console.log(vertcaltest.value );
+    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
+    console.log(vertcaltest.value );
+
   verticalResult.textContent = vertcaltest.value;
 };
 
@@ -425,6 +454,7 @@ document.getElementById("horizontaltest").onchange = function () {
     horizontaltest.value = -400 + Number(horizontaltest.value);
   console.log(horizontaltest.value);
 
+  horizontaltest.value =parseFloat(horizontaltest.value).toFixed(4);
   horizontalResult.textContent = horizontaltest.value;
 };
 
