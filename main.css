@@ -1,7 +1,7 @@
 #info {
 	position: absolute;
 	top: 10px;
-	width: 75%;
+	width: 100%;
 	text-align: center;
 	z-index: 10;
 	display:block;
@@ -13,3 +13,19 @@ label.label1{
 	font-family: 'Ubuntu', sans-serif;
 	font-weight: bold;
 }
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+th, td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+th {
+	background-color: #f2f2f2;
+        }
