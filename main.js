@@ -56,12 +56,6 @@ cube11.position.set(0, -4.5, +3.4);
 cube11.rotation.z = -Math.PI / 5;
 cube11.rotation.y = Math.PI / 2;
 
-/*
-const planeGeometry = new THREE.PlaneGeometry(30,20);
-const planeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
-const plane = new THREE.Mesh(planeGeometry,planeMaterial);
-scene.add(plane); */
-
 const deviceGroup = new THREE.Group(); //قروب الحركي الافقيه
 
 const verticalGroup = new THREE.Group(); //قروب الحركي العمودي
@@ -285,6 +279,7 @@ function onDocumentClick(event) {
       )
     );
     geometryLine.setFromPoints(points);
+    scene.add(circle1);
   }
 
   var intersects2 = raycaster.intersectObject(circle2);
@@ -328,6 +323,7 @@ function onDocumentClick(event) {
     );
 
     geometryLine.setFromPoints(points);
+    scene.add(circle2);
   }
 
   var intersects3 = raycaster.intersectObject(cube2);
@@ -365,14 +361,14 @@ for (let i = 0; i < 40; i++) {
 
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
-const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
 const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
 
 //light
-const light = new THREE.PointLight( 0x0000ff, 1, 100 );
-light.position.set( 0, 0, -5 );
+const light = new THREE.PointLight( 0xffffff, 100000, 100 );
+light.position.set( 0, 5, 5 );
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
@@ -382,28 +378,28 @@ light.shadow.camera.far = 500; // default
 scene.add( light );
 
 //Create a plane that receives shadows (but does not cast them)
-const planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
-const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
+const planeGeometry = new THREE.PlaneGeometry( 75, 75, 32, 32 );
+const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x000000 } )
 const plane = new THREE.Mesh( planeGeometry, planeMaterial );
-plane.position.set(0,0,-10);
-//plane.rotation.x = Math.PI/2;
+plane.position.set(0,-10,-22);
+plane.rotation.x = 3 * Math.PI/2;
 plane.receiveShadow = true;
 scene.add( plane );
 
 //Create a helper for the shadow camera (optional)
 const helper = new THREE.CameraHelper( light.shadow.camera );
 scene.add( helper );
-
-cube2.castShadow = true;
 //الوسط
 /**/
 const geometry11 = new THREE.LatheGeometry(points1);
-const material11 = new THREE.MeshBasicMaterial({ color: 0x645300 });
+const material11 = new THREE.MeshStandardMaterial({ color: 0x645300 });
 const lathe = new THREE.Mesh(geometry11, material11);
 scene.add(lathe);
 lathe.position.set(0, 2.5, 0);
 lathe.rotation.x = Math.PI / 2;
 
+lathe.castShadow = true;
+cube2.castShadow = true;
 // الشاشه الاماميه
 const cube9 = new THREE.Mesh(
   new THREE.BoxGeometry(2.3, 1.2, 0.5),
