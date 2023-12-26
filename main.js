@@ -12,6 +12,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 const renderer = new THREE.WebGLRenderer();
+renderer.shadowMap.enabled = true;
 const orbit = new OrbitControls(camera, renderer.domElement);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -208,14 +209,16 @@ const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
 circle1.position.set(0, 8, -20);
 circle2.position.set(10, 12, -20);
 
-const geometryCylinder = new THREE.CylinderGeometry( 0.1, 0.1, 14, 32 ); 
-const materialCylinder = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
-const cylinderCircle1 = new THREE.Mesh( geometryCylinder, materialCylinder ); scene.add( cylinder );
+const geometryCylinder = new THREE.CylinderGeometry( 0.1, 0.1, 14, 32 );
+const materialCylinder = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const cylinderCircle1 = new THREE.Mesh(geometryCylinder, materialCylinder);
+scene.add(cylinder);
 cylinderCircle1.position.set(0, 0, -20.1);
 scene.add(cylinderCircle1);
 
-const geometryCylinder2 = new THREE.CylinderGeometry( 0.1, 0.1, 19, 32 ); 
-const cylinderCircle2 = new THREE.Mesh( geometryCylinder2, materialCylinder ); scene.add( cylinder );
+const geometryCylinder2 = new THREE.CylinderGeometry(0.1, 0.1, 19, 32);
+const cylinderCircle2 = new THREE.Mesh(geometryCylinder2, materialCylinder);
+scene.add(cylinder);
 cylinderCircle2.position.set(10, 2, -20.1);
 scene.add(cylinderCircle2);
 //create line
@@ -232,8 +235,6 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 document.addEventListener("click", onDocumentClick, false);
 
-
-
 function onDocumentClick(event) {
   // Calculate mouse position in normalized device coordinates
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -242,7 +243,6 @@ function onDocumentClick(event) {
   // Update the raycaster
   raycaster.setFromCamera(mouse, camera);
 
- 
   // Check for intersections with the cube
 
   var intersects = raycaster.intersectObject(circle1);
@@ -256,31 +256,35 @@ function onDocumentClick(event) {
     circle1Z.textContent = circle1.position.z;
 
     var verticalAngel = Math.atan(
-        (circle1.position.z - cube2.position.z)/
+      (circle1.position.z - cube2.position.z) /
         -(circle1.position.y - cube2.position.y)
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     vertcaltest.value = verticalAngel;
-    console.log(vertcaltest.value );
-    vertcaltest.value =parseFloat(vertcaltest.value).toFixed(4);
-    console.log(vertcaltest.value );
-
+    console.log(vertcaltest.value);
+    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
+    console.log(vertcaltest.value);
 
     var horizontalAngel = Math.atan(
-        (circle1.position.x - cube2.position.x) /
-          -(circle1.position.z - cube2.position.z)
-      );
-      horizontalAngel = ConvertRadToGrad(horizontalAngel);
-      horizontaltest.value = horizontalAngel;
-      horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+      (circle1.position.x - cube2.position.x) /
+        -(circle1.position.z - cube2.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
-            // Define line geometry
-var points = [];
-points.push(new THREE.Vector3(0, 2.5, 0));
-points.push(new THREE.Vector3(circle1.position.x, circle1.position.y, circle1.position.z));
-geometryLine.setFromPoints(points);
-
+    // Define line geometry
+    var points = [];
+    points.push(new THREE.Vector3(0, 2.5, 0));
+    points.push(
+      new THREE.Vector3(
+        circle1.position.x,
+        circle1.position.y,
+        circle1.position.z
+      )
+    );
+    geometryLine.setFromPoints(points);
   }
 
   var intersects2 = raycaster.intersectObject(circle2);
@@ -294,32 +298,36 @@ geometryLine.setFromPoints(points);
     circle2Z.textContent = circle2.position.z;
 
     var verticalAngel = Math.atan(
-        (circle2.position.z - cube2.position.z)/
+      (circle2.position.z - cube2.position.z) /
         -(circle2.position.y - cube2.position.y)
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     vertcaltest.value = verticalAngel;
-    console.log(vertcaltest.value );
+    console.log(vertcaltest.value);
     vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
-    console.log(vertcaltest.value );
+    console.log(vertcaltest.value);
 
-    
     var horizontalAngel = Math.atan(
-        (circle2.position.x - cube2.position.x) /
-          -(circle2.position.z - cube2.position.z)
-      );
-      horizontalAngel = ConvertRadToGrad(horizontalAngel);
-      horizontaltest.value = horizontalAngel;
-      horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+      (circle2.position.x - cube2.position.x) /
+        -(circle2.position.z - cube2.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
-      // Define line geometry
-var points = [];
-points.push(new THREE.Vector3(0, 2.5, 0));
-points.push(new THREE.Vector3(circle2.position.x, circle2.position.y, circle2.position.z));
+    // Define line geometry
+    var points = [];
+    points.push(new THREE.Vector3(0, 2.5, 0));
+    points.push(
+      new THREE.Vector3(
+        circle2.position.x,
+        circle2.position.y,
+        circle2.position.z
+      )
+    );
 
-geometryLine.setFromPoints(points);
-
+    geometryLine.setFromPoints(points);
   }
 
   var intersects3 = raycaster.intersectObject(cube2);
@@ -357,16 +365,36 @@ for (let i = 0; i < 40; i++) {
 
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
-const material2 = new THREE.MeshPhongMaterial({ color: 0x55325 });
+const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
-// Create a point light
-var pointLight = new THREE.PointLight(0xffffff); // Color: white
-pointLight.position.set(cube2.position.x , cube2.position.y, cube2.position.z); // Set the position of the light
 
-// Add the light to the scene
-scene.add(pointLight);
+//light
+const light = new THREE.PointLight( 0x0000ff, 1, 100 );
+light.position.set( 0, 0, -5 );
+light.castShadow = true;
+//Set up shadow properties for the light
+light.shadow.mapSize.width = 512; // default
+light.shadow.mapSize.height = 512; // default
+light.shadow.camera.near = 0.5; // default
+light.shadow.camera.far = 500; // default
+scene.add( light );
+
+//Create a plane that receives shadows (but does not cast them)
+const planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
+const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
+const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+plane.position.set(0,0,-10);
+//plane.rotation.x = Math.PI/2;
+plane.receiveShadow = true;
+scene.add( plane );
+
+//Create a helper for the shadow camera (optional)
+const helper = new THREE.CameraHelper( light.shadow.camera );
+scene.add( helper );
+
+cube2.castShadow = true;
 //الوسط
 /**/
 const geometry11 = new THREE.LatheGeometry(points1);
@@ -437,9 +465,9 @@ document.getElementById("vertcaltest").onchange = function () {
     vertcaltest.value = 400 + Number(vertcaltest.value);
   if (vertcaltest.value >= 400)
     vertcaltest.value = -400 + Number(vertcaltest.value);
-console.log(vertcaltest.value );
-    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
-    console.log(vertcaltest.value );
+  console.log(vertcaltest.value);
+  vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
+  console.log(vertcaltest.value);
 
   verticalResult.textContent = vertcaltest.value;
 };
@@ -454,7 +482,7 @@ document.getElementById("horizontaltest").onchange = function () {
     horizontaltest.value = -400 + Number(horizontaltest.value);
   console.log(horizontaltest.value);
 
-  horizontaltest.value =parseFloat(horizontaltest.value).toFixed(4);
+  horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
   horizontalResult.textContent = horizontaltest.value;
 };
 
@@ -466,12 +494,10 @@ function calculateDistance(point1, point2) {
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-function ConvertRadToGrad(angel)
-{
-    var result = angel * 400 /( 2 * Math.PI);
-    if(result<0)
-    result += 400;
-return result;
+function ConvertRadToGrad(angel) {
+  var result = (angel * 400) / (2 * Math.PI);
+  if (result < 0) result += 400;
+  return result;
 }
 
 function animate() {
