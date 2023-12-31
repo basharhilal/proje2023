@@ -365,14 +365,21 @@ for (let i = 0; i < 40; i++) {
 
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
-const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
 const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
 
+const geometry12 = new THREE.BoxGeometry(1.1, 1.2, 2);
+const material12 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const cube12 = new THREE.Mesh(geometry12, material12);
+cube12.position.set(0, 5, 0);
+scene.add(cube12);
+
+
 //light
-const light = new THREE.PointLight( 0x0000ff, 1, 100 );
-light.position.set( 0, 0, -5 );
+const light = new THREE.PointLight( 0x00ff00, 1, 100 );
+light.position.set( 0, 10, -5 );
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
