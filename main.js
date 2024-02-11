@@ -449,11 +449,13 @@ camera.position.y = 2;
 //logic
 var horizontalRotation = 0;
 var rotateHorizontal = false;
+var verticalRotation = 0;
+var rotateVertical = false;
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
   console.log(deviceGroup.rotation.y);
 
-  var verticalRotation = document.getElementById("vertcaltest").value;
+  verticalRotation = document.getElementById("vertcaltest").value;
   horizontalRotation = document.getElementById("horizontaltest").value;
 
   verticalRotation %= 400;
@@ -467,8 +469,10 @@ btnSet.onclick = function () {
 
   rotateHorizontal = true;
   animateHorizontalRotation();
-  cube2.rotation.x = verticalRotation;
-  lathe.rotation.x = verticalRotation + Math.PI / 2;
+
+  rotateVertical = true;
+  //animateVerticalRotation();
+ 
   //deviceGroup.rotation.y = horizontalRotation;
   console.log(deviceGroup.rotation.y);
 
@@ -476,6 +480,31 @@ btnSet.onclick = function () {
   horizontalResult.textContent = horizontaltest.value;
 };
 
+function animateVerticalRotation() {
+ 
+  console.log("rotateVertical:" + rotateVertical);
+  if(rotateVertical)
+    requestAnimationFrame(animateVerticalRotation);
+
+  if (rotateHorizontal || Math.abs(cube2.rotation.x - verticalRotation)<0.01) {
+    rotateVertical = false;
+  }
+  else if (cube2.rotation.x > verticalRotation) {
+     console.log("cube2.rotation.x:" + cube2.rotation.x);
+     console.log("verticalRotation:" + verticalRotation);
+
+     cube2.rotation.x -= 1/100;
+     lathe.rotation.x -= 1/100;
+  } else if (cube2.rotation.x < verticalRotation) {
+    // console.log("cube2.rotation.x:" + cube2.rotation.x);
+    // console.log("verticalRotation:" + verticalRotation);
+
+    cube2.rotation.x += 1/100;
+    lathe.rotation.x += 1/100;
+  }  
+
+  renderer.render(scene, camera);
+}
 function animateHorizontalRotation() {
  
   console.log("rotateHorizontal:" + rotateHorizontal);
@@ -484,10 +513,11 @@ function animateHorizontalRotation() {
 
   if (Math.abs(deviceGroup.rotation.y - horizontalRotation)<0.01) {
     rotateHorizontal = false;
+    animateVerticalRotation();
   }
   else if (deviceGroup.rotation.y > horizontalRotation) {
-    // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
-    // console.log("horizontalRotation:" + horizontalRotation);
+    //  console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
+    //  console.log("horizontalRotation:" + horizontalRotation);
 
     deviceGroup.rotation.y -= Math.abs(1 / 100);
   } else if (deviceGroup.rotation.y < horizontalRotation) {
