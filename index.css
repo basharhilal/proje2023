@@ -35,17 +35,16 @@
 
     background-position: center;
     /*جعل الصوره تبين اذا كبر او صغر المتصفح*/
-    width: 90%;
-    height: 650px;
+    width: 99%;
+    height: 99%;
 
   }
-/*
   .container:hover {
     background-image:
       linear-gradient(to right, transparent, rgba(28, 24, 104, 0.619)),
 
-      url(3.jpg);
-  } */
+      url(background.jpg);
+  } 
 
   header {
     display: flex;
@@ -59,7 +58,7 @@
 
   .logo {
     font-size: 30px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;
     /*الاحرف كبيره بالانكليزي*/
 
 
@@ -82,12 +81,12 @@
 
   ul a:hover {
     border-bottom-color: white;
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .content {
 
-    color: white;
+    color: rgba(246, 244, 247, 0.999);
     width: 50%;
     margin-top: 50px;
     padding: 30px;
@@ -95,27 +94,28 @@
   }
 
   .content h2 {
-    font-size: 100px;
-    text-transform: uppercase;
+    font-size: 90px;
+    /*text-transform: uppercase;
     /*احرف كبيره*/
   }
 
   .content p {
     letter-spacing: 3px;
     /*تباعد الاحرف عن بعض*/
+    font-size: 30px;
     width: 350px;
     padding: 20px 0;
   }
 
 
-  .content button {
+  .content .aaaa {
     font-size: 30px;
     padding: 6px 10px;
     border-radius: 10px;
     border: 2px solid transparent;
   }
 
-  .content button:hover {
+   .aaaa:hover {
     background-color: transparent;
     border-color: white;
     color: white;

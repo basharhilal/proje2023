@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 
 const NumberOfGrads = 1;
 
@@ -31,8 +33,22 @@ const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const cube = new THREE.Mesh(geometry, material);
 cube.position.set(-3, -4.5, -1.5);
 scene.add(cube);
-const gridHelper = new THREE.GridHelper(100, 100);
-scene.add(gridHelper);
+
+const loader = new GLTFLoader().setPath('../ta_agrat/');
+
+loader.load( 'scene.gltf', function ( gltf ) {
+  const mesh = gltf.scene;
+  mesh.position.set(-10,0,-25);
+	scene.add( mesh );
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+// const gridHelper = new THREE.GridHelper(100, 100);
+// scene.add(gridHelper);
 cube.rotation.z = -Math.PI / 5;
 cube.rotation.y = -Math.PI / 7;
 //قدم يمين
@@ -206,14 +222,14 @@ const geometrycircle = new THREE.CircleGeometry(1, 32);
 const materialcircle = new THREE.MeshBasicMaterial({ color: 0x00ffff });
 const circle1 = new THREE.Mesh(geometrycircle, materialcircle);
 const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
-circle1.position.set(0, 8, -20);
+circle1.position.set(-25, 8, -20);
 circle2.position.set(10, 12, -20);
 
 const geometryCylinder = new THREE.CylinderGeometry( 0.1, 0.1, 14, 32 );
 const materialCylinder = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinderCircle1 = new THREE.Mesh(geometryCylinder, materialCylinder);
 scene.add(cylinder);
-cylinderCircle1.position.set(0, 0, -20.1);
+cylinderCircle1.position.set(-25, 0, -20.1);
 scene.add(cylinderCircle1);
 
 const geometryCylinder2 = new THREE.CylinderGeometry(0.1, 0.1, 19, 32);
@@ -370,15 +386,11 @@ const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
 
-const geometry12 = new THREE.BoxGeometry(1.1, 1.2, 2);
-const material12 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const cube12 = new THREE.Mesh(geometry12, material12);
-cube12.position.set(0, 5, 0);
-scene.add(cube12);
+
 
 
 //light
-const light = new THREE.PointLight( 0x00ff00, 1, 100 );
+const light = new THREE.PointLight( 0x00ff00,500, 100 );
 light.position.set( 0, 10, -5 );
 light.castShadow = true;
 //Set up shadow properties for the light
@@ -395,11 +407,11 @@ const plane = new THREE.Mesh( planeGeometry, planeMaterial );
 plane.position.set(0,0,-10);
 //plane.rotation.x = Math.PI/2;
 plane.receiveShadow = true;
-scene.add( plane );
+//scene.add( plane );
 
 //Create a helper for the shadow camera (optional)
-const helper = new THREE.CameraHelper( light.shadow.camera );
-scene.add( helper );
+// const helper = new THREE.CameraHelper( light.shadow.camera );
+// scene.add( helper );
 
 cube2.castShadow = true;
 //الوسط
@@ -432,8 +444,6 @@ cube10.rotation.x = Math.PI / 5;
 scene.add(cube10);
 cube10.position.set(0, 1.1, -1.1);
 
-const loader = new THREE.TextureLoader();
-//scene.background = loader.load( 'background.png' );
 
 camera.position.z = 15;
 camera.position.x = 2;
