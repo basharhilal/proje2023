@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const NumberOfGrads = 1;
 
@@ -34,18 +33,20 @@ const cube = new THREE.Mesh(geometry, material);
 cube.position.set(-3, -4.5, -1.5);
 scene.add(cube);
 
-const loader = new GLTFLoader().setPath('../ta_agrat/');
+const loader = new GLTFLoader().setPath("../ta_agrat/");
 
-loader.load( 'scene.gltf', function ( gltf ) {
-  const mesh = gltf.scene;
-  mesh.position.set(-10,0,-25);
-	scene.add( mesh );
-
-}, undefined, function ( error ) {
-
-	console.error( error );
-
-} );
+loader.load(
+  "scene.gltf",
+  function (gltf) {
+    const mesh = gltf.scene;
+    mesh.position.set(-10, 0, -25);
+    scene.add(mesh);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
 
 // const gridHelper = new THREE.GridHelper(100, 100);
 // scene.add(gridHelper);
@@ -225,7 +226,7 @@ const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
 circle1.position.set(-25, 8, -20);
 circle2.position.set(10, 12, -20);
 
-const geometryCylinder = new THREE.CylinderGeometry( 0.1, 0.1, 14, 32 );
+const geometryCylinder = new THREE.CylinderGeometry(0.1, 0.1, 14, 32);
 const materialCylinder = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinderCircle1 = new THREE.Mesh(geometryCylinder, materialCylinder);
 scene.add(cylinder);
@@ -386,25 +387,22 @@ const cube2 = new THREE.Mesh(geometry2, material2);
 cube2.position.set(0, 2.5, 0);
 scene.add(cube2);
 
-
-
-
 //light
-const light = new THREE.PointLight( 0x00ff00,500, 100 );
-light.position.set( 0, 10, -5 );
+const light = new THREE.PointLight(0x00ff00, 500, 100);
+light.position.set(0, 10, -5);
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
 light.shadow.mapSize.height = 512; // default
 light.shadow.camera.near = 0.5; // default
 light.shadow.camera.far = 500; // default
-scene.add( light );
+scene.add(light);
 
 //Create a plane that receives shadows (but does not cast them)
-const planeGeometry = new THREE.PlaneGeometry( 30, 30, 32, 32 );
-const planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
-const plane = new THREE.Mesh( planeGeometry, planeMaterial );
-plane.position.set(0,0,-10);
+const planeGeometry = new THREE.PlaneGeometry(30, 30, 32, 32);
+const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.position.set(0, 0, -10);
 //plane.rotation.x = Math.PI/2;
 plane.receiveShadow = true;
 //scene.add( plane );
@@ -444,19 +442,19 @@ cube10.rotation.x = Math.PI / 5;
 scene.add(cube10);
 cube10.position.set(0, 1.1, -1.1);
 
-
 camera.position.z = 15;
 camera.position.x = 2;
 camera.position.y = 2;
 
 //logic
-
+var horizontalRotation = 0;
+var rotateHorizontal = false;
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
   console.log(deviceGroup.rotation.y);
 
   var verticalRotation = document.getElementById("vertcaltest").value;
-  var horizontalRotation = document.getElementById("horizontaltest").value;
+  horizontalRotation = document.getElementById("horizontaltest").value;
 
   verticalRotation %= 400;
   horizontalRotation %= 400;
@@ -467,15 +465,40 @@ btnSet.onclick = function () {
   verticalRotation *= (Math.PI * 2) / 400;
   horizontalRotation *= (Math.PI * 2) / 400;
 
+  rotateHorizontal = true;
+  animateHorizontalRotation();
   cube2.rotation.x = verticalRotation;
   lathe.rotation.x = verticalRotation + Math.PI / 2;
-  deviceGroup.rotation.y = horizontalRotation;
+  //deviceGroup.rotation.y = horizontalRotation;
   console.log(deviceGroup.rotation.y);
 
   verticalResult.textContent = vertcaltest.value;
   horizontalResult.textContent = horizontaltest.value;
 };
 
+function animateHorizontalRotation() {
+ 
+  console.log("rotateHorizontal:" + rotateHorizontal);
+  if(rotateHorizontal)
+    requestAnimationFrame(animateHorizontalRotation);
+
+  if (Math.abs(deviceGroup.rotation.y - horizontalRotation)<0.01) {
+    rotateHorizontal = false;
+  }
+  else if (deviceGroup.rotation.y > horizontalRotation) {
+    // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
+    // console.log("horizontalRotation:" + horizontalRotation);
+
+    deviceGroup.rotation.y -= Math.abs(1 / 100);
+  } else if (deviceGroup.rotation.y < horizontalRotation) {
+    // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
+    // console.log("horizontalRotation:" + horizontalRotation);
+
+    horizontalRotation -= 2 * Math.PI;
+  }  
+
+  renderer.render(scene, camera);
+}
 document.getElementById("vertcaltest").onchange = function () {
   var vertcaltest = document.getElementById("vertcaltest");
   if (vertcaltest.value < 0)
