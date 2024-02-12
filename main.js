@@ -492,6 +492,7 @@ function animateVerticalRotation() {
     requestAnimationFrame(animateVerticalRotation);
 
   if (rotateHorizontal || Math.abs(cube2.rotation.x - verticalRotation)<0.01) {
+   // lblVerticalChange.textContent = vertcaltest.value;
     rotateVertical = false;
   }
   else if (cube2.rotation.x > verticalRotation) {
@@ -501,7 +502,8 @@ function animateVerticalRotation() {
      console.log("Settings.RadianStep<< " + Settings.RadianStep);
      cube2.rotation.x -= Settings.RadianStep;
      lathe.rotation.x -= Settings.RadianStep;
-
+     
+     lblVerticalChange.textContent =parseFloat( ConvertRadToGrad(-lathe.rotation.x)).toFixed(4);
      
   } else if (cube2.rotation.x < verticalRotation) {
     // console.log("cube2.rotation.x:" + cube2.rotation.x);
@@ -510,6 +512,7 @@ function animateVerticalRotation() {
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
     cube2.rotation.x += Settings.RadianStep;
     lathe.rotation.x += Settings.RadianStep;
+    lblVerticalChange.textContent =parseFloat( ConvertRadToGrad(-lathe.rotation.x)).toFixed(4);
   }  
 
   renderer.render(scene, camera);
