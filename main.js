@@ -155,17 +155,13 @@ window.onkeydown = function (e) {
     lathe.rotation.x -= NumberOfGrads * GRADE;
   }
 
-  var verticalValue =
-    -parseFloat((cube2.rotation.x * 400) / (Math.PI * 2)).toFixed(4) + 100;
-  while (verticalValue < 0) verticalValue += 400;
-  verticalResult.textContent = (verticalValue + 400) % 400;
+  var verticalValue = -parseFloat(ConvertRadToGrad(cube2.rotation.x)).toFixed(4) + 100;
 
-  var horizontalValue = -parseFloat(
-    (deviceGroup.rotation.y * 400) / (Math.PI * 2)
-  ).toFixed(4);
-  console.log(horizontalValue);
-  while (horizontalValue < 0) horizontalValue += 400;
-  horizontalResult.textContent = horizontalValue % 400;
+  verticalResult.textContent = verticalValue % 400;
+
+  var horizontalValue = -parseFloat(ConvertRadToGrad(deviceGroup.rotation.y)).toFixed(4);
+  
+  horizontalResult.textContent = horizontalValue;
 };
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
@@ -507,7 +503,7 @@ function animateVerticalRotation() {
     requestAnimationFrame(animateVerticalRotation);
 
   if (rotateHorizontal || Math.abs(cube2.rotation.x - verticalRotation)<0.01) {
-   // lblVerticalChange.textContent = vertcaltest.value;
+    lblVerticalChange.textContent = vertcaltest.value;
     rotateVertical = false;
   }
   else if (cube2.rotation.x > verticalRotation) {
@@ -518,7 +514,7 @@ function animateVerticalRotation() {
      cube2.rotation.x -= Settings.RadianStep;
      lathe.rotation.x -= Settings.RadianStep;
      
-     lblVerticalChange.textContent =parseFloat( ConvertRadToGrad(-lathe.rotation.x)).toFixed(4);
+     lblVerticalChange.textContent =(parseFloat( (ConvertRadToGrad(-cube2.rotation.x) + 100)% 400).toFixed(4)) ;
      
   } else if (cube2.rotation.x < verticalRotation) {
     // console.log("cube2.rotation.x:" + cube2.rotation.x);
@@ -527,7 +523,7 @@ function animateVerticalRotation() {
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
     cube2.rotation.x += Settings.RadianStep;
     lathe.rotation.x += Settings.RadianStep;
-    lblVerticalChange.textContent =parseFloat( ConvertRadToGrad(-lathe.rotation.x)).toFixed(4);
+    lblVerticalChange.textContent =(parseFloat( (ConvertRadToGrad(-cube2.rotation.x) + 100)% 400).toFixed(4)) ;
   }  
 
   renderer.render(scene, camera);
