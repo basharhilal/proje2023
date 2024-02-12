@@ -12,6 +12,11 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
+const Settings = {
+  RadianStep:1/100,
+  GradStep:ConvertRadToGrad(1/100)
+}
+
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
 const orbit = new OrbitControls(camera, renderer.domElement);
@@ -117,9 +122,10 @@ cube8.position.set(0, 4.1, 0);
 scene.add(cube8);
 
 // define html controls
-
 var verticalResult = document.getElementById("verticalResult");
 var horizontalResult = document.getElementById("horizontalResult");
+var lblVerticalChange = document.getElementById("lblVerticalChange");
+var lblHorizontalChange = document.getElementById("lblHorizontalChange");
 
 // Set the background color
 scene.background = new THREE.Color("");
@@ -150,14 +156,13 @@ window.onkeydown = function (e) {
   }
 
   var verticalValue =
-    -Math.round((cube2.rotation.x * 400) / (Math.PI * 2), 4) + 100;
+    -parseFloat((cube2.rotation.x * 400) / (Math.PI * 2)).toFixed(4) + 100;
   while (verticalValue < 0) verticalValue += 400;
   verticalResult.textContent = (verticalValue + 400) % 400;
 
-  var horizontalValue = -Math.round(
-    (deviceGroup.rotation.y * 400) / (Math.PI * 2),
-    4
-  );
+  var horizontalValue = -parseFloat(
+    (deviceGroup.rotation.y * 400) / (Math.PI * 2)
+  ).toFixed(4);
   console.log(horizontalValue);
   while (horizontalValue < 0) horizontalValue += 400;
   horizontalResult.textContent = horizontalValue % 400;
@@ -493,14 +498,18 @@ function animateVerticalRotation() {
      console.log("cube2.rotation.x:" + cube2.rotation.x);
      console.log("verticalRotation:" + verticalRotation);
 
-     cube2.rotation.x -= 1/100;
-     lathe.rotation.x -= 1/100;
+     console.log("Settings.RadianStep<< " + Settings.RadianStep);
+     cube2.rotation.x -= Settings.RadianStep;
+     lathe.rotation.x -= Settings.RadianStep;
+
+     
   } else if (cube2.rotation.x < verticalRotation) {
     // console.log("cube2.rotation.x:" + cube2.rotation.x);
     // console.log("verticalRotation:" + verticalRotation);
 
-    cube2.rotation.x += 1/100;
-    lathe.rotation.x += 1/100;
+    console.log("Settings.RadianStep<< " + Settings.RadianStep);
+    cube2.rotation.x += Settings.RadianStep;
+    lathe.rotation.x += Settings.RadianStep;
   }  
 
   renderer.render(scene, camera);
@@ -513,13 +522,17 @@ function animateHorizontalRotation() {
 
   if (Math.abs(deviceGroup.rotation.y - horizontalRotation)<0.01) {
     rotateHorizontal = false;
+    lblHorizontalChange.textContent = horizontaltest.value;
     animateVerticalRotation();
   }
   else if (deviceGroup.rotation.y > horizontalRotation) {
     //  console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
     //  console.log("horizontalRotation:" + horizontalRotation);
 
-    deviceGroup.rotation.y -= Math.abs(1 / 100);
+    console.log("Settings.RadianStep<< " + Settings.RadianStep);
+    deviceGroup.rotation.y -= Math.abs(Settings.RadianStep);
+    lblHorizontalChange.textContent =parseFloat( ConvertRadToGrad(-deviceGroup.rotation.y)).toFixed(4);
+
   } else if (deviceGroup.rotation.y < horizontalRotation) {
     // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
     // console.log("horizontalRotation:" + horizontalRotation);
@@ -566,7 +579,8 @@ function calculateDistance(point1, point2) {
 
 function ConvertRadToGrad(angel) {
   var result = (angel * 400) / (2 * Math.PI);
-  if (result < 0) result += 400;
+  while (result < 0) result += 400;
+  while (result >= 400) result -= 400;
   return result;
 }
 
