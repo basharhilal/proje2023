@@ -12,21 +12,24 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
+var SelectedCircle;
+
 const Settings = {
-  RadianStep:1/100,
-  GradStep:ConvertRadToGrad(1/100)
-}
+  RadianStep: 1 / 100,
+  GradStep: ConvertRadToGrad(1 / 100),
+};
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
 const orbit = new OrbitControls(camera, renderer.domElement);
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 //referencial points
 var horizontalReferenceValue = 0;
 var verticalReferenceValue = 0;
-var y=-2.5;
+var y = -2.5;
 //var rotationPoint = new THREE.Vector3(0, 2, 0);
 //verticalGroup.position.sub(rotationPoint);
 //verticalGroup
@@ -35,7 +38,7 @@ var y=-2.5;
 const geometry = new THREE.BoxGeometry(0.4, 10, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const cube = new THREE.Mesh(geometry, material);
-cube.position.set(-3, -4.5+y, -1.5);
+cube.position.set(-3, -4.5 + y, -1.5);
 scene.add(cube);
 
 const loader = new GLTFLoader().setPath("../ta_agrat/");
@@ -44,7 +47,7 @@ loader.load(
   "scene.gltf",
   function (gltf) {
     const mesh = gltf.scene;
-    mesh.position.set(-10, 0+y, -25);
+    mesh.position.set(-10, 0 + y, -25);
     scene.add(mesh);
   },
   undefined,
@@ -63,7 +66,7 @@ const cube3 = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ color: 0x0000ff })
 );
 scene.add(cube3);
-cube3.position.set(3, -4.5+y, -1.5);
+cube3.position.set(3, -4.5 + y, -1.5);
 cube3.rotation.z = Math.PI / 5;
 cube3.rotation.y = Math.PI / 7;
 //cube3.rotation.x= Math.PI/5
@@ -74,7 +77,7 @@ const cube11 = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ color: 0x0000ff })
 );
 scene.add(cube11);
-cube11.position.set(0, -4.5+y, +3.4);
+cube11.position.set(0, -4.5 + y, +3.4);
 cube11.rotation.z = -Math.PI / 5;
 cube11.rotation.y = Math.PI / 2;
 
@@ -92,11 +95,11 @@ const verticalGroup = new THREE.Group(); //قروب الحركي العمودي
 const geometry6 = new THREE.BoxGeometry(0.9, 3, 1);
 const material6 = new THREE.MeshBasicMaterial({ color: 0x54200 });
 const cube6 = new THREE.Mesh(geometry6, material6);
-cube6.position.set(-1.1, 2.2+y, 0);
+cube6.position.set(-1.1, 2.2 + y, 0);
 scene.add(cube6);
 //جنب يمين
 const cube7 = new THREE.Mesh(geometry6, material6);
-cube7.position.set(1.1, 2.2+y, 0);
+cube7.position.set(1.1, 2.2 + y, 0);
 scene.add(cube7);
 //فوق مثلث على اليمين
 const cylinder8 = new THREE.Mesh(
@@ -105,7 +108,7 @@ const cylinder8 = new THREE.Mesh(
 );
 cylinder8.rotation.y = Math.PI / 4;
 scene.add(cylinder8);
-cylinder8.position.set(1.3, 3.9+y, 0);
+cylinder8.position.set(1.3, 3.9 + y, 0);
 // فوق مثلث على اليسار
 const cylinder9 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.4, 0.5, 4),
@@ -113,12 +116,12 @@ const cylinder9 = new THREE.Mesh(
 );
 cylinder9.rotation.y = Math.PI / 4;
 scene.add(cylinder9);
-cylinder9.position.set(-1.3, 3.9+y, 0);
+cylinder9.position.set(-1.3, 3.9 + y, 0);
 //فوق
 const geometry8 = new THREE.BoxGeometry(2.8, 0.2, 0.2);
 const material8 = new THREE.MeshBasicMaterial({ color: 0x55325 });
 const cube8 = new THREE.Mesh(geometry8, material8);
-cube8.position.set(0, 4.1+y, 0);
+cube8.position.set(0, 4.1 + y, 0);
 scene.add(cube8);
 
 // define html controls
@@ -155,103 +158,106 @@ window.onkeydown = function (e) {
     lathe.rotation.x -= NumberOfGrads * GRADE;
   }
 
-  var verticalValue = -parseFloat(ConvertRadToGrad(cube2.rotation.x)).toFixed(4) + 100;
+  var verticalValue =
+    -parseFloat(ConvertRadToGrad(cube2.rotation.x)).toFixed(4) + 100;
 
   verticalResult.textContent = verticalValue % 400;
 
-  var horizontalValue = -parseFloat(ConvertRadToGrad(deviceGroup.rotation.y)).toFixed(4);
-  
+  var horizontalValue = -parseFloat(
+    ConvertRadToGrad(deviceGroup.rotation.y)
+  ).toFixed(4);
+
   horizontalResult.textContent = horizontalValue;
 };
 //  لاضافه خطوط المحاور بشكل ملون
-const axesHelper = new THREE.AxesHelper(8);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(8);
+// scene.add(axesHelper);
 
 // برغي القاعده يمين
 const cylinder = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x265400 })
 );
-cylinder.position.set(0.8, 0.1+y, 0.5);
+cylinder.position.set(0.8, 0.1 + y, 0.5);
 //برغي القاعد يسار
 const cylinder1 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x265400 })
 );
-cylinder1.position.set(-0.8, 0.1+y, 0.5);
+cylinder1.position.set(-0.8, 0.1 + y, 0.5);
 //برغي القاعده امام
 const cylinder2 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x265400 })
 );
-cylinder2.position.set(0, 0.1+y, -1);
+cylinder2.position.set(0, 0.1 + y, -1);
 //برغي القاعده وسط
 const cylinder3 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 1.2, 100),
   new THREE.MeshBasicMaterial({ color: 0x265456 })
 );
-cylinder3.position.set(0, -0.4+y, 0);
+cylinder3.position.set(0, -0.4 + y, 0);
 //القاعده المرتبطه بالاقدام
 const cylinder4 = new THREE.Mesh(
   new THREE.CylinderGeometry(1.6, 1.6, 0.5, 3),
   new THREE.MeshBasicMaterial({ color: 0x265400 })
 );
-cylinder4.position.set(0, -0.6+y, 0);
+cylinder4.position.set(0, -0.6 + y, 0);
 cylinder4.rotation.y = Math.PI / 3;
 //القاعده اسفل البراغي
 const cylinder5 = new THREE.Mesh(
   new THREE.CylinderGeometry(1.6, 1.6, 0.3, 3),
   new THREE.MeshBasicMaterial({ color: 0x223600 })
 );
-cylinder5.position.set(0, -0.1+y, 0);
+cylinder5.position.set(0, -0.1 + y, 0);
 cylinder5.rotation.y = Math.PI / 3;
 // القاعده فوق البراغي
 const cylinder6 = new THREE.Mesh(
   new THREE.CylinderGeometry(1.6, 1.6, 0.3, 3),
   new THREE.MeshBasicMaterial({ color: 0x223600 })
 );
-cylinder6.position.set(0, 0.4+y, 0);
+cylinder6.position.set(0, 0.4 + y, 0);
 cylinder6.rotation.y = Math.PI / 3;
 //قاعده الجهاز
 const cylinder7 = new THREE.Mesh(
   new THREE.CylinderGeometry(1.6, 1, 0.3, 10),
   new THREE.MeshBasicMaterial({ color: 0x125600 })
 );
-cylinder7.position.set(0, 0.6+y, 0);
+cylinder7.position.set(0, 0.6 + y, 0);
 cylinder7.rotation.y = Math.PI / 3;
 
 const geometrycircle = new THREE.CircleGeometry(1, 32);
 const materialcircle = new THREE.MeshBasicMaterial({ color: 0x00ffff });
 const circle1 = new THREE.Mesh(geometrycircle, materialcircle);
 const circle2 = new THREE.Mesh(geometrycircle, materialcircle);
-circle1.position.set(-25, 8+y, -20);
-circle2.position.set(10, 12+y, -20);
+circle1.position.set(-25, 8 + y, -20);
+circle2.position.set(10, 12 + y, -20);
 
 const geometryCylinder = new THREE.CylinderGeometry(0.1, 0.1, 14, 32);
 const materialCylinder = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinderCircle1 = new THREE.Mesh(geometryCylinder, materialCylinder);
 scene.add(cylinder);
-cylinderCircle1.position.set(-25, 0+y, -20.1);
+cylinderCircle1.position.set(-25, 0 + y, -20.1);
 scene.add(cylinderCircle1);
 
 const geometryCylinder2 = new THREE.CylinderGeometry(0.1, 0.1, 19, 32);
 const cylinderCircle2 = new THREE.Mesh(geometryCylinder2, materialCylinder);
 scene.add(cylinder);
-cylinderCircle2.position.set(10, 2+y, -20.1);
+cylinderCircle2.position.set(10, 2 + y, -20.1);
 scene.add(cylinderCircle2);
 
 //كبسه القياس الاماميه
 const cylinderMeaure = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
-  new THREE.MeshBasicMaterial({ color: 0x880000 }) 
+  new THREE.MeshBasicMaterial({ color: 0x880000 })
 );
-cylinderMeaure.position.set(-0.5, 1.2+y, 1.5);
+cylinderMeaure.position.set(-0.5, 1.2 + y, 1.5);
 cylinderMeaure.rotation.x = Math.PI / 3;
 //create line
 var geometryLine = new THREE.BufferGeometry();
 
 // Define line material
-var materialLine = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+var materialLine = new THREE.LineBasicMaterial({ color: 0xff0000 });
 
 // Create the line
 var line = new THREE.Line(geometryLine, materialLine);
@@ -300,17 +306,7 @@ function onDocumentClick(event) {
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
-    // Define line geometry
-    var points = [];
-    points.push(new THREE.Vector3(0, 2.5+y, 0));
-    points.push(
-      new THREE.Vector3(
-        circle1.position.x,
-        circle1.position.y,
-        circle1.position.z
-      )
-    );
-    geometryLine.setFromPoints(points);
+    SelectedCircle = circle1;
   }
 
   var intersects2 = raycaster.intersectObject(circle2);
@@ -343,17 +339,8 @@ function onDocumentClick(event) {
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
     // Define line geometry
-    var points = [];
-    points.push(new THREE.Vector3(0, 2.5+y, 0));
-    points.push(
-      new THREE.Vector3(
-        circle2.position.x,
-        circle2.position.y,
-        circle2.position.z
-      )
-    );
 
-    geometryLine.setFromPoints(points);
+    SelectedCircle = circle2;
   }
 
   var intersects3 = raycaster.intersectObject(cube2);
@@ -368,11 +355,10 @@ function onDocumentClick(event) {
     cubeZ.textContent = cube2.position.z;
   }
 
-
-var intersects4 = raycaster.intersectObject(cylinderMeaure);
-    if (intersects4.length > 0) {
-      alert("cylinderMeaure clicked!");
-    }   
+  var intersects4 = raycaster.intersectObject(cylinderMeaure);
+  if (intersects4.length > 0) {
+    DrawCircle1Line(SelectedCircle);
+  }
 }
 scene.add(
   cylinder,
@@ -386,7 +372,6 @@ scene.add(
   circle1,
   circle2,
   cylinderMeaure
-
 );
 
 const points1 = [];
@@ -400,12 +385,12 @@ for (let i = 0; i < 40; i++) {
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
 const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
 const cube2 = new THREE.Mesh(geometry2, material2);
-cube2.position.set(0, 2.5+y, 0);
+cube2.position.set(0, 2.5 + y, 0);
 scene.add(cube2);
 
 //light
 const light = new THREE.PointLight(0x00ff00, 500, 100);
-light.position.set(0, 10+y, -5);
+light.position.set(0, 10 + y, -5);
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
@@ -414,11 +399,13 @@ light.shadow.camera.near = 0.5; // default
 light.shadow.camera.far = 500; // default
 scene.add(light);
 
+const DirectionalLight = new THREE.DirectionalLight(0xff0000, 10000);
+
 //Create a plane that receives shadows (but does not cast them)
 const planeGeometry = new THREE.PlaneGeometry(30, 30, 32, 32);
 const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.position.set(0, 0+y, -10);
+plane.position.set(0, 0 + y, -10);
 //plane.rotation.x = Math.PI/2;
 plane.receiveShadow = true;
 //scene.add( plane );
@@ -434,7 +421,7 @@ const geometry11 = new THREE.LatheGeometry(points1);
 const material11 = new THREE.MeshBasicMaterial({ color: 0x645300 });
 const lathe = new THREE.Mesh(geometry11, material11);
 scene.add(lathe);
-lathe.position.set(0, 2.5+y, 0);
+lathe.position.set(0, 2.5 + y, 0);
 lathe.rotation.x = Math.PI / 2;
 
 // الشاشه الاماميه
@@ -446,7 +433,7 @@ const cube9 = new THREE.Mesh(
 cube9.rotation.x = -Math.PI / 5;
 //cylinder10.rotation.z=Math.PI/2;
 scene.add(cube9);
-cube9.position.set(0, 1.1+y, 1.1);
+cube9.position.set(0, 1.1 + y, 1.1);
 // الشاشه الخلفيه
 const cube10 = new THREE.Mesh(
   new THREE.BoxGeometry(2.3, 1.2, 0.5),
@@ -456,11 +443,13 @@ const cube10 = new THREE.Mesh(
 cube10.rotation.x = Math.PI / 5;
 //cylinder10.rotation.z=Math.PI/2;
 scene.add(cube10);
-cube10.position.set(0, 1.1+y, -1.1);
+cube10.position.set(0, 1.1 + y, -1.1);
 
 camera.position.z = 15;
 camera.position.x = 2;
 camera.position.y = 2;
+
+
 
 //logic
 var horizontalRotation = 0;
@@ -488,7 +477,7 @@ btnSet.onclick = function () {
 
   rotateVertical = true;
   //animateVerticalRotation();
- 
+
   //deviceGroup.rotation.y = horizontalRotation;
   console.log(deviceGroup.rotation.y);
 
@@ -497,25 +486,27 @@ btnSet.onclick = function () {
 };
 
 function animateVerticalRotation() {
- 
   console.log("rotateVertical:" + rotateVertical);
-  if(rotateVertical)
-    requestAnimationFrame(animateVerticalRotation);
+  if (rotateVertical) requestAnimationFrame(animateVerticalRotation);
 
-  if (rotateHorizontal || Math.abs(cube2.rotation.x - verticalRotation)<0.01) {
+  if (
+    rotateHorizontal ||
+    Math.abs(cube2.rotation.x - verticalRotation) < 0.01
+  ) {
     lblVerticalChange.textContent = vertcaltest.value;
-    rotateVertical = false;
-  }
-  else if (cube2.rotation.x > verticalRotation) {
-     console.log("cube2.rotation.x:" + cube2.rotation.x);
-     console.log("verticalRotation:" + verticalRotation);
 
-     console.log("Settings.RadianStep<< " + Settings.RadianStep);
-     cube2.rotation.x -= Settings.RadianStep;
-     lathe.rotation.x -= Settings.RadianStep;
-     
-     lblVerticalChange.textContent =(parseFloat( (ConvertRadToGrad(-cube2.rotation.x) + 100)% 400).toFixed(4)) ;
-     
+    rotateVertical = false;
+  } else if (cube2.rotation.x > verticalRotation) {
+    console.log("cube2.rotation.x:" + cube2.rotation.x);
+    console.log("verticalRotation:" + verticalRotation);
+
+    console.log("Settings.RadianStep<< " + Settings.RadianStep);
+    cube2.rotation.x -= Settings.RadianStep;
+    lathe.rotation.x -= Settings.RadianStep;
+
+    lblVerticalChange.textContent = parseFloat(
+      (ConvertRadToGrad(-cube2.rotation.x) + 100) % 400
+    ).toFixed(4);
   } else if (cube2.rotation.x < verticalRotation) {
     // console.log("cube2.rotation.x:" + cube2.rotation.x);
     // console.log("verticalRotation:" + verticalRotation);
@@ -523,36 +514,37 @@ function animateVerticalRotation() {
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
     cube2.rotation.x += Settings.RadianStep;
     lathe.rotation.x += Settings.RadianStep;
-    lblVerticalChange.textContent =(parseFloat( (ConvertRadToGrad(-cube2.rotation.x) + 100)% 400).toFixed(4)) ;
-  }  
+    lblVerticalChange.textContent = parseFloat(
+      (ConvertRadToGrad(-cube2.rotation.x) + 100) % 400
+    ).toFixed(4);
+  }
 
   renderer.render(scene, camera);
 }
 function animateHorizontalRotation() {
- 
   console.log("rotateHorizontal:" + rotateHorizontal);
-  if(rotateHorizontal)
-    requestAnimationFrame(animateHorizontalRotation);
+  if (rotateHorizontal) requestAnimationFrame(animateHorizontalRotation);
 
-  if (Math.abs(deviceGroup.rotation.y - horizontalRotation)<0.01) {
+  if (Math.abs(deviceGroup.rotation.y - horizontalRotation) < 0.01) {
     rotateHorizontal = false;
+
     lblHorizontalChange.textContent = horizontaltest.value;
     animateVerticalRotation();
-  }
-  else if (deviceGroup.rotation.y > horizontalRotation) {
+  } else if (deviceGroup.rotation.y > horizontalRotation) {
     //  console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
     //  console.log("horizontalRotation:" + horizontalRotation);
 
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
     deviceGroup.rotation.y -= Math.abs(Settings.RadianStep);
-    lblHorizontalChange.textContent =parseFloat( ConvertRadToGrad(-deviceGroup.rotation.y)).toFixed(4);
-
+    lblHorizontalChange.textContent = parseFloat(
+      ConvertRadToGrad(-deviceGroup.rotation.y)
+    ).toFixed(4);
   } else if (deviceGroup.rotation.y < horizontalRotation) {
     // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
     // console.log("horizontalRotation:" + horizontalRotation);
 
     horizontalRotation -= 2 * Math.PI;
-  }  
+  }
 
   renderer.render(scene, camera);
 }
@@ -589,6 +581,21 @@ function calculateDistance(point1, point2) {
   var dz = point2.z - point1.z;
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function DrawCircle1Line(circle) {
+  scene.add(line);
+  //Define line geometry
+  var points = [];
+  points.push(new THREE.Vector3(0, 2.5 + y, 0));
+  points.push(
+    new THREE.Vector3(circle.position.x, circle.position.y, circle.position.z)
+  );
+  geometryLine.setFromPoints(points);
+
+  setTimeout(() => {
+    scene.remove(line);
+  }, 5000);
 }
 
 function ConvertRadToGrad(angel) {
