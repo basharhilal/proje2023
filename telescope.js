@@ -41,11 +41,6 @@ loader.load(
 var btnZoomIn = document.getElementById("btnZoomIn");
 var btnZoomOut = document.getElementById("btnZoomOut");
 
-
-
-
-
-
 const orbit = new OrbitControls(camera, renderer.domElement);
 
 var n99, n100;
@@ -55,9 +50,9 @@ const fontLoader = new FontLoader();
 fontLoader.load("fonts/helvetiker_regular.typeface.json", function (font) {
   const geometry100 = new TextGeometry("100", {
     font: font,
-    size: 0.10,
+    size: 0.1,
     height: 0.01,
-    curveSegments: 10
+    curveSegments: 10,
   });
 
   const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
@@ -68,16 +63,18 @@ fontLoader.load("fonts/helvetiker_regular.typeface.json", function (font) {
 
   const geometry99 = new TextGeometry("99", {
     font: font,
-    size: 0.10,
+    size: 0.1,
     height: 0.01,
-    curveSegments: 10
+    curveSegments: 10,
   });
   n99 = new THREE.Mesh(geometry99, material);
   n99.position.set(-20, 1, -15);
   scene.add(n99);
 });
 
-let linex,mesh1, added = false;
+let linex,
+  mesh1,
+  added = false;
 btnZoomIn.onclick = function () {
   if (added) {
     scene.remove(linex);
@@ -85,56 +82,115 @@ btnZoomIn.onclick = function () {
   }
   added = true;
 
-  camera.position.z =  n99.position.z+1;
-  camera.position.x = n99.position.x ;
-  camera.position.y =  n99.position.y;
- // camera.rotation.y -= 0.2;
+  camera.position.z = n99.position.z + 1;
+  camera.position.x = n99.position.x;
+  camera.position.y = n99.position.y;
+  // camera.rotation.y -= 0.2;
   //camera.rotation.x += 0.1;
   const geometry = new THREE.RingGeometry(0.5, 10, 50, 30);
-  const material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-   mesh1 = new THREE.Mesh(geometry, material); scene.add(mesh1);
-  mesh1.position.set(camera.position.x , camera.position.y, camera.position.z - 0.5);
- // mesh1.rotation.y -= 0.2;
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    side: THREE.DoubleSide,
+  });
+  mesh1 = new THREE.Mesh(geometry, material);
+  scene.add(mesh1);
+  mesh1.position.set(
+    camera.position.x,
+    camera.position.y,
+    camera.position.z - 0.5
+  );
+  // mesh1.rotation.y -= 0.2;
   //mesh1.rotation.x += 0.1;
   const material1 = new THREE.LineBasicMaterial({
-    color: 0xff0000
+    color: 0xff0000,
   });
   const points = [];
-  points.push(new THREE.Vector3(camera.position.x-10, camera.position.y, camera.position.z-3));
-  points.push(new THREE.Vector3(camera.position.x+10, camera.position.y, camera.position.z-3));
+  points.push(
+    new THREE.Vector3(
+      camera.position.x - 10,
+      camera.position.y,
+      camera.position.z - 3
+    )
+  );
+  points.push(
+    new THREE.Vector3(
+      camera.position.x + 10,
+      camera.position.y,
+      camera.position.z - 3
+    )
+  );
 
-  points.push(new THREE.Vector3(camera.position.x ,camera.position.y -10,camera.position.z -3));
-  points.push(new THREE.Vector3(camera.position.x ,camera.position.y+ 10, camera.position.z-3));
+  points.push(
+    new THREE.Vector3(
+      camera.position.x,
+      camera.position.y - 10,
+      camera.position.z - 3
+    )
+  );
+  points.push(
+    new THREE.Vector3(
+      camera.position.x,
+      camera.position.y + 10,
+      camera.position.z - 3
+    )
+  );
 
-  points.push(new THREE.Vector3(camera.position.x, camera.position.y+1.5, camera.position.z-3));
-  points.push(new THREE.Vector3(camera.position.x+2, camera.position.y+1.5, camera.position.z-3));
+  points.push(
+    new THREE.Vector3(
+      camera.position.x,
+      camera.position.y + 1.5,
+      camera.position.z - 3
+    )
+  );
+  points.push(
+    new THREE.Vector3(
+      camera.position.x + 2,
+      camera.position.y + 1.5,
+      camera.position.z - 3
+    )
+  );
 
-  points.push(new THREE.Vector3(camera.position.x, camera.position.y+1.5, camera.position.z-3));
+  points.push(
+    new THREE.Vector3(
+      camera.position.x,
+      camera.position.y + 1.5,
+      camera.position.z - 3
+    )
+  );
 
-  points.push(new THREE.Vector3(camera.position.x, camera.position.y-1.5, camera.position.z-3));
-  points.push(new THREE.Vector3(camera.position.x+2, camera.position.y-1.5, camera.position.z-3));
+  points.push(
+    new THREE.Vector3(
+      camera.position.x,
+      camera.position.y - 1.5,
+      camera.position.z - 3
+    )
+  );
+  points.push(
+    new THREE.Vector3(
+      camera.position.x + 2,
+      camera.position.y - 1.5,
+      camera.position.z - 3
+    )
+  );
 
   const geometryx = new THREE.BufferGeometry().setFromPoints(points);
   linex = new THREE.Line(geometryx, material1);
   //linex.rotation.y -= 0.1;
   //linex.rotation.x -= 0.01;
   scene.add(linex);
-}
+};
 
 btnZoomOut.onclick = function () {
   camera.position.z = (camera.position.z + 15) / 2;
   camera.position.x = (camera.position.x + 2) / 2;
   camera.position.y = (camera.position.y + 2) / 2;
 
- // camera.rotation.y += 0.2;
+  // camera.rotation.y += 0.2;
   //camera.rotation.x -= 0.1;
 
   scene.remove(linex);
   scene.remove(mesh1);
-  
-
-
-}
+};
 
 // Implement zoom functionality (adjusting FOV)
 function zoomIn() {
@@ -159,12 +215,8 @@ animate();
 const axesHelper = new THREE.AxesHelper(8);
 scene.add(axesHelper);
 
-
-
 const NumberOfGrads = 1;
-let y=0;
-
-
+let y = 0;
 
 window.onkeydown = function (e) {
   const GRADE = (2 * Math.PI) / 400; //convert radian to grad
@@ -178,8 +230,8 @@ window.onkeydown = function (e) {
   } else if (code === 38) {
     //up key
     // verticalGroup.rotation.x +=0.1
-   // cube2.rotation.x += NumberOfGrads * GRADE;
-   // lathe.rotation.x += NumberOfGrads * GRADE;
+    // cube2.rotation.x += NumberOfGrads * GRADE;
+    // lathe.rotation.x += NumberOfGrads * GRADE;
   } else if (code === 39) {
     //right key
 
@@ -188,15 +240,9 @@ window.onkeydown = function (e) {
     //down key
     // verticalGroup.rotation.x -=0.1
     //cube2.rotation.x -= NumberOfGrads * GRADE;
-   // lathe.rotation.x -= NumberOfGrads * GRADE;
+    // lathe.rotation.x -= NumberOfGrads * GRADE;
   }
 };
-
-
-
-
-
-
 
 //قدم يسار
 const geometry = new THREE.BoxGeometry(0.4, 10, 1);
@@ -230,19 +276,19 @@ const cylinder = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x665400 })
 );
-cylinder.position.set(0.8, - 0.2 + y, 0.5);
+cylinder.position.set(0.8, -0.2 + y, 0.5);
 //برغي القاعد يسار
 const cylinder1 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x665400 })
 );
-cylinder1.position.set(-0.8, - 0.2 + y, 0.5);
+cylinder1.position.set(-0.8, -0.2 + y, 0.5);
 //برغي القاعده امام
 const cylinder2 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x665400 })
 );
-cylinder2.position.set(0,- 0.2 + y, -1);
+cylinder2.position.set(0, -0.2 + y, -1);
 //برغي القاعده وسط
 const cylinder3 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 1.2, 100),
@@ -289,7 +335,7 @@ const cylinder9 = new THREE.Mesh(
 cylinder9.position.set(0, 1.5 + y, +1);
 cylinder9.rotation.x = Math.PI / 2;
 cylinder9.rotation.y = Math.PI / 4;
-//المنظار 
+//المنظار
 const cylinder10 = new THREE.Mesh(
   new THREE.CylinderGeometry(0.5, 0.5, 2, 30),
   new THREE.MeshBasicMaterial({ color: 0x343434 })
@@ -309,40 +355,33 @@ cube11.rotation.z = -Math.PI / 5;
 cube12.rotation.y = Math.PI / 2;
 
 const geometry10 = new THREE.BufferGeometry();
-	
+
 // إنشاء شكل مربع بسيط. نحن نكرر الأعلى الأيسر والأسفل الأيمن
 // الرؤوس لأن كل رأس يحتاج إلى الظهور مرة واحدة لكل مثلث.
-const vertices = new Float32Array( [
-	-0.3, -0.3,  0.3, // v0
-	 0.3, -0.3,  0.3, // v1
-	 0.1,  0.3,  0.3, // v2
-	
-	// 0.3,  0.3,  0.3, // v3
-	//-0.3,  0.3,  0.3, // v4
-	//-0.3, -0.3,  0.3  // v5
-] );
-	
+const vertices = new Float32Array([
+  -0.3,
+  -0.3,
+  0.3, // v0
+  0.3,
+  -0.3,
+  0.3, // v1
+  0.1,
+  0.3,
+  0.3, // v2
+
+  // 0.3,  0.3,  0.3, // v3
+  //-0.3,  0.3,  0.3, // v4
+  //-0.3, -0.3,  0.3  // v5
+]);
+
 // itemSize = 3 لأنه يوجد 3 قيم (مكونات) لكل رأس
-geometry10.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-const material10 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-const mesh = new THREE.Mesh( geometry10, material10 );
-scene.add( mesh );
-mesh.position.set(-3,0,3)
+geometry10.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+const material10 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const mesh = new THREE.Mesh(geometry10, material10);
+scene.add(mesh);
+mesh.position.set(-3, 0, 3);
 
-
-
-
-
-
-
-
-deviceGroup.add(
-  cylinder7,
-  cylinder8,
-  cylinder9,
-  cylinder10,
- 
-);
+deviceGroup.add(cylinder7, cylinder8, cylinder9, cylinder10);
 scene.add(
   cylinder,
   cylinder1,
@@ -350,7 +389,7 @@ scene.add(
   cylinder3,
   cylinder4,
   cylinder5,
-  deviceGroup,
+  deviceGroup
 );
 
 camera.position.z = 15;

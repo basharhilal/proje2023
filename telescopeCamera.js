@@ -23,13 +23,14 @@ camera.lookAt(0, 0, 0);
 renderer.render(scene, camera);
 document.body.appendChild(renderer.domElement);
 
-const cameraTop = new THREE.PerspectiveCamera(90, aspect, 0.01, 100);
 
-cameraTop.position.x = 1;
-cameraTop.position.y = 2.5;
-cameraTop.position.z = 26;
+const cameraTop = new THREE.PerspectiveCamera(75, aspect, 0.01, 2000);
 
-cameraTop.rotation.set(-0.3809504173655024,0.9277845123431603,0.018412182151283464)
+cameraTop.position.x = 0;
+cameraTop.position.y = 100;
+cameraTop.position.z = 0;
+
+cameraTop.rotation.set(-Math.PI/2,0,0);
 
 
 
@@ -37,6 +38,21 @@ cameraTop.name = "Telescope";
 
 //camera.add(cameraTop);
 scene.add(cameraTop);
+
+//add horizontal circle
+const ringGeometry = new THREE.RingGeometry(20, 21, 50, 30);
+const ringMaterial = new THREE.MeshBasicMaterial({
+  color: 0xff0000,
+  side: THREE.DoubleSide,
+});
+var ringMesh = new THREE.Mesh(ringGeometry, ringMaterial);
+ringMesh.rotation.x = Math.PI/2;
+scene.add(ringMesh);
+ringMesh.position.set(
+  0,
+  1,
+  0
+);
 
 resize();
 
