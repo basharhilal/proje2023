@@ -25,10 +25,12 @@ document.body.appendChild(renderer.domElement);
 
 const cameraTop = new THREE.PerspectiveCamera(90, aspect, 0.01, 100);
 
-cameraTop.position.x = 0.5;
+cameraTop.position.x = 1;
 cameraTop.position.y = 2.5;
-cameraTop.position.z = 28;
-cameraTop.lookAt(0, 5, 0);
+cameraTop.position.z = 26;
+
+cameraTop.rotation.set(-0.3809504173655024,0.9277845123431603,0.018412182151283464)
+
 
 
 cameraTop.name = "Telescope";
