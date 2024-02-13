@@ -1,0 +1,13 @@
+#info {
+	position: absolute;
+	top: 10px;
+	text-align: center;
+	z-index: 10;
+	display:block;
+   
+	margin-top: 10px;
+}
+
+body{
+	overflow: hidden; /* Hides both horizontal and vertical scrollbars */
+};
