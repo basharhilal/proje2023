@@ -24,20 +24,20 @@ renderer.render(scene, camera);
 document.body.appendChild(renderer.domElement);
 
 
-const cameraTop = new THREE.PerspectiveCamera(75, aspect, 0.01, 2000);
+const cameraTop = new THREE.PerspectiveCamera(70, aspect, 0.01, 500);
 
 cameraTop.position.x = 0;
-cameraTop.position.y = 100;
+cameraTop.position.y = 0;
 cameraTop.position.z = 0;
 
-cameraTop.rotation.set(-Math.PI/2,0,0);
+cameraTop.rotation.set(0,0,0);
 
 
 
 cameraTop.name = "Telescope";
 
 //camera.add(cameraTop);
-scene.add(cameraTop);
+//scene.add(cameraTop);
 
 //add horizontal circle
 const ringGeometry = new THREE.RingGeometry(20, 21, 50, 30);
@@ -50,7 +50,7 @@ ringMesh.rotation.x = Math.PI/2;
 scene.add(ringMesh);
 ringMesh.position.set(
   0,
-  1,
+ 10,
   0
 );
 
@@ -64,8 +64,8 @@ function resize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  insetWidth = window.innerWidth / 4;
-  insetHeight = window.innerHeight / 4;
+  insetWidth = window.innerWidth / 2;
+  insetHeight = window.innerHeight /2;
 
   cameraTop.aspect = insetWidth / insetHeight;
   cameraTop.updateProjectionMatrix();
@@ -301,8 +301,8 @@ function animate() {
   renderer.clearDepth();
   renderer.setScissorTest(true);
   renderer.setScissor(
-    window.innerWidth - insetWidth - 16,
-    window.innerHeight - insetHeight - 16,
+    window.innerWidth - insetWidth - 300,
+    window.innerHeight - insetHeight - 200,
     insetWidth,
     insetHeight
   );
