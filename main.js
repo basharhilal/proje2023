@@ -66,8 +66,6 @@ const blenderLathCube2Mesh = {
 };
 LoadBlenderModel("../blender/","3.gltf", 0, blenderY, 0, blenderLathCube2Mesh);
 
-
-
 // const gridHelper = new THREE.GridHelper(100, 100);
 // scene.add(gridHelper);
 cube.rotation.z = -Math.PI / 5;
@@ -99,9 +97,9 @@ const planeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
 const plane = new THREE.Mesh(planeGeometry,planeMaterial);
 scene.add(plane); */
 
-const deviceGroup = new THREE.Group(); //قروب الحركي الافقيه
+//const deviceGroup = new THREE.Group(); //قروب الحركي الافقيه
 
-const verticalGroup = new THREE.Group(); //قروب الحركي العمودي
+//const verticalGroup = new THREE.Group(); //قروب الحركي العمودي
 
 //جنب يسار
 const geometry6 = new THREE.BoxGeometry(0.9, 3, 1);
@@ -153,44 +151,42 @@ window.onkeydown = function (e) {
   if (code === 37) {
     //left key
 
-    deviceGroup.rotation.y += NumberOfGrads * GRADE;
+    //deviceGroup.rotation.y += NumberOfGrads * GRADE;
     blenderDeviceMesh.mesh.rotation.y += NumberOfGrads * GRADE;
     blenderLathCube2Mesh.mesh.rotation.y += NumberOfGrads * GRADE;
 
   } else if (code === 38) {
     //up key
     // verticalGroup.rotation.x +=0.1
-    cube2.rotation.x += NumberOfGrads * GRADE;
-    lathe.rotation.x += NumberOfGrads * GRADE;
+    //lathe.rotation.x += NumberOfGrads * GRADE;
     blenderLathCube2Mesh.mesh.rotation.x += NumberOfGrads * GRADE;
   } else if (code === 39) {
     //right key
 
-    deviceGroup.rotation.y -= NumberOfGrads * GRADE;
+    // deviceGroup.rotation.y -= NumberOfGrads * GRADE;
     blenderDeviceMesh.mesh.rotation.y -= NumberOfGrads * GRADE;
     blenderLathCube2Mesh.mesh.rotation.y -= NumberOfGrads * GRADE;
   } else if (code === 40) {
     //down key
     // verticalGroup.rotation.x -=0.1
-    cube2.rotation.x -= NumberOfGrads * GRADE;
-    lathe.rotation.x -= NumberOfGrads * GRADE;
+    //lathe.rotation.x -= NumberOfGrads * GRADE;
     blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
   }
 
   var verticalValue =
-    -parseFloat(ConvertRadToGrad(cube2.rotation.x)).toFixed(4) + 100;
+    -parseFloat(ConvertRadToGrad(blenderLathCube2Mesh.mesh.rotation.x)).toFixed(4) + 100;
 
   verticalResult.textContent = verticalValue % 400;
 
   var horizontalValue = -parseFloat(
-    ConvertRadToGrad(deviceGroup.rotation.y)
+    ConvertRadToGrad(blenderDeviceMesh.mesh.rotation.y)
   ).toFixed(4);
 
   horizontalResult.textContent = horizontalValue;
 };
 //  لاضافه خطوط المحاور بشكل ملون
-// const axesHelper = new THREE.AxesHelper(8);
-// scene.add(axesHelper);
+const axesHelper = new THREE.AxesHelper(8);
+scene.add(axesHelper);
 
 // برغي القاعده يمين
 const cylinder = new THREE.Mesh(
@@ -307,8 +303,8 @@ function onDocumentClick(event) {
     circle1Z.textContent = circle1.position.z;
 
     var verticalAngel = Math.atan(
-      (circle1.position.z - cube2.position.z) /
-        -(circle1.position.y - cube2.position.y)
+      (circle1.position.z - blenderLathCube2Mesh.mesh.position.z) /
+        -(circle1.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
@@ -318,8 +314,8 @@ function onDocumentClick(event) {
     console.log(vertcaltest.value);
 
     var horizontalAngel = Math.atan(
-      (circle1.position.x - cube2.position.x) /
-        -(circle1.position.z - cube2.position.z)
+      (circle1.position.x - blenderLathCube2Mesh.mesh.position.x) /
+        -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     horizontaltest.value = horizontalAngel;
@@ -339,8 +335,8 @@ function onDocumentClick(event) {
     circle2Z.textContent = circle2.position.z;
 
     var verticalAngel = Math.atan(
-      (circle2.position.z - cube2.position.z) /
-        -(circle2.position.y - cube2.position.y)
+      (circle2.position.z - blenderLathCube2Mesh.mesh.position.z) /
+        -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
@@ -350,8 +346,8 @@ function onDocumentClick(event) {
     console.log(vertcaltest.value);
 
     var horizontalAngel = Math.atan(
-      (circle2.position.x - cube2.position.x) /
-        -(circle2.position.z - cube2.position.z)
+      (circle2.position.x - blenderLathCube2Mesh.mesh.position.x) /
+        -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     horizontaltest.value = horizontalAngel;
@@ -362,7 +358,7 @@ function onDocumentClick(event) {
     SelectedCircle = circle2;
   }
 
-  var intersects3 = raycaster.intersectObject(cube2);
+  var intersects3 = raycaster.intersectObject(blenderLathCube2Mesh.mesh);
 
   var cubeX = document.getElementById("cubeX");
   var cubeY = document.getElementById("cubeY");
@@ -403,9 +399,9 @@ for (let i = 0; i < 40; i++) {
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
 const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
-const cube2 = new THREE.Mesh(geometry2, material2);
-cube2.position.set(0, 2.5 + y, 0);
-scene.add(cube2);
+//const cube2 = new THREE.Mesh(geometry2, material2);
+//blenderLathCube2Mesh.mesh.position.set(0, 2.5 + y, 0);
+//scene.add(cube2);
 
 //light
 const light = new THREE.PointLight(0x00ff00, 500, 100);
@@ -433,15 +429,15 @@ plane.receiveShadow = true;
 // const helper = new THREE.CameraHelper( light.shadow.camera );
 // scene.add( helper );
 
-cube2.castShadow = true;
+//blenderLathCube2Mesh.mesh.castShadow = true;
 //الوسط
 /**/
 const geometry11 = new THREE.LatheGeometry(points1);
 const material11 = new THREE.MeshBasicMaterial({ color: 0x645300 });
-const lathe = new THREE.Mesh(geometry11, material11);
-scene.add(lathe);
-lathe.position.set(0, 2.5 + y, 0);
-lathe.rotation.x = Math.PI / 2;
+//const lathe = new THREE.Mesh(geometry11, material11);
+//scene.add(lathe);
+// lathe.position.set(0, 2.5 + y, 0);
+// lathe.rotation.x = Math.PI / 2;
 
 // الشاشه الاماميه
 const cube9 = new THREE.Mesh(
@@ -475,7 +471,7 @@ var verticalRotation = 0;
 var rotateVertical = false;
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
-  console.log(deviceGroup.rotation.y);
+  console.log(blenderDeviceMesh.mesh.rotation.y);
 
   verticalRotation = document.getElementById("vertcaltest").value;
   horizontalRotation = document.getElementById("horizontaltest").value;
@@ -495,8 +491,8 @@ btnSet.onclick = function () {
   rotateVertical = true;
   //animateVerticalRotation();
 
-  //deviceGroup.rotation.y = horizontalRotation;
-  console.log(deviceGroup.rotation.y);
+  //blenderLathCube2Mesh.mesh.rotation.y = horizontalRotation;
+  console.log(blenderDeviceMesh.mesh.rotation.y);
 
   verticalResult.textContent = vertcaltest.value;
   horizontalResult.textContent = horizontaltest.value;
@@ -508,31 +504,31 @@ function animateVerticalRotation() {
 
   if (
     rotateHorizontal ||
-    Math.abs(cube2.rotation.x - verticalRotation) < 0.01
+    Math.abs(blenderLathCube2Mesh.mesh.rotation.x - verticalRotation) < 0.01
   ) {
     lblVerticalChange.textContent = vertcaltest.value;
 
     rotateVertical = false;
-  } else if (cube2.rotation.x > verticalRotation) {
-    console.log("cube2.rotation.x:" + cube2.rotation.x);
+  } else if (blenderLathCube2Mesh.mesh.rotation.x > verticalRotation) {
+    console.log("blenderLathCube2Mesh.mesh.rotation.x:" + blenderLathCube2Mesh.mesh.rotation.x);
     console.log("verticalRotation:" + verticalRotation);
 
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
-    cube2.rotation.x -= Settings.RadianStep;
-    lathe.rotation.x -= Settings.RadianStep;
+    blenderLathCube2Mesh.mesh.rotation.x -= Settings.RadianStep;
+    //lathe.rotation.x -= Settings.RadianStep;
 
     lblVerticalChange.textContent = parseFloat(
-      (ConvertRadToGrad(-cube2.rotation.x) + 100) % 400
+      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
     ).toFixed(4);
-  } else if (cube2.rotation.x < verticalRotation) {
-    // console.log("cube2.rotation.x:" + cube2.rotation.x);
+  } else if (blenderLathCube2Mesh.mesh.rotation.x < verticalRotation) {
+    // console.log("blenderLathCube2Mesh.mesh.rotation.x:" + blenderLathCube2Mesh.mesh.rotation.x);
     // console.log("verticalRotation:" + verticalRotation);
 
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
-    cube2.rotation.x += Settings.RadianStep;
-    lathe.rotation.x += Settings.RadianStep;
+    blenderLathCube2Mesh.mesh.rotation.x += Settings.RadianStep;
+    //lathe.rotation.x += Settings.RadianStep;
     lblVerticalChange.textContent = parseFloat(
-      (ConvertRadToGrad(-cube2.rotation.x) + 100) % 400
+      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
     ).toFixed(4);
   }
 
@@ -542,22 +538,24 @@ function animateHorizontalRotation() {
   console.log("rotateHorizontal:" + rotateHorizontal);
   if (rotateHorizontal) requestAnimationFrame(animateHorizontalRotation);
 
-  if (Math.abs(deviceGroup.rotation.y - horizontalRotation) < 0.01) {
+  if (Math.abs(blenderDeviceMesh.mesh.rotation.y - horizontalRotation) < 0.01) {
     rotateHorizontal = false;
 
     lblHorizontalChange.textContent = horizontaltest.value;
     animateVerticalRotation();
-  } else if (deviceGroup.rotation.y > horizontalRotation) {
-    //  console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
+  } else if (blenderDeviceMesh.mesh.rotation.y > horizontalRotation) {
+    //  console.log("blenderDeviceMesh.mesh.rotation.y:" + blenderLathCube2Mesh.mesh.rotation.y);
     //  console.log("horizontalRotation:" + horizontalRotation);
 
     console.log("Settings.RadianStep<< " + Settings.RadianStep);
-    deviceGroup.rotation.y -= Math.abs(Settings.RadianStep);
+    blenderDeviceMesh.mesh.rotation.y -= Math.abs(Settings.RadianStep);
+    
+    blenderLathCube2Mesh.mesh.rotation.y -= Math.abs(Settings.RadianStep);
     lblHorizontalChange.textContent = parseFloat(
-      ConvertRadToGrad(-deviceGroup.rotation.y)
+      ConvertRadToGrad(-blenderDeviceMesh.mesh.rotation.y)
     ).toFixed(4);
-  } else if (deviceGroup.rotation.y < horizontalRotation) {
-    // console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
+  } else if (blenderDeviceMesh.mesh.rotation.y < horizontalRotation) {
+    // console.log("blenderLathCube2Mesh.mesh.rotation.y:" + blenderLathCube2Mesh.mesh.rotation.y);
     // console.log("horizontalRotation:" + horizontalRotation);
 
     horizontalRotation -= 2 * Math.PI;
@@ -647,22 +645,22 @@ function animate() {
 }
 animate();
 
-verticalGroup.add(cube2, lathe);
-scene.add(verticalGroup);
+//verticalGroup.add(cube2, lathe);
+//scene.add(verticalGroup);
 
-deviceGroup.add(
-  cube6,
-  cube7,
-  cube8,
-  cylinder7,
-  cylinder8,
-  cylinder9,
-  cube9,
-  cube10,
-  verticalGroup,
-  cylinderMeaure
-);
+// deviceGroup.add(
+//   cube6,
+//   cube7,
+//   cube8,
+//   cylinder7,
+//   cylinder8,
+//   cylinder9,
+//   cube9,
+//   cube10,
+//   verticalGroup,
+//   cylinderMeaure
+// );
 
-scene.add(deviceGroup);
+//scene.add(deviceGroup);
 
 renderer.render(scene, camera);
