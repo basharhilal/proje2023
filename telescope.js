@@ -12,6 +12,44 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+//light
+const light = new THREE.PointLight(0xffffff, 500, 100);
+light.position.set(0, 12.5, +30);
+light.castShadow = true;
+//Set up shadow properties for the light
+light.shadow.mapSize.width = 512; // default
+light.shadow.mapSize.height = 512; // default
+light.shadow.camera.near = 0.5; // default
+light.shadow.camera.far = 500; // default
+scene.add(light);
+
+const DirectionalLight = new THREE.DirectionalLight(0xff0000, 10000);
+//light
+const light1 = new THREE.PointLight(0xffffff, 300, 100);
+light.position.set(-30, 12.5, -30);
+light.castShadow = true;
+//Set up shadow properties for the light
+light.shadow.mapSize.width = 512; // default
+light.shadow.mapSize.height = 512; // default
+light.shadow.camera.near = 0.5; // default
+light.shadow.camera.far = 500; // default
+scene.add(light1);
+
+const DirectionalLight1 = new THREE.DirectionalLight(0xff0000, 10000);
+//light
+const light2 = new THREE.PointLight(0xffffff, 300, 100);
+light.position.set(-20, 12.5, -15);
+light.castShadow = true;
+//Set up shadow properties for the light
+light.shadow.mapSize.width = 512; // default
+light.shadow.mapSize.height = 512; // default
+light.shadow.camera.near = 0.5; // default
+light.shadow.camera.far = 500; // default
+scene.add(light2);
+
+const DirectionalLight2 = new THREE.DirectionalLight(0xff0000, 10000);
+
+
 
 camera.position.z = 15;
 camera.position.x = 2;
@@ -19,6 +57,7 @@ camera.position.y = 2;
 
 var renderer = new THREE.WebGLRenderer();
 const deviceGroup = new THREE.Group(); //قروب الحركي الافقيه
+const miraGroup = new THREE.Group(); //قروب الحركي الاشاره العصاي
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -29,6 +68,64 @@ loader.load(
   function (gltf) {
     const mesh = gltf.scene;
     mesh.position.set(-10, 0, -25);
+    scene.add(mesh);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+
+const loader1 = new GLTFLoader().setPath("../blender/");
+
+loader1.load(
+  "111.gltf",
+  function (gltf) {
+    const mesh = gltf.scene;
+    mesh.position.set(-10, 0, -10);
+    scene.add(mesh);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+const loader11 = new GLTFLoader().setPath("../blender/");
+
+loader1.load(
+  "1.gltf",
+  function (gltf) {
+    const mesh = gltf.scene;
+    mesh.position.set(0,3, -4);
+    scene.add(mesh);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+
+const loader2 = new GLTFLoader().setPath("../blender/");
+
+loader2.load(
+  "2.gltf",
+  function (gltf) {
+    const mesh = gltf.scene;
+    mesh.position.set(0,3, -4);
+    scene.add(mesh);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+const loader3 = new GLTFLoader().setPath("../blender/");
+
+loader3.load(
+  "3.gltf",
+  function (gltf) {
+    const mesh = gltf.scene;
+    mesh.position.set(0,3, -4);
     scene.add(mesh);
   },
   undefined,
@@ -344,42 +441,65 @@ cylinder10.position.set(0, 1.5 + y, -1);
 cylinder10.rotation.x = Math.PI / 2;
 cylinder10.rotation.y = Math.PI / 4;
 
+
+var Ax=1;// عرض العمود
+var bx= 0.5;// سمك العمود
+var cx=0.16;//ارتفاع كل مرلع صغير لوحده
 //العمود
 const cube12 = new THREE.Mesh(
-  new THREE.BoxGeometry(0.5, 2, 1),
+  new THREE.BoxGeometry(bx, 1.8,Ax),
   new THREE.MeshBasicMaterial({ color: 0x0000ff })
+); 
+// الخط الاسفل
+const cube13 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, 0.01, Ax),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
 );
-scene.add(cube12);
-cube12.position.set(-3, 0, 3);
-cube11.rotation.z = -Math.PI / 5;
-cube12.rotation.y = Math.PI / 2;
+cube13.position.set(-0.1, -0.89, 0);
+// مربع اسفل
+const cube14 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, cx, Ax/4),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube14.position.set(-0.1, -0.62, +0.15);
 
-const geometry10 = new THREE.BufferGeometry();
+// مربع وسط
+const cube15 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, cx, Ax/4),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube15.position.set(-0.1, -0.28, +0.15);
 
-// إنشاء شكل مربع بسيط. نحن نكرر الأعلى الأيسر والأسفل الأيمن
-// الرؤوس لأن كل رأس يحتاج إلى الظهور مرة واحدة لكل مثلث.
-const vertices = new Float32Array([
-  -0.3,
-  -0.3,
-  0.3, // v0
-  0.3,
-  -0.3,
-  0.3, // v1
-  0.1,
-  0.3,
-  0.3, // v2
+//مربع اسفل E
+const cube16 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, cx, Ax/4),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube16.position.set(-0.1, 0.07, -0.15);
+//مربع وسط E
+const cube17 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, cx, Ax/4),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube17.position.set(-0.1, 0.44, -0.15);
 
-  // 0.3,  0.3,  0.3, // v3
-  //-0.3,  0.3,  0.3, // v4
-  //-0.3, -0.3,  0.3  // v5
-]);
+//مربع اعلى E
+const cube18 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, cx, Ax/4),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube18.position.set(-0.1, 0.82, -0.15);
 
-// itemSize = 3 لأنه يوجد 3 قيم (مكونات) لكل رأس
-geometry10.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-const material10 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const mesh = new THREE.Mesh(geometry10, material10);
-scene.add(mesh);
-mesh.position.set(-3, 0, 3);
+//مربع جانب E
+const cube19 = new THREE.Mesh(
+  new THREE.BoxGeometry(bx, 0.91, Ax/6),
+  new THREE.MeshBasicMaterial({ color: 0xff00ff })
+);
+cube19.position.set(-0.1, 0.445, -0.3);
+
+miraGroup.add(cube12,cube13,cube14,cube15,cube16,cube17,cube18,cube19);
+miraGroup.position.set(-3, 0, 3);
+miraGroup.rotation.y = Math.PI / 2;
 
 deviceGroup.add(cylinder7, cylinder8, cylinder9, cylinder10);
 scene.add(
@@ -389,9 +509,11 @@ scene.add(
   cylinder3,
   cylinder4,
   cylinder5,
-  deviceGroup
+  deviceGroup,
+  miraGroup
 );
 
 camera.position.z = 15;
 camera.position.x = 2;
 camera.position.y = 2;
+

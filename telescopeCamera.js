@@ -24,10 +24,10 @@ renderer.render(scene, camera);
 document.body.appendChild(renderer.domElement);
 
 
-const cameraTop = new THREE.PerspectiveCamera(70, aspect, 0.01, 500);
+const cameraTop = new THREE.PerspectiveCamera(30, aspect, 0.01, 500);
 
 cameraTop.position.x = 0;
-cameraTop.position.y = 0;
+cameraTop.position.y = 3.2;
 cameraTop.position.z = 0;
 
 cameraTop.rotation.set(0,0,0);
@@ -50,7 +50,7 @@ ringMesh.rotation.x = Math.PI/2;
 scene.add(ringMesh);
 ringMesh.position.set(
   0,
- 10,
+3,
   0
 );
 
@@ -64,8 +64,8 @@ function resize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  insetWidth = window.innerWidth / 2;
-  insetHeight = window.innerHeight /2;
+  insetWidth = window.innerWidth / 4;
+  insetHeight = window.innerHeight /4;
 
   cameraTop.aspect = insetWidth / insetHeight;
   cameraTop.updateProjectionMatrix();
@@ -78,7 +78,7 @@ loader.load(
   "scene.gltf",
   function (gltf) {
     const mesh = gltf.scene;
-    mesh.position.set(-10, 0, -25);
+    mesh.position.set(-60, 0, -25);
     scene.add(mesh);
   },
   undefined,
@@ -301,8 +301,8 @@ function animate() {
   renderer.clearDepth();
   renderer.setScissorTest(true);
   renderer.setScissor(
-    window.innerWidth - insetWidth - 300,
-    window.innerHeight - insetHeight - 200,
+    window.innerWidth - insetWidth - 850,
+    window.innerHeight - insetHeight - 275,
     insetWidth,
     insetHeight
   );
