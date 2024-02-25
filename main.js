@@ -41,20 +41,32 @@ const cube = new THREE.Mesh(geometry, material);
 cube.position.set(-3, -4.5 + y, -1.5);
 scene.add(cube);
 
-const loader = new GLTFLoader().setPath("../ta_agrat/");
+const mesh150 = {
+  mesh: null
+};
 
-loader.load(
-  "scene.gltf",
-  function (gltf) {
-    const mesh = gltf.scene;
-    mesh.position.set(-10, 0 + y, -25);
-    scene.add(mesh);
-  },
-  undefined,
-  function (error) {
-    console.error(error);
-  }
-);
+LoadBlenderModel("../ta_agrat/","scene.gltf", -10, 0 + y, -25, mesh150);
+
+//1 : feets
+var blenderY = 2;
+const blenderFeetsMesh = {
+  mesh: null
+};
+LoadBlenderModel("../blender/","1.gltf", 0, blenderY, 0, blenderFeetsMesh);
+
+//2: horizontal device = device
+const blenderDeviceMesh = {
+  mesh: null
+};
+LoadBlenderModel("../blender/","2.gltf", 0, blenderY, 0, blenderDeviceMesh);
+
+//3: vertical device = lathe + cube2
+const blenderLathCube2Mesh = {
+  mesh: null
+};
+LoadBlenderModel("../blender/","3.gltf", 0, blenderY, 0, blenderLathCube2Mesh);
+
+
 
 // const gridHelper = new THREE.GridHelper(100, 100);
 // scene.add(gridHelper);
@@ -142,20 +154,27 @@ window.onkeydown = function (e) {
     //left key
 
     deviceGroup.rotation.y += NumberOfGrads * GRADE;
+    blenderDeviceMesh.mesh.rotation.y += NumberOfGrads * GRADE;
+    blenderLathCube2Mesh.mesh.rotation.y += NumberOfGrads * GRADE;
+
   } else if (code === 38) {
     //up key
     // verticalGroup.rotation.x +=0.1
     cube2.rotation.x += NumberOfGrads * GRADE;
     lathe.rotation.x += NumberOfGrads * GRADE;
+    blenderLathCube2Mesh.mesh.rotation.x += NumberOfGrads * GRADE;
   } else if (code === 39) {
     //right key
 
     deviceGroup.rotation.y -= NumberOfGrads * GRADE;
+    blenderDeviceMesh.mesh.rotation.y -= NumberOfGrads * GRADE;
+    blenderLathCube2Mesh.mesh.rotation.y -= NumberOfGrads * GRADE;
   } else if (code === 40) {
     //down key
     // verticalGroup.rotation.x -=0.1
     cube2.rotation.x -= NumberOfGrads * GRADE;
     lathe.rotation.x -= NumberOfGrads * GRADE;
+    blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
   }
 
   var verticalValue =
@@ -449,8 +468,6 @@ camera.position.z = 15;
 camera.position.x = 2;
 camera.position.y = 2;
 
-
-
 //logic
 var horizontalRotation = 0;
 var rotateHorizontal = false;
@@ -574,6 +591,22 @@ document.getElementById("horizontaltest").onchange = function () {
   horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
   horizontalResult.textContent = horizontaltest.value;
 };
+
+function LoadBlenderModel(path,gltfFileName, x,y,z, object) {
+  const loader = new GLTFLoader().setPath(path);
+  loader.load(
+    gltfFileName,
+    function (gltf) {
+      object.mesh = gltf.scene;
+      object.mesh.position.set(x,y,z);
+      scene.add(object.mesh);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+}
 
 function calculateDistance(point1, point2) {
   var dx = point2.x - point1.x;
