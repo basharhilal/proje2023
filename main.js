@@ -93,6 +93,19 @@ LoadBlenderModel(
 );
 console.log("blender loaded");
 
+///
+const reflektorMesh2 = {
+  mesh: null,
+};
+LoadBlenderModel(
+  "../blender/",
+  "reflektor.gltf",
+  20,
+  blenderY+1,
+  -20,
+  reflektorMesh2
+);
+console.log("blender loaded");
 const pilyeMesh = {
   mesh: null,
 }; 
@@ -244,6 +257,7 @@ function onDocumentClick(event) {
   var circle1X = document.getElementById("circle1X");
   var circle1Y = document.getElementById("circle1Y");
   var circle1Z = document.getElementById("circle1Z");
+
   if (intersects.length > 0) {
     alert("circle1 clicked!");
     circle1X.textContent = circle1.position.x;
@@ -256,20 +270,47 @@ function onDocumentClick(event) {
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
-    vertcaltest.value = verticalAngel;
-    console.log(vertcaltest.value);
-    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
-    console.log(vertcaltest.value);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
 
     var horizontalAngel = Math.atan(
       (circle1.position.x - blenderLathCube2Mesh.mesh.position.x) /
       -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
+
+    var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
     SelectedCircle = circle1;
+  }
+  var intersects3 = raycaster.intersectObject(reflektorMesh.mesh);
+  if (intersects3.length > 0) {
+    alert("reflektor clicked!");
+
+    var verticalAngel = Math.atan(
+      (reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+      -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
+
+    var horizontalAngel = Math.atan(
+      (reflektorMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+      -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    var horizontaltest = document.getElementById("horizontaltest");
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
   }
 
   var intersects2 = raycaster.intersectObject(circle2);
@@ -288,16 +329,19 @@ function onDocumentClick(event) {
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
-    vertcaltest.value = verticalAngel;
-    console.log(vertcaltest.value);
-    vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
-    console.log(vertcaltest.value);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
 
     var horizontalAngel = Math.atan(
       (circle2.position.x - blenderLathCube2Mesh.mesh.position.x) /
       -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    
+    var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
 
@@ -402,7 +446,7 @@ var verticalRotation = 0;
 var rotateVertical = false;
 var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
-  verticalRotation = document.getElementById("vertcaltest").value;
+  verticalRotation = document.getElementById("verticaltest").value;
   horizontalRotation = document.getElementById("horizontaltest").value;
 
   verticalRotation %= 400;
@@ -422,7 +466,7 @@ btnSet.onclick = function () {
 
   //blenderLathCube2Mesh.mesh.rotation.y = horizontalRotation;
 
-  verticalResult.textContent = vertcaltest.value;
+  verticalResult.textContent = verticaltest.value;
   horizontalResult.textContent = horizontaltest.value;
 };
 
@@ -434,7 +478,7 @@ function animateVerticalRotation() {
     rotateHorizontal ||
     Math.abs(blenderLathCube2Mesh.mesh.rotation.x - verticalRotation) < 0.01
   ) {
-    lblVerticalChange.textContent = vertcaltest.value;
+    lblVerticalChange.textContent = verticaltest.value;
 
     rotateVertical = false;
   } else if (blenderLathCube2Mesh.mesh.rotation.x > verticalRotation) {
@@ -495,17 +539,17 @@ function animateHorizontalRotation() {
 
   renderer.render(scene, camera);
 }
-document.getElementById("vertcaltest").onchange = function () {
-  var vertcaltest = document.getElementById("vertcaltest");
-  if (vertcaltest.value < 0)
-    vertcaltest.value = 400 + Number(vertcaltest.value);
-  if (vertcaltest.value >= 400)
-    vertcaltest.value = -400 + Number(vertcaltest.value);
-  console.log(vertcaltest.value);
-  vertcaltest.value = parseFloat(vertcaltest.value).toFixed(4);
-  console.log(vertcaltest.value);
+document.getElementById("verticaltest").onchange = function () {
+  var verticaltest = document.getElementById("verticaltest");
+  if (verticaltest.value < 0)
+    verticaltest.value = 400 + Number(verticaltest.value);
+  if (verticaltest.value >= 400)
+    verticaltest.value = -400 + Number(verticaltest.value);
+  console.log(verticaltest.value);
+  verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+  console.log(verticaltest.value);
 
-  verticalResult.textContent = vertcaltest.value;
+  verticalResult.textContent = verticaltest.value;
 };
 
 document.getElementById("horizontaltest").onchange = function () {
