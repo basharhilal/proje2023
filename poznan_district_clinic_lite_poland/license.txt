@@ -1,0 +1,11 @@
+Model Information:
+* title:	Poznan district clinic (lite) Poland
+* source:	https://sketchfab.com/3d-models/poznan-district-clinic-lite-poland-ca8dbb3fae9445ae87957e965bd10224
+* author:	Shotkey (https://sketchfab.com/shotkey)
+
+Model License:
+* license type:	CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)
+* requirements:	Author must be credited. Modified versions must have the same license. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Poznan district clinic (lite) Poland" (https://sketchfab.com/3d-models/poznan-district-clinic-lite-poland-ca8dbb3fae9445ae87957e965bd10224) by Shotkey (https://sketchfab.com/shotkey) licensed under CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)

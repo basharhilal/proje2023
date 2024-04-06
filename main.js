@@ -30,6 +30,7 @@ document.body.appendChild(renderer.domElement);
 var horizontalReferenceValue = 0;
 var verticalReferenceValue = 0;
 var y = 20;
+var x0=0;
 //var rotationPoint = new THREE.Vector3(0, 2, 0);
 //verticalGroup.position.sub(rotationPoint);
 //verticalGroup
@@ -86,8 +87,8 @@ const reflektorMesh = {
 LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
-  -10,
-  blenderY+1,
+  -35,
+  blenderY+5,
   -20,
   reflektorMesh
 );
@@ -101,24 +102,79 @@ LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
   20,
-  blenderY+1,
-  -20,
+  blenderY+2,
+  -10,
   reflektorMesh2
 );
 console.log("blender loaded");
+///
+const reflektorMesh3 = {
+  mesh: null,
+};
+LoadBlenderModel(
+  "../blender/",
+  "reflektor.gltf",
+  -5,
+  blenderY+5,
+  -40,
+  reflektorMesh3
+);
+console.log("blender loaded");
+///
+const reflektorMesh4 = {
+  mesh: null,
+};
+LoadBlenderModel(
+  "../blender/",
+  "reflektor.gltf",
+  30,
+  blenderY+1,
+  -5,
+  reflektorMesh4
+);
+console.log("blender loaded");
+
+//
+
 const pilyeMesh = {
   mesh: null,
 }; 
 LoadBlenderModel(
   "../blender/",
   "pilye.gltf",
-  -3,
-  blenderY-5,
-  -1,
-  pilyeMesh
+  -15,
+  blenderY,
+  -20,
+  pilyeMesh,
 );
 console.log("blender loaded");
-
+/*
+const Model2Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../jaaninoja_bridge_in_turku_kurala_finland/",
+  "scene.gltf",
+  -15,
+  blenderY-15,
+  -20,
+  Model2Mesh,
+)*/
+/*
+const Model3Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../chicken_gun_town3/",
+  "scene.gltf",
+  200,
+  -11,
+  0,
+  Model3Mesh,
+  callBack
+);
+console.log("blender loaded");
+*/
 LoadBlenderModel(
   "../ta_agrat/",
   "scene.gltf",
@@ -136,6 +192,11 @@ function callBack() {
     deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
     scene.add(deviceGroup);
   }
+  pilyeMesh.mesh.lookAt(0, 3, +5);
+  reflektorMesh4.mesh.lookAt(0, 5, +5);
+  reflektorMesh3.mesh.lookAt(0, 5, +5);
+  reflektorMesh2.mesh.lookAt(0,5, +5);
+  reflektorMesh.mesh.lookAt(0, 5, +5);
 }
 
 // const gridHelper = new THREE.GridHelper(100, 100);
@@ -186,15 +247,14 @@ window.onkeydown = function (e) {
     blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
   }
 
-  var verticalValue =
-    -parseFloat(ConvertRadToGrad(blenderLathCube2Mesh.mesh.rotation.x)).toFixed(
-      4
-    ) + 100;
+  var verticalValue = parseFloat(
+      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
+    ).toFixed(4);
 
   verticalResult.textContent = verticalValue % 400;
 
-  var horizontalValue = -parseFloat(
-    ConvertRadToGrad(deviceGroup.rotation.y)
+  var horizontalValue = parseFloat(
+    ConvertRadToGrad(-deviceGroup.rotation.y-ConvertGradToRad(x0))
   ).toFixed(4);
 
   horizontalResult.textContent = horizontalValue;
@@ -215,19 +275,26 @@ const geometryCylinder = new THREE.CylinderGeometry(0.1, 0.1, 14, 32);
 const materialCylinder = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinderCircle1 = new THREE.Mesh(geometryCylinder, materialCylinder);
 cylinderCircle1.position.set(-25, -2.5, -20.1);
-scene.add(cylinderCircle1);
+//scene.add(cylinderCircle1);
 
 const geometryCylinder2 = new THREE.CylinderGeometry(0.1, 0.1, 19, 32);
 const cylinderCircle2 = new THREE.Mesh(geometryCylinder2, materialCylinder);
 cylinderCircle2.position.set(10, -0.5, -20.1);
-scene.add(cylinderCircle2);
-
+//scene.add(cylinderCircle2);
+/*/angle
+const angle = new THREE.Mesh(
+  new THREE.RingGeometry( 3, 5, 32,20,horizontalAngel,horizontalAngel),
+  new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } ),
+);
+angle.position.set(0, 5, 0);
+angle.rotation.x = Math.PI / 2;
+*/
 //كبسه القياس الاماميه
 const cylinderMeaure = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x880000 })
 );
-cylinderMeaure.position.set(-0.5, 1.2 + y, 1.5);
+cylinderMeaure.position.set(-0.5, 1.2 , 1.5);
 cylinderMeaure.rotation.x = Math.PI / 3;
 //create line
 var geometryLine = new THREE.BufferGeometry();
@@ -238,7 +305,7 @@ var materialLine = new THREE.LineBasicMaterial({ color: 0xff0000 });
 // Create the line
 var line = new THREE.Line(geometryLine, materialLine);
 scene.add(line);
-
+var horizontalAngel =1;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 document.addEventListener("click", onDocumentClick, false);
@@ -276,7 +343,7 @@ function onDocumentClick(event) {
     verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
     console.log(verticaltest.value);
 
-    var horizontalAngel = Math.atan(
+     horizontalAngel = Math.atan(
       (circle1.position.x - blenderLathCube2Mesh.mesh.position.x) /
       -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
@@ -311,7 +378,111 @@ function onDocumentClick(event) {
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+    SelectedCircle =reflektorMesh.mesh;
   }
+
+  var intersects4 = raycaster.intersectObject(reflektorMesh2.mesh);
+  if (intersects4.length > 0) {
+    alert("reflektor clicked!");
+ var verticalAngel = Math.atan(
+      (reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+      -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
+
+    var horizontalAngel = Math.atan(
+      (reflektorMesh2.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+      -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    var horizontaltest = document.getElementById("horizontaltest");
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+    SelectedCircle =reflektorMesh2.mesh;
+  }
+
+  var intersects5 = raycaster.intersectObject(reflektorMesh3.mesh);
+  if (intersects5.length > 0) {
+    alert("reflektor clicked!");
+    
+    var verticalAngel = Math.atan(
+      (reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+      -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
+
+    var horizontalAngel = Math.atan(
+      (reflektorMesh3.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+      -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    var horizontaltest = document.getElementById("horizontaltest");
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+    SelectedCircle =reflektorMesh3.mesh;
+  }
+
+  var intersects6 = raycaster.intersectObject(reflektorMesh4.mesh);
+  if (intersects6.length > 0) {
+    alert("reflektor clicked!");
+
+    var verticalAngel = Math.atan(
+      (reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+      -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
+
+    var horizontalAngel = Math.atan(
+      (reflektorMesh4.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+      -(reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    var horizontaltest = document.getElementById("horizontaltest");
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+    SelectedCircle =reflektorMesh4.mesh;
+  } 
+    var intersects8 = raycaster.intersectObject(pilyeMesh.mesh);
+  if (intersects8.length > 0) {
+    alert("pilye clicked!");
+
+    var verticalAngel = Math.atan(
+      (pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+      -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+    );
+    verticalAngel = ConvertRadToGrad(verticalAngel);
+    var verticaltest = document.getElementById("verticaltest");
+    verticaltest.value = verticalAngel;
+    console.log(verticaltest.value);
+    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
+    console.log(verticaltest.value);
+
+    var horizontalAngel = Math.atan(
+      (pilyeMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+      -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+    );
+    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    var horizontaltest = document.getElementById("horizontaltest");
+    horizontaltest.value = horizontalAngel;
+    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
+    SelectedCircle =pilyeMesh.mesh;
+  }
+  /////////////////////////////////////////////////////
 
   var intersects2 = raycaster.intersectObject(circle2);
   var circle2X = document.getElementById("circle2X");
@@ -350,28 +521,28 @@ function onDocumentClick(event) {
     SelectedCircle = circle2;
   }
 
-  var intersects3 = raycaster.intersectObject(blenderLathCube2Mesh.mesh);
+  var intersects7 = raycaster.intersectObject(blenderLathCube2Mesh.mesh);
 
   var cubeX = document.getElementById("cubeX");
   var cubeY = document.getElementById("cubeY");
   var cubeZ = document.getElementById("cubeZ");
-  if (intersects3.length > 0) {
+  if (intersects7.length > 0) {
     alert("cube clicked!");
-    cubeX.textContent = cube2.position.x;
-    cubeY.textContent = cube2.position.y;
-    cubeZ.textContent = cube2.position.z;
+    cubeX.textContent = blenderLathCube2Mesh.mesh.position.x;
+    cubeY.textContent = blenderLathCube2Mesh.mesh.position.y;
+    cubeZ.textContent = blenderLathCube2Mesh.mesh.position.z;
   }
 
+  var btnSet = document.getElementById("btnMeasure");
+  btnSet.onclick = function () {
+    DrawCircle1Line(SelectedCircle);
+  };
+  
   var intersects4 = raycaster.intersectObject(cylinderMeaure);
   if (intersects4.length > 0) {
     DrawCircle1Line(SelectedCircle);
   }
 }
-scene.add(
-  circle1,
-  circle2,
-  cylinderMeaure
-);
 
 const points1 = [];
 for (let i = 0; i < 40; i++) {
@@ -388,8 +559,8 @@ const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
 //scene.add(cube2);
 
 //light
-const light = new THREE.PointLight(0xffffff, 500, 100);
-light.position.set(-5, 10 , -5);
+const light = new THREE.PointLight(0xffffff, 500, 300);
+light.position.set(-5, 20 , -5);
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
@@ -401,8 +572,8 @@ scene.add(light);
 const DirectionalLight = new THREE.DirectionalLight(0xff0000, 10000);
 
 //light
-const light1 = new THREE.PointLight(0xffffff, 500, 100);
-light1.position.set(5, 10 , +5);
+const light1 = new THREE.PointLight(0xffffff, 500, 300);
+light1.position.set(5, 15 , +5);
 light1.castShadow = true;
 //Set up shadow properties for the light
 light1.shadow.mapSize.width = 512; // default
@@ -410,7 +581,21 @@ light1.shadow.mapSize.height = 512; // default
 light1.shadow.camera.near = 0.5; // default
 light1.shadow.camera.far = 500; // default
 scene.add(light1);
-
+const light2 = new THREE.PointLight(0xffffff, 500000, 10000);
+light2.position.set(5, 500 , +5);
+scene.add(light2);
+const light3 = new THREE.PointLight(0xffffff, 500000, 10000);
+light3.position.set(500, 500 , +5);
+scene.add(light3);
+const light4 = new THREE.PointLight(0xffffff, 500000, 10000);
+light4.position.set(-500, 500 , +5);
+scene.add(light4);
+const light5 = new THREE.PointLight(0xffffff, 500000, 10000);
+light5.position.set(5, 500 , -500);
+scene.add(light5);
+const light6 = new THREE.PointLight(0xffffff, 500000, 10000);
+light6.position.set(5, 500 , +500);
+scene.add(light6);
 
 //Create a plane that receives shadows (but does not cast them)
 const planeGeometry = new THREE.PlaneGeometry(30, 30, 32, 32);
@@ -468,6 +653,33 @@ btnSet.onclick = function () {
 
   verticalResult.textContent = verticaltest.value;
   horizontalResult.textContent = horizontaltest.value;
+};
+var btnSet = document.getElementById("btnDraw");
+btnSet.onclick = function () {
+ // verticalRotation
+//  horizontalRotation
+  const anglex = new THREE.Mesh(
+    new THREE.RingGeometry( 5, 8, 32,20,-1.57-horizontalRotation,horizontalRotation),//1,57=Pİ/4,,-1.57+
+    new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } ),
+  );
+  anglex.position.set(0, 2, 0);
+  anglex.rotation.x = Math.PI / 2;
+scene.add(anglex)
+const angley = new THREE.Mesh(
+  new THREE.RingGeometry( 4, 8, 32,20,1.57,(-1.57+verticalRotation)%3.14),//1,57=Pİ/4,,-1.57+
+  new THREE.MeshBasicMaterial( { color: 0xff0055, side: THREE.DoubleSide } ),
+);
+angley.position.set(0, 2, 0);
+angley.rotation.y =1.57+horizontalRotation;
+scene.add(angley)
+setTimeout(() => {
+  scene.remove(angley,anglex);
+}, 30000);
+};
+
+var btnSet = document.getElementById("btnSetReference");
+btnSet.onclick = function () {
+x0=100;
 };
 
 function animateVerticalRotation() {
@@ -608,15 +820,33 @@ function DrawCircle1Line(circle) {
   scene.add(line);
   //Define line geometry
   var points = [];
-  points.push(new THREE.Vector3(0, 2.5 + y, 0));
+  points.push(new THREE.Vector3(blenderLathCube2Mesh.mesh.rotation.x-0.33 , blenderLathCube2Mesh.mesh.rotation.y+2.1 , blenderLathCube2Mesh.mesh.rotation.z ));
   points.push(
     new THREE.Vector3(circle.position.x, circle.position.y, circle.position.z)
-  );
+  );/*
   geometryLine.setFromPoints(points);
+  var light7x=circle.position.x-0.5
+  if ( circle.position.x>0 ) {
+    var light7x =+ 1;
+  } else if (code === 38) {
+     
+  }*/
+ 
+const light7 = new THREE.PointLight(0xff0000, 50000, 1);
+light7.position.set(circle.position.x-0.5, circle.position.y+0.50, circle.position.z+0.5);
+light7.rotation.set(0,0,0)
+scene.add(light7);
+setTimeout(() => {
+  scene.remove(line,light7);
+}, 5000);
 
-  setTimeout(() => {
-    scene.remove(line);
-  }, 5000);
+   
+}
+function ConvertGradToRad(angel) {
+  var result = (angel *2 * Math.PI ) / (400);
+  while (result < 0) result += 2 * Math.PI;
+  while (result >= 2 * Math.PI) result -= 2 * Math.PI;
+  return result;
 }
 
 function ConvertRadToGrad(angel) {
