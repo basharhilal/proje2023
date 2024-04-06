@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { sqrt } from "three/examples/jsm/nodes/Nodes.js";
 
 const NumberOfGrads = 1;
 
@@ -30,7 +31,7 @@ document.body.appendChild(renderer.domElement);
 var horizontalReferenceValue = 0;
 var verticalReferenceValue = 0;
 var y = 20;
-var x0=0;
+var x0 = 0;
 //var rotationPoint = new THREE.Vector3(0, 2, 0);
 //verticalGroup.position.sub(rotationPoint);
 //verticalGroup
@@ -42,39 +43,18 @@ var blenderY = 2;
 const blenderFeetsMesh = {
   mesh: null,
 };
-LoadBlenderModel(
-  "../blender/",
-  "1.gltf",
-  0,
-  blenderY,
-  0,
-  blenderFeetsMesh
-);
+LoadBlenderModel("../blender/", "1.gltf", 0, blenderY, 0, blenderFeetsMesh);
 
 //2: horizontal device = device
 const blenderDeviceMesh = {
   mesh: null,
 };
-LoadBlenderModel(
-  "../blender/",
-  "2.gltf",
-  0,
-  blenderY,
-  0,
-  blenderDeviceMesh
-);
+LoadBlenderModel("../blender/", "2.gltf", 0, blenderY, 0, blenderDeviceMesh);
 //3: vertical device = lathe + cube2
 const blenderLathCube2Mesh = {
   mesh: null,
 };
-LoadBlenderModel(
-  "../blender/",
-  "3.gltf",
-  0,
-  blenderY,
-  0,
-  blenderLathCube2Mesh
-);
+LoadBlenderModel("../blender/", "3.gltf", 0, blenderY, 0, blenderLathCube2Mesh);
 console.log("blender loaded");
 
 const mesh150 = {
@@ -88,7 +68,7 @@ LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
   -35,
-  blenderY+5,
+  blenderY + 5,
   -20,
   reflektorMesh
 );
@@ -102,7 +82,7 @@ LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
   20,
-  blenderY+2,
+  blenderY - 2,
   -10,
   reflektorMesh2
 );
@@ -115,7 +95,7 @@ LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
   -5,
-  blenderY+5,
+  blenderY + 5,
   -40,
   reflektorMesh3
 );
@@ -128,8 +108,8 @@ LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
   30,
-  blenderY+1,
-  -5,
+  blenderY + 1,
+  25,
   reflektorMesh4
 );
 console.log("blender loaded");
@@ -138,15 +118,8 @@ console.log("blender loaded");
 
 const pilyeMesh = {
   mesh: null,
-}; 
-LoadBlenderModel(
-  "../blender/",
-  "pilye.gltf",
-  -15,
-  blenderY,
-  -20,
-  pilyeMesh,
-);
+};
+LoadBlenderModel("../blender/", "pilye.gltf", -15, blenderY, -20, pilyeMesh);
 console.log("blender loaded");
 /*
 const Model2Mesh = {
@@ -175,18 +148,9 @@ LoadBlenderModel(
 );
 console.log("blender loaded");
 */
-LoadBlenderModel(
-  "../ta_agrat/",
-  "scene.gltf",
-  -10,
-  -2 ,
-  -25,
-  mesh150,
-  callBack
-);
+LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
 
 function callBack() {
-  
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {
     console.log("callback 111111111111 ");
     deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
@@ -195,7 +159,7 @@ function callBack() {
   pilyeMesh.mesh.lookAt(0, 3, +5);
   reflektorMesh4.mesh.lookAt(0, 5, +5);
   reflektorMesh3.mesh.lookAt(0, 5, +5);
-  reflektorMesh2.mesh.lookAt(0,5, +5);
+  reflektorMesh2.mesh.lookAt(0, 5, +5);
   reflektorMesh.mesh.lookAt(0, 5, +5);
 }
 
@@ -248,13 +212,13 @@ window.onkeydown = function (e) {
   }
 
   var verticalValue = parseFloat(
-      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
-    ).toFixed(4);
+    (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
+  ).toFixed(4);
 
   verticalResult.textContent = verticalValue % 400;
 
   var horizontalValue = parseFloat(
-    ConvertRadToGrad(-deviceGroup.rotation.y-ConvertGradToRad(x0))
+    ConvertRadToGrad(-deviceGroup.rotation.y - ConvertGradToRad(x0))
   ).toFixed(4);
 
   horizontalResult.textContent = horizontalValue;
@@ -262,7 +226,6 @@ window.onkeydown = function (e) {
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
 scene.add(axesHelper);
-
 
 const geometrycircle = new THREE.CircleGeometry(1, 32);
 const materialcircle = new THREE.MeshBasicMaterial({ color: 0x00ffff });
@@ -294,7 +257,7 @@ const cylinderMeaure = new THREE.Mesh(
   new THREE.CylinderGeometry(0.2, 0.2, 0.4, 100),
   new THREE.MeshBasicMaterial({ color: 0x880000 })
 );
-cylinderMeaure.position.set(-0.5, 1.2 , 1.5);
+cylinderMeaure.position.set(-0.5, 1.2, 1.5);
 cylinderMeaure.rotation.x = Math.PI / 3;
 //create line
 var geometryLine = new THREE.BufferGeometry();
@@ -305,7 +268,7 @@ var materialLine = new THREE.LineBasicMaterial({ color: 0xff0000 });
 // Create the line
 var line = new THREE.Line(geometryLine, materialLine);
 scene.add(line);
-var horizontalAngel =1;
+var horizontalAngel = 1;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 document.addEventListener("click", onDocumentClick, false);
@@ -333,8 +296,9 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (circle1.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(circle1.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(circle1.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+    
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     var verticaltest = document.getElementById("verticaltest");
@@ -343,10 +307,12 @@ function onDocumentClick(event) {
     verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
     console.log(verticaltest.value);
 
-     horizontalAngel = Math.atan(
+    horizontalAngel = Math.atan(
       (circle1.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+
+    horizontalAngel = calculateHorizontalAngel(circle1.position.x,circle1.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
 
     var horizontaltest = document.getElementById("horizontaltest");
@@ -361,8 +327,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh.mesh.position.z,reflektorMesh.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -372,22 +340,26 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh.mesh.position.x,reflektorMesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle =reflektorMesh.mesh;
+    SelectedCircle = reflektorMesh.mesh;
   }
 
   var intersects4 = raycaster.intersectObject(reflektorMesh2.mesh);
   if (intersects4.length > 0) {
     alert("reflektor clicked!");
- var verticalAngel = Math.atan(
+    var verticalAngel = Math.atan(
       (reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+    
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh2.mesh.position.z,reflektorMesh2.mesh.position.y)
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -397,23 +369,26 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh2.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh2.mesh.position.x,reflektorMesh2.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle =reflektorMesh2.mesh;
+    SelectedCircle = reflektorMesh2.mesh;
   }
 
   var intersects5 = raycaster.intersectObject(reflektorMesh3.mesh);
   if (intersects5.length > 0) {
     alert("reflektor clicked!");
-    
+
     var verticalAngel = Math.atan(
       (reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh3.mesh.position.z,reflektorMesh3.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -423,13 +398,15 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh3.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+    horizontalAngel =  calculateHorizontalAngel(reflektorMesh3.mesh.position.x,reflektorMesh3.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle =reflektorMesh3.mesh;
+    SelectedCircle = reflektorMesh3.mesh;
   }
 
   var intersects6 = raycaster.intersectObject(reflektorMesh4.mesh);
@@ -438,8 +415,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh4.mesh.position.z,reflektorMesh4.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -447,24 +426,23 @@ function onDocumentClick(event) {
     verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
     console.log(verticaltest.value);
 
-    var horizontalAngel = Math.atan(
-      (reflektorMesh4.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh4.mesh.position.x,reflektorMesh4.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle =reflektorMesh4.mesh;
-  } 
-    var intersects8 = raycaster.intersectObject(pilyeMesh.mesh);
+    SelectedCircle = reflektorMesh4.mesh;
+  }
+  var intersects8 = raycaster.intersectObject(pilyeMesh.mesh);
   if (intersects8.length > 0) {
     alert("pilye clicked!");
 
     var verticalAngel = Math.atan(
       (pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,pilyeMesh.mesh.position.z,pilyeMesh.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -474,13 +452,15 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (pilyeMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+
+    horizontalAngel = calculateHorizontalAngel(pilyeMesh.mesh.position.x,pilyeMesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle =pilyeMesh.mesh;
+    SelectedCircle = pilyeMesh.mesh;
   }
   /////////////////////////////////////////////////////
 
@@ -496,8 +476,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (circle2.position.z - blenderLathCube2Mesh.mesh.position.z) /
-      -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
+        -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
+
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,circle2.position.z,circle2.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     var verticaltest = document.getElementById("verticaltest");
@@ -508,10 +490,12 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (circle2.position.x - blenderLathCube2Mesh.mesh.position.x) /
-      -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
+        -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
+
+    horizontalAngel = calculateHorizontalAngel(circle2.position.x,circle2.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    
+
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
@@ -537,7 +521,7 @@ function onDocumentClick(event) {
   btnSet.onclick = function () {
     DrawCircle1Line(SelectedCircle);
   };
-  
+
   var intersects4 = raycaster.intersectObject(cylinderMeaure);
   if (intersects4.length > 0) {
     DrawCircle1Line(SelectedCircle);
@@ -560,7 +544,7 @@ const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
 
 //light
 const light = new THREE.PointLight(0xffffff, 500, 300);
-light.position.set(-5, 20 , -5);
+light.position.set(-5, 20, -5);
 light.castShadow = true;
 //Set up shadow properties for the light
 light.shadow.mapSize.width = 512; // default
@@ -573,7 +557,7 @@ const DirectionalLight = new THREE.DirectionalLight(0xff0000, 10000);
 
 //light
 const light1 = new THREE.PointLight(0xffffff, 500, 300);
-light1.position.set(5, 15 , +5);
+light1.position.set(5, 15, +5);
 light1.castShadow = true;
 //Set up shadow properties for the light
 light1.shadow.mapSize.width = 512; // default
@@ -582,19 +566,19 @@ light1.shadow.camera.near = 0.5; // default
 light1.shadow.camera.far = 500; // default
 scene.add(light1);
 const light2 = new THREE.PointLight(0xffffff, 500000, 10000);
-light2.position.set(5, 500 , +5);
+light2.position.set(5, 500, +5);
 scene.add(light2);
 const light3 = new THREE.PointLight(0xffffff, 500000, 10000);
-light3.position.set(500, 500 , +5);
+light3.position.set(500, 500, +5);
 scene.add(light3);
 const light4 = new THREE.PointLight(0xffffff, 500000, 10000);
-light4.position.set(-500, 500 , +5);
+light4.position.set(-500, 500, +5);
 scene.add(light4);
 const light5 = new THREE.PointLight(0xffffff, 500000, 10000);
-light5.position.set(5, 500 , -500);
+light5.position.set(5, 500, -500);
 scene.add(light5);
 const light6 = new THREE.PointLight(0xffffff, 500000, 10000);
-light6.position.set(5, 500 , +500);
+light6.position.set(5, 500, +500);
 scene.add(light6);
 
 //Create a plane that receives shadows (but does not cast them)
@@ -656,30 +640,44 @@ btnSet.onclick = function () {
 };
 var btnSet = document.getElementById("btnDraw");
 btnSet.onclick = function () {
- // verticalRotation
-//  horizontalRotation
+  // verticalRotation
+  //  horizontalRotation
   const anglex = new THREE.Mesh(
-    new THREE.RingGeometry( 5, 8, 32,20,-1.57-horizontalRotation,horizontalRotation),//1,57=Pİ/4,,-1.57+
-    new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } ),
+    new THREE.RingGeometry(
+      5,
+      8,
+      32,
+      20,
+      -1.57 - horizontalRotation,
+      horizontalRotation
+    ), //1,57=Pİ/4,,-1.57+
+    new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide })
   );
   anglex.position.set(0, 2, 0);
   anglex.rotation.x = Math.PI / 2;
-scene.add(anglex)
-const angley = new THREE.Mesh(
-  new THREE.RingGeometry( 4, 8, 32,20,1.57,(-1.57+verticalRotation)%3.14),//1,57=Pİ/4,,-1.57+
-  new THREE.MeshBasicMaterial( { color: 0xff0055, side: THREE.DoubleSide } ),
-);
-angley.position.set(0, 2, 0);
-angley.rotation.y =1.57+horizontalRotation;
-scene.add(angley)
-setTimeout(() => {
-  scene.remove(angley,anglex);
-}, 30000);
+  scene.add(anglex);
+  const angley = new THREE.Mesh(
+    new THREE.RingGeometry(
+      4,
+      8,
+      32,
+      20,
+      1.57,
+      (-1.57 + verticalRotation) % 3.14
+    ), //1,57=Pİ/4,,-1.57+
+    new THREE.MeshBasicMaterial({ color: 0xff0055, side: THREE.DoubleSide })
+  );
+  angley.position.set(0, 2, 0);
+  angley.rotation.y = 1.57 + horizontalRotation;
+  scene.add(angley);
+  setTimeout(() => {
+    scene.remove(angley, anglex);
+  }, 30000);
 };
 
 var btnSet = document.getElementById("btnSetReference");
 btnSet.onclick = function () {
-x0=100;
+  x0 = 100;
 };
 
 function animateVerticalRotation() {
@@ -696,7 +694,7 @@ function animateVerticalRotation() {
   } else if (blenderLathCube2Mesh.mesh.rotation.x > verticalRotation) {
     console.log(
       "blenderLathCube2Mesh.mesh.rotation.x:" +
-      blenderLathCube2Mesh.mesh.rotation.x
+        blenderLathCube2Mesh.mesh.rotation.x
     );
     console.log("verticalRotation:" + verticalRotation);
 
@@ -785,7 +783,7 @@ async function LoadBlenderModel(
   y,
   z,
   object,
-  callBack = function () { }
+  callBack = function () {}
 ) {
   const loader = new GLTFLoader().setPath(path);
   var result = await loader.load(
@@ -797,8 +795,7 @@ async function LoadBlenderModel(
       console.log("onLoad");
       callBack();
     },
-    undefined
-    ,
+    undefined,
     function (error) {
       console.error(error);
       console.log("onError");
@@ -820,10 +817,16 @@ function DrawCircle1Line(circle) {
   scene.add(line);
   //Define line geometry
   var points = [];
-  points.push(new THREE.Vector3(blenderLathCube2Mesh.mesh.rotation.x-0.33 , blenderLathCube2Mesh.mesh.rotation.y+2.1 , blenderLathCube2Mesh.mesh.rotation.z ));
+  points.push(
+    new THREE.Vector3(
+      blenderLathCube2Mesh.mesh.rotation.x - 0.33,
+      blenderLathCube2Mesh.mesh.rotation.y + 2.1,
+      blenderLathCube2Mesh.mesh.rotation.z
+    )
+  );
   points.push(
     new THREE.Vector3(circle.position.x, circle.position.y, circle.position.z)
-  );/*
+  ); /*
   geometryLine.setFromPoints(points);
   var light7x=circle.position.x-0.5
   if ( circle.position.x>0 ) {
@@ -831,19 +834,21 @@ function DrawCircle1Line(circle) {
   } else if (code === 38) {
      
   }*/
- 
-const light7 = new THREE.PointLight(0xff0000, 50000, 1);
-light7.position.set(circle.position.x-0.5, circle.position.y+0.50, circle.position.z+0.5);
-light7.rotation.set(0,0,0)
-scene.add(light7);
-setTimeout(() => {
-  scene.remove(line,light7);
-}, 5000);
 
-   
+  const light7 = new THREE.PointLight(0xff0000, 50000, 1);
+  light7.position.set(
+    circle.position.x - 0.5,
+    circle.position.y + 0.5,
+    circle.position.z + 0.5
+  );
+  light7.rotation.set(0, 0, 0);
+  scene.add(light7);
+  setTimeout(() => {
+    scene.remove(line, light7);
+  }, 5000);
 }
 function ConvertGradToRad(angel) {
-  var result = (angel *2 * Math.PI ) / (400);
+  var result = (angel * 2 * Math.PI) / 400;
   while (result < 0) result += 2 * Math.PI;
   while (result >= 2 * Math.PI) result -= 2 * Math.PI;
   return result;
@@ -856,6 +861,23 @@ function ConvertRadToGrad(angel) {
   return result;
 }
 
+function calculateHorizontalAngel(x1, y1, x2, y2) {
+
+  var tmp = (x1 - x2) / (y2 - y1 - Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)));
+
+  var horizontalAngel = 2 * Math.atan(tmp) + Math.PI;
+
+  return horizontalAngel;
+}
+
+function calculateVerticalAngel(x1, y1, x2, y2) {
+
+  var tmp = (x1 - x2) / (y2 - y1 - Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)));
+
+  var horizontalAngel = 2 * Math.atan(tmp) + Math.PI;
+
+  return horizontalAngel;
+}
 function animate() {
   requestAnimationFrame(animate);
 
