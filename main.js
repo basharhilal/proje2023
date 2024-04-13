@@ -13,6 +13,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
+var isLoaded = false;
 var SelectedCircle;
 
 const Settings = {
@@ -72,6 +73,7 @@ LoadBlenderModel(
   -20,
   reflektorMesh
 );
+
 console.log("blender loaded");
 
 ///
@@ -86,6 +88,7 @@ LoadBlenderModel(
   -10,
   reflektorMesh2
 );
+
 console.log("blender loaded");
 ///
 const reflektorMesh3 = {
@@ -99,6 +102,7 @@ LoadBlenderModel(
   -40,
   reflektorMesh3
 );
+
 console.log("blender loaded");
 ///
 const reflektorMesh4 = {
@@ -112,6 +116,7 @@ LoadBlenderModel(
   25,
   reflektorMesh4
 );
+
 console.log("blender loaded");
 
 //
@@ -120,6 +125,7 @@ const pilyeMesh = {
   mesh: null,
 };
 LoadBlenderModel("../blender/", "pilye.gltf", -15, blenderY, -20, pilyeMesh);
+
 console.log("blender loaded");
 /*
 const Model2Mesh = {
@@ -156,11 +162,27 @@ function callBack() {
     deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
     scene.add(deviceGroup);
   }
+  reflektorMesh.mesh.userData.draggable= true;
+  reflektorMesh.mesh.userData.name = "reflektor";
+
+  reflektorMesh2.mesh.userData.draggable= true;
+  reflektorMesh2.mesh.userData.name = "reflektor2";
+
+  reflektorMesh3.mesh.userData.draggable= true;
+  reflektorMesh3.mesh.userData.name = "reflektor3";
+
+  reflektorMesh4.mesh.userData.draggable= true;
+  reflektorMesh4.mesh.userData.name = "reflektor4";
+
+ pilyeMesh.mesh.userData.draggable= true;
+  pilyeMesh.mesh.userData.name = "pilye";
+
   pilyeMesh.mesh.lookAt(0, 3, +5);
   reflektorMesh4.mesh.lookAt(0, 5, +5);
   reflektorMesh3.mesh.lookAt(0, 5, +5);
   reflektorMesh2.mesh.lookAt(0, 5, +5);
   reflektorMesh.mesh.lookAt(0, 5, +5);
+  isLoaded = true;
 }
 
 // const gridHelper = new THREE.GridHelper(100, 100);
@@ -270,6 +292,9 @@ var line = new THREE.Line(geometryLine, materialLine);
 scene.add(line);
 var horizontalAngel = 1;
 var raycaster = new THREE.Raycaster();
+const clickMouse = new THREE.Vector2();  // create once
+const moveMouse = new THREE.Vector2();   // create once
+var draggable= new THREE.Object3D;
 var mouse = new THREE.Vector2();
 document.addEventListener("click", onDocumentClick, false);
 
@@ -878,9 +903,56 @@ function calculateVerticalAngel(x1, y1, x2, y2) {
 
   return horizontalAngel;
 }
+
+function dragObject() {
+console.log("dragObject");
+  if (draggable != null) {
+  
+    const found = intersect(moveMouse);
+    if (found.length > 0) {
+      for (let i = 0; i < found.length; i++) {
+        if (!found[i].object.userData.ground)
+          continue
+        
+        let target = found[i].point;
+        draggable.position.x = target.x
+        draggable.position.z = target.z
+      }
+    }
+  }
+}
+function intersect(pos= new THREE.Vector2) {
+  raycaster.setFromCamera(pos, camera);
+  return raycaster.intersectObjects(scene.children);
+}
+window.addEventListener('click', event => {
+  if (draggable != null) {
+    console.log(`dropping draggable ${draggable.userData.name}`)
+    draggable = null ;
+    return;
+  }
+   // THREE RAYCASTER
+   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+ 
+   const found = intersect(clickMouse);
+   if (found.length > 0) {
+     if (found[0].object.userData.draggable) {
+       draggable = found[0].object
+       console.log(`found draggable ${draggable.userData.name}`)
+     }
+   }
+ })
+ window.addEventListener('mousemove', event => {
+  moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
+
+
 function animate() {
   requestAnimationFrame(animate);
-
+  if (isLoaded)
+  dragObject();
   // camera.position.y += 0.01;
   //cube1.rotation.y += 0.02;
   renderer.render(scene, camera);
