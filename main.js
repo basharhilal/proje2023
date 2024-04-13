@@ -162,20 +162,19 @@ function callBack() {
     deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
     scene.add(deviceGroup);
   }
-  reflektorMesh.mesh.userData.draggable= true;
+ 
   reflektorMesh.mesh.userData.name = "reflektor";
 
-  reflektorMesh2.mesh.userData.draggable= true;
   reflektorMesh2.mesh.userData.name = "reflektor2";
 
-  reflektorMesh3.mesh.userData.draggable= true;
   reflektorMesh3.mesh.userData.name = "reflektor3";
 
-  reflektorMesh4.mesh.userData.draggable= true;
   reflektorMesh4.mesh.userData.name = "reflektor4";
 
  pilyeMesh.mesh.userData.draggable= true;
   pilyeMesh.mesh.userData.name = "pilye";
+
+  mesh150.mesh.userData.ground = true
 
   pilyeMesh.mesh.lookAt(0, 3, +5);
   reflektorMesh4.mesh.lookAt(0, 5, +5);
@@ -296,7 +295,7 @@ const clickMouse = new THREE.Vector2();  // create once
 const moveMouse = new THREE.Vector2();   // create once
 var draggable= new THREE.Object3D;
 var mouse = new THREE.Vector2();
-document.addEventListener("click", onDocumentClick, false);
+//document.addEventListener("click", onDocumentClick, false);
 
 function onDocumentClick(event) {
   // Calculate mouse position in normalized device coordinates
@@ -816,6 +815,7 @@ async function LoadBlenderModel(
     function (gltf) {
       object.mesh = gltf.scene;
       object.mesh.position.set(x, y, z);
+      object.mesh.userData.draggable= true;
       scene.add(object.mesh);
       console.log("onLoad");
       callBack();
