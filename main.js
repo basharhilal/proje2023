@@ -296,8 +296,81 @@ const moveMouse = new THREE.Vector2();   // create once
 var draggable= new THREE.Object3D;
 var mouse = new THREE.Vector2();
 //document.addEventListener("click", onDocumentClick, false);
+window.addEventListener('click', event => {
+  console.log(`draggable ${draggable?.userData?.name}`);
+  if (draggable != null) {
+    console.log(`dropping draggable ${draggable.userData.name}`);
+    draggable = null ;
+    return;
+  }
+   // THREE RAYCASTER
+   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+ 
+   const found = intersect(clickMouse); 
+
+   if(found != null)
+   {
+    draggable = found;
+      console.log(`found draggable ${draggable.userData.name}`)
+   }
+  // for (let i = 0; i < found.length; i++) {
+  //   if (found[i].object.userData.draggable) {
+  //     draggable = found[i].object
+  //     console.log(`found draggable ${draggable.userData.name}`)
+  //     break;
+  //   }}
+
+
+  //  if (found.length > 0) {
+  //    if (found[0].object.userData.draggable) {
+  //      draggable = found[0].object
+  //      console.log(`found draggable ${draggable.userData.name}`)
+  //    }
+  //  }
+ });
+ window.addEventListener('mousemove', event => {
+  moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
 
 function onDocumentClick(event) {
+
+  {
+    console.log(`draggable ${draggable}`);
+    if (draggable != null) {
+      console.log(`dropping draggable ${draggable.userData.name}`);
+      draggable = null ;
+      return;
+    }
+     // THREE RAYCASTER
+     clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+     clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+   
+     const found = intersect(clickMouse); 
+     //var found = raycaster.intersectObject(reflektorMesh.mesh);
+  
+     if(found != null)
+     {
+      draggable = found;
+        console.log(`found draggable ${draggable.userData.name}`)
+     }
+    // for (let i = 0; i < found.length; i++) {
+    //   if (found[i].object.userData.draggable) {
+    //     draggable = found[i].object
+    //     console.log(`found draggable ${draggable.userData.name}`)
+    //     break;
+    //   }}
+  
+  
+    //  if (found.length > 0) {
+    //    if (found[0].object.userData.draggable) {
+    //      draggable = found[0].object
+    //      console.log(`found draggable ${draggable.userData.name}`)
+    //    }
+    //  }
+   }
+
   // Calculate mouse position in normalized device coordinates
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -816,6 +889,8 @@ async function LoadBlenderModel(
       object.mesh = gltf.scene;
       object.mesh.position.set(x, y, z);
       object.mesh.userData.draggable= true;
+      object.mesh.userData.name = "object2222222222222222222";
+      //object.mesh.userData.ground = true;
       scene.add(object.mesh);
       console.log("onLoad");
       callBack();
@@ -905,14 +980,11 @@ function calculateVerticalAngel(x1, y1, x2, y2) {
 }
 
 function dragObject() {
-console.log("dragObject");
   if (draggable != null) {
-  
-    const found = intersect(moveMouse);
+    const found = intersect1(moveMouse);
     if (found.length > 0) {
       for (let i = 0; i < found.length; i++) {
-        if (!found[i].object.userData.ground)
-          continue
+
         
         let target = found[i].point;
         draggable.position.x = target.x
@@ -921,32 +993,33 @@ console.log("dragObject");
     }
   }
 }
+
 function intersect(pos= new THREE.Vector2) {
   raycaster.setFromCamera(pos, camera);
-  return raycaster.intersectObjects(scene.children);
+
+  // scene.children.forEach((child) => {
+  //   console.log(child.name);
+  // });
+  var intersection = raycaster.intersectObject(reflektorMesh.mesh);
+  if(intersection.length>0)
+  return reflektorMesh.mesh;
+  intersection = raycaster.intersectObject(reflektorMesh2.mesh);
+  if(intersection.length>0)
+  return reflektorMesh2.mesh;
+  intersection = raycaster.intersectObject(reflektorMesh3.mesh);
+  if(intersection.length>0)
+  return reflektorMesh3.mesh;
+  intersection = raycaster.intersectObject(reflektorMesh4.mesh);
+  if(intersection.length>0)
+  return reflektorMesh4.mesh;
+  intersection = raycaster.intersectObject(pilyeMesh.mesh);
+  if(intersection.length>0)
+  return pilyeMesh.mesh;
 }
-window.addEventListener('click', event => {
-  if (draggable != null) {
-    console.log(`dropping draggable ${draggable.userData.name}`)
-    draggable = null ;
-    return;
-  }
-   // THREE RAYCASTER
-   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
- 
-   const found = intersect(clickMouse);
-   if (found.length > 0) {
-     if (found[0].object.userData.draggable) {
-       draggable = found[0].object
-       console.log(`found draggable ${draggable.userData.name}`)
-     }
-   }
- })
- window.addEventListener('mousemove', event => {
-  moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
+function intersect1(pos = new THREE.Vector2) {
+  raycaster.setFromCamera(pos, camera);
+    return raycaster.intersectObjects(scene.children);
+}
 
 
 function animate() {
