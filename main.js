@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import { sqrt } from "three/examples/jsm/nodes/Nodes.js";
 
 const NumberOfGrads = 1;
@@ -10,7 +12,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000
+  100000
 );
 
 var isLoaded = false;
@@ -140,9 +142,109 @@ LoadBlenderModel(
   Model2Mesh,
 )*/
 /*
-const Model3Mesh = {
+const Model4Mesh = {
   mesh: null,
 }; 
+LoadBlenderModel(
+  "../terrain/",
+  "untitled.gltf",
+ 0,
+  -10,
+  0,
+  Model4Mesh,
+  callBack
+);*/
+/*
+console.log("blender loaded");
+
+const Model5Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../modern_city_block/",
+  "untitled.gltf",
+ 0,
+ -10,
+  0,
+  Model5Mesh,
+  callBack
+);
+console.log("blender loaded");
+
+console.log("blender loaded");
+
+const Model6Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../wethumid_desert_-_terrain/",
+  "scene.gltf",
+ 0,
+ 0,
+  0,
+  Model6Mesh,
+  callBack
+);
+console.log("blender loaded");
+
+const Model7Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../simple_terrain_with_rock_debris/",
+  "scene.gltf",
+ 0,
+ -8,
+  0,
+  Model7Mesh,
+  callBack
+);
+console.log("blender loaded");
+const Model8Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../mountain_terrain_-_haytor_dartmoor_national_park/",
+  "scene.gltf",
+ 0,
+ -4,
+  0,
+  Model8Mesh,
+  callBack
+);
+console.log("blender loaded");
+
+const Model9Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../interstate_overpass/",
+  "scene.gltf",
+ 0,
+ -7,
+  0,
+  Model9Mesh,
+  callBack
+);
+console.log("blender loaded");
+
+const Model10Mesh = {
+  mesh: null,
+}; 
+LoadBlenderModel(
+  "../mcdonalds_at_night/",
+  "untitled.glb",
+ 0,
+ -7,
+  0,
+  Model10Mesh,
+  callBack
+);
+console.log("blender loaded");*/
+/**//**/
+const Model3Mesh = {
+  mesh: null,
+};
 LoadBlenderModel(
   "../chicken_gun_town3/",
   "scene.gltf",
@@ -153,8 +255,8 @@ LoadBlenderModel(
   callBack
 );
 console.log("blender loaded");
-*/
-LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
+
+LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2 - 10000, -25, mesh150, callBack);
 
 function callBack() {
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {
@@ -162,7 +264,7 @@ function callBack() {
     deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
     scene.add(deviceGroup);
   }
- 
+
   reflektorMesh.mesh.userData.name = "reflektor";
 
   reflektorMesh2.mesh.userData.name = "reflektor2";
@@ -171,7 +273,7 @@ function callBack() {
 
   reflektorMesh4.mesh.userData.name = "reflektor4";
 
- pilyeMesh.mesh.userData.draggable= true;
+  pilyeMesh.mesh.userData.draggable = true;
   pilyeMesh.mesh.userData.name = "pilye";
 
   mesh150.mesh.userData.ground = true
@@ -244,6 +346,23 @@ window.onkeydown = function (e) {
 
   horizontalResult.textContent = horizontalValue;
 };
+/*
+window.onkeydown = function (e) {
+ var code = e.keyCode ? e.keyCode : e.which;
+  if (code === 37) {
+    //left key
+  deviceGroup.rotation.y += NumberOfGrads * GRADE;
+  } else if (code === 38) {
+    //up key//  8 
+  blenderLathCube2Mesh.mesh.rotation.x += NumberOfGrads * GRADE;
+  } else if (code === 39) {
+    //right key
+  deviceGroup.rotation.y -= NumberOfGrads * GRADE;
+  } else if (code === 40) {
+    //down key
+  blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
+  }
+};*/
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
 scene.add(axesHelper);
@@ -293,27 +412,26 @@ var horizontalAngel = 1;
 var raycaster = new THREE.Raycaster();
 const clickMouse = new THREE.Vector2();  // create once
 const moveMouse = new THREE.Vector2();   // create once
-var draggable= new THREE.Object3D;
+var draggable = new THREE.Object3D;
 var mouse = new THREE.Vector2();
 //document.addEventListener("click", onDocumentClick, false);
 window.addEventListener('click', event => {
   console.log(`draggable ${draggable?.userData?.name}`);
   if (draggable != null) {
     console.log(`dropping draggable ${draggable.userData.name}`);
-    draggable = null ;
+    draggable = null;
     return;
   }
-   // THREE RAYCASTER
-   clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-   clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
- 
-   const found = intersect(clickMouse); 
+  // THREE RAYCASTER
+  clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-   if(found != null)
-   {
+  const found = intersect(clickMouse);
+
+  if (found != null) {
     draggable = found;
-      console.log(`found draggable ${draggable.userData.name}`)
-   }
+    console.log(`found draggable ${draggable.userData.name}`)
+  }
   // for (let i = 0; i < found.length; i++) {
   //   if (found[i].object.userData.draggable) {
   //     draggable = found[i].object
@@ -328,8 +446,8 @@ window.addEventListener('click', event => {
   //      console.log(`found draggable ${draggable.userData.name}`)
   //    }
   //  }
- });
- window.addEventListener('mousemove', event => {
+});
+window.addEventListener('mousemove', event => {
   moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 });
@@ -340,36 +458,35 @@ function onDocumentClick(event) {
     console.log(`draggable ${draggable}`);
     if (draggable != null) {
       console.log(`dropping draggable ${draggable.userData.name}`);
-      draggable = null ;
+      draggable = null;
       return;
     }
-     // THREE RAYCASTER
-     clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-     clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-   
-     const found = intersect(clickMouse); 
-     //var found = raycaster.intersectObject(reflektorMesh.mesh);
-  
-     if(found != null)
-     {
+    // THREE RAYCASTER
+    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    const found = intersect(clickMouse);
+    //var found = raycaster.intersectObject(reflektorMesh.mesh);
+
+    if (found != null) {
       draggable = found;
-        console.log(`found draggable ${draggable.userData.name}`)
-     }
+      console.log(`found draggable ${draggable.userData.name}`)
+    }
     // for (let i = 0; i < found.length; i++) {
     //   if (found[i].object.userData.draggable) {
     //     draggable = found[i].object
     //     console.log(`found draggable ${draggable.userData.name}`)
     //     break;
     //   }}
-  
-  
+
+
     //  if (found.length > 0) {
     //    if (found[0].object.userData.draggable) {
     //      draggable = found[0].object
     //      console.log(`found draggable ${draggable.userData.name}`)
     //    }
     //  }
-   }
+  }
 
   // Calculate mouse position in normalized device coordinates
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -393,9 +510,9 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (circle1.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(circle1.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(circle1.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
-    
+
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     var verticaltest = document.getElementById("verticaltest");
@@ -406,10 +523,10 @@ function onDocumentClick(event) {
 
     horizontalAngel = Math.atan(
       (circle1.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(circle1.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(circle1.position.x,circle1.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(circle1.position.x, circle1.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
 
     var horizontaltest = document.getElementById("horizontaltest");
@@ -424,10 +541,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh.mesh.position.z,reflektorMesh.mesh.position.y);
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, reflektorMesh.mesh.position.z, reflektorMesh.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -437,10 +554,10 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(reflektorMesh.mesh.position.x,reflektorMesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh.mesh.position.x, reflektorMesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
@@ -453,10 +570,10 @@ function onDocumentClick(event) {
     alert("reflektor clicked!");
     var verticalAngel = Math.atan(
       (reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
-    
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh2.mesh.position.z,reflektorMesh2.mesh.position.y)
+
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, reflektorMesh2.mesh.position.z, reflektorMesh2.mesh.position.y)
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -466,10 +583,10 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh2.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(reflektorMesh2.mesh.position.x,reflektorMesh2.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh2.mesh.position.x, reflektorMesh2.mesh.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
@@ -483,9 +600,9 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh3.mesh.position.z,reflektorMesh3.mesh.position.y);
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, reflektorMesh3.mesh.position.z, reflektorMesh3.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -495,10 +612,10 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (reflektorMesh3.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
-    horizontalAngel =  calculateHorizontalAngel(reflektorMesh3.mesh.position.x,reflektorMesh3.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
-    
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh3.mesh.position.x, reflektorMesh3.mesh.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
+
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
@@ -512,10 +629,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,reflektorMesh4.mesh.position.z,reflektorMesh4.mesh.position.y);
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, reflektorMesh4.mesh.position.z, reflektorMesh4.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -523,7 +640,7 @@ function onDocumentClick(event) {
     verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
     console.log(verticaltest.value);
 
-    horizontalAngel = calculateHorizontalAngel(reflektorMesh4.mesh.position.x,reflektorMesh4.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(reflektorMesh4.mesh.position.x, reflektorMesh4.mesh.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
@@ -536,10 +653,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,pilyeMesh.mesh.position.z,pilyeMesh.mesh.position.y);
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, pilyeMesh.mesh.position.z, pilyeMesh.mesh.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
     var verticaltest = document.getElementById("verticaltest");
     verticaltest.value = verticalAngel;
@@ -549,10 +666,10 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (pilyeMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(pilyeMesh.mesh.position.x,pilyeMesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(pilyeMesh.mesh.position.x, pilyeMesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
     var horizontaltest = document.getElementById("horizontaltest");
     horizontaltest.value = horizontalAngel;
@@ -573,10 +690,10 @@ function onDocumentClick(event) {
 
     var verticalAngel = Math.atan(
       (circle2.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
+      -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z,blenderLathCube2Mesh.mesh.position.y,circle2.position.z,circle2.position.y);
+    verticalAngel = calculateHorizontalAngel(blenderLathCube2Mesh.mesh.position.z, blenderLathCube2Mesh.mesh.position.y, circle2.position.z, circle2.position.y);
     verticalAngel = ConvertRadToGrad(verticalAngel);
 
     var verticaltest = document.getElementById("verticaltest");
@@ -587,10 +704,10 @@ function onDocumentClick(event) {
 
     var horizontalAngel = Math.atan(
       (circle2.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
+      -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(circle2.position.x,circle2.position.z,blenderLathCube2Mesh.mesh.position.x,blenderLathCube2Mesh.mesh.position.z);
+    horizontalAngel = calculateHorizontalAngel(circle2.position.x, circle2.position.z, blenderLathCube2Mesh.mesh.position.x, blenderLathCube2Mesh.mesh.position.z);
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
 
     var horizontaltest = document.getElementById("horizontaltest");
@@ -647,7 +764,7 @@ light.castShadow = true;
 light.shadow.mapSize.width = 512; // default
 light.shadow.mapSize.height = 512; // default
 light.shadow.camera.near = 0.5; // default
-light.shadow.camera.far = 500; // default
+light.shadow.camera.far = 50000; // default
 scene.add(light);
 
 const DirectionalLight = new THREE.DirectionalLight(0xff0000, 10000);
@@ -739,16 +856,28 @@ var btnSet = document.getElementById("btnDraw");
 btnSet.onclick = function () {
   // verticalRotation
   //  horizontalRotation
+  console.log("hhhhhhhhhhhhhhhhhhh", horizontalRotation);
+  console.log("hhhhhhhhhhhhhhhhhhh", ConvertRadToGrad(horizontalRotation));
+  console.log("hhhhhhhhhhhhhhhhhhh", -Math.PI / 2 - horizontalRotation);
+  console.log("hhhhhhhhhhhhhhhhhhh", ConvertRadToGrad(2 * horizontalRotation + Math.PI / 2));
+  var horizontalRotationGrad = ConvertRadToGrad(horizontalRotation);
+  if (Math.abs(horizontalRotation) > Math.Pİ * 2) {
+
+    horizontalRotationGrad = horizontalRotationGrad % 400;
+  }
+  else {
+    horizontalRotationGrad = horizontalRotation;
+  }
   const anglex = new THREE.Mesh(
     new THREE.RingGeometry(
+      4,
       5,
-      8,
-      32,
+      50,
       20,
-      -1.57 - horizontalRotation,
-      horizontalRotation
+      -Math.PI / 2 - horizontalRotation,
+      ConvertGradToRad(horizontalRotationGrad),
     ), //1,57=Pİ/4,,-1.57+
-    new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide })
+    new THREE.MeshBasicMaterial({ color: 0x0050ff, side: THREE.DoubleSide })
   );
   anglex.position.set(0, 2, 0);
   anglex.rotation.x = Math.PI / 2;
@@ -756,7 +885,7 @@ btnSet.onclick = function () {
   const angley = new THREE.Mesh(
     new THREE.RingGeometry(
       4,
-      8,
+      5,
       32,
       20,
       1.57,
@@ -767,9 +896,43 @@ btnSet.onclick = function () {
   angley.position.set(0, 2, 0);
   angley.rotation.y = 1.57 + horizontalRotation;
   scene.add(angley);
+
+  var n99, n100;
+  var text99 = horizontaltest.value + ` grad`;
+  var text100 = verticaltest.value + ` grad`;
+
+  const fontLoader = new FontLoader();
+  fontLoader.load("fonts/helvetiker_regular.typeface.json", function (font) {
+    const geometry100 = new TextGeometry(text100, {
+      font: font,
+      size: 1,
+      height: 0.1,
+      curveSegments: 10,
+    });
+
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0055 });
+    const material1 = new THREE.MeshBasicMaterial({ color: 0x0050ff });
+    n100 = new THREE.Mesh(geometry100, material);
+    n100.position.set(0, 7, 0);
+    scene.add(n100);
+    n100.rotation.y = 1.57 + horizontalRotation;
+    const geometry99 = new TextGeometry(text99, {
+      font: font,
+      size: 1,
+      height: 0.1,
+      curveSegments: 10,
+    });
+    n99 = new THREE.Mesh(geometry99, material1);
+    n99.position.set(1, 2, -5);
+    n99.rotation.x = -Math.PI / 2;
+    n99.rotation.z = -Math.PI / 10;
+    scene.add(n99);
+  });
+
   setTimeout(() => {
-    scene.remove(angley, anglex);
+    scene.remove(angley, anglex, n99, n100);
   }, 30000);
+
 };
 
 var btnSet = document.getElementById("btnSetReference");
@@ -791,7 +954,7 @@ function animateVerticalRotation() {
   } else if (blenderLathCube2Mesh.mesh.rotation.x > verticalRotation) {
     console.log(
       "blenderLathCube2Mesh.mesh.rotation.x:" +
-        blenderLathCube2Mesh.mesh.rotation.x
+      blenderLathCube2Mesh.mesh.rotation.x
     );
     console.log("verticalRotation:" + verticalRotation);
 
@@ -880,7 +1043,7 @@ async function LoadBlenderModel(
   y,
   z,
   object,
-  callBack = function () {}
+  callBack = function () { }
 ) {
   const loader = new GLTFLoader().setPath(path);
   var result = await loader.load(
@@ -888,7 +1051,7 @@ async function LoadBlenderModel(
     function (gltf) {
       object.mesh = gltf.scene;
       object.mesh.position.set(x, y, z);
-      object.mesh.userData.draggable= true;
+      object.mesh.userData.draggable = true;
       object.mesh.userData.name = "object2222222222222222222";
       //object.mesh.userData.ground = true;
       scene.add(object.mesh);
@@ -985,7 +1148,7 @@ function dragObject() {
     if (found.length > 0) {
       for (let i = 0; i < found.length; i++) {
 
-        
+
         let target = found[i].point;
         draggable.position.x = target.x
         draggable.position.z = target.z
@@ -994,41 +1157,42 @@ function dragObject() {
   }
 }
 
-function intersect(pos= new THREE.Vector2) {
+function intersect(pos = new THREE.Vector2) {
   raycaster.setFromCamera(pos, camera);
 
   // scene.children.forEach((child) => {
   //   console.log(child.name);
   // });
   var intersection = raycaster.intersectObject(reflektorMesh.mesh);
-  if(intersection.length>0)
-  return reflektorMesh.mesh;
+  if (intersection.length > 0)
+    return reflektorMesh.mesh;
   intersection = raycaster.intersectObject(reflektorMesh2.mesh);
-  if(intersection.length>0)
-  return reflektorMesh2.mesh;
+  if (intersection.length > 0)
+    return reflektorMesh2.mesh;
   intersection = raycaster.intersectObject(reflektorMesh3.mesh);
-  if(intersection.length>0)
-  return reflektorMesh3.mesh;
+  if (intersection.length > 0)
+    return reflektorMesh3.mesh;
   intersection = raycaster.intersectObject(reflektorMesh4.mesh);
-  if(intersection.length>0)
-  return reflektorMesh4.mesh;
+  if (intersection.length > 0)
+    return reflektorMesh4.mesh;
   intersection = raycaster.intersectObject(pilyeMesh.mesh);
-  if(intersection.length>0)
-  return pilyeMesh.mesh;
+  if (intersection.length > 0)
+    return pilyeMesh.mesh;
 }
 function intersect1(pos = new THREE.Vector2) {
   raycaster.setFromCamera(pos, camera);
-    return raycaster.intersectObjects(scene.children);
+  return raycaster.intersectObjects(scene.children);
 }
 
 
 function animate() {
   requestAnimationFrame(animate);
   if (isLoaded)
-  dragObject();
+    dragObject();
   // camera.position.y += 0.01;
   //cube1.rotation.y += 0.02;
   renderer.render(scene, camera);
+  callBack();
 }
 animate();
 

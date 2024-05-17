@@ -147,8 +147,8 @@ const fontLoader = new FontLoader();
 fontLoader.load("fonts/helvetiker_regular.typeface.json", function (font) {
   const geometry100 = new TextGeometry("100", {
     font: font,
-    size: 0.1,
-    height: 0.01,
+    size: 10,
+    height:10,
     curveSegments: 10,
   });
 

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Simple Terrain with rock debris
+* source:	https://sketchfab.com/3d-models/simple-terrain-with-rock-debris-f4bf388087194ea781ee36f233bb9aa4
+* author:	mudit007 (https://sketchfab.com/mudit007)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Simple Terrain with rock debris" (https://sketchfab.com/3d-models/simple-terrain-with-rock-debris-f4bf388087194ea781ee36f233bb9aa4) by mudit007 (https://sketchfab.com/mudit007) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Wet/Humid Desert - Terrain
+* source:	https://sketchfab.com/3d-models/wethumid-desert-terrain-9009ca8b79c54e1999f08c6d9aa1bb6b
+* author:	artfromheath (https://sketchfab.com/artfromheath)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Wet/Humid Desert - Terrain" (https://sketchfab.com/3d-models/wethumid-desert-terrain-9009ca8b79c54e1999f08c6d9aa1bb6b) by artfromheath (https://sketchfab.com/artfromheath) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
