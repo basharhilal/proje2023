@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>My first three.js app</title>
-    <style>
-      body {
-        margin: 0;
-      }
-    </style>
-    <link rel="stylesheet" href="main.css" />
-  </head>
 
-  <body>
-    <div id="info">
-      Values
+<head>
+  <meta charset="utf-8" />
+  <title>My first three.js app</title>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="main.css" />
+</head>
+
+<body>
+  <div id="info">
+    <details      style=" background-color: #f2f2f2; text-align: center; z-index: 10; display: block; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+      <summary> Measured values</summary>
       <table style="margin: 10px">
         <tr>
           <td><label>vertcal rotation in grad: </label></td>
@@ -48,36 +50,134 @@
           </td>
         </tr>
       </table>
-      <table hidden>
-        <tr>
-          <td></td>
-          <td>X</td>
-          <td>Y</td>
-          <td>Z</td>
-        </tr>
-        <tr>
-          <td>circle1</td>
-          <td><label class="label1" id="circle1X">100 </label></td>
-          <td><label class="label1" id="circle1Y">100 </label></td>
-          <td><label class="label1" id="circle1Z">100 </label></td>
-        </tr>
-        <tr>
-          <td>circle1</td>
-          <td><label class="label1" id="circle2X">100 </label></td>
-          <td><label class="label1" id="circle2Y">100 </label></td>
-          <td><label class="label1" id="circle2Z">100 </label></td>
-        </tr>
-        <tr>
-          <td>cube</td>
-          <td><label class="label1" id="cubeX">100 </label></td>
-          <td><label class="label1" id="cubeY">100 </label></td>
-          <td><label class="label1" id="cubeZ">100 </label></td>
-        </tr>
-      </table>
-    </div>
+    </details>
+    <table hidden>
+      <tr>
+        <td></td>
+        <td>X</td>
+        <td>Y</td>
+        <td>Z</td>
+      </tr>
+      <tr>
+        <td>circle1</td>
+        <td><label class="label1" id="circle1X">100 </label></td>
+        <td><label class="label1" id="circle1Y">100 </label></td>
+        <td><label class="label1" id="circle1Z">100 </label></td>
+      </tr>
+      <tr>
+        <td>circle1</td>
+        <td><label class="label1" id="circle2X">100 </label></td>
+        <td><label class="label1" id="circle2Y">100 </label></td>
+        <td><label class="label1" id="circle2Z">100 </label></td>
+      </tr>
+      <tr>
+        <td>cube</td>
+        <td><label class="label1" id="cubeX">100 </label></td>
+        <td><label class="label1" id="cubeY">100 </label></td>
+        <td><label class="label1" id="cubeZ">100 </label></td>
+      </tr>
+    </table>
+  </div>
+  <div id="list">
+    <details
+      style="position: absolute; top: 15px; right: 10px; background-color: #f2f2f2; text-align: center; z-index: 10; display: block; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+      <summary>Coordinate list</summary>
+      <details>
+        <summary>Total Station</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="TotalX">100 </label></td>
+            <td><label class="label1" id="TotalY">100 </label></td>
+            <td><label class="label1" id="TotalZ">100 </label></td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Reflector 1</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="Reflector1X"></label>20</td>
+            <td><label class="label1" id="Reflector1Y"></label>30</td>
+            <td><label class="label1" id="Reflector1Z"></label>40</td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Reflector 2</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="Reflector2X"></label>20</td>
+            <td><label class="label1" id="Reflector2Y"></label>30</td>
+            <td><label class="label1" id="Reflector2Z"></label>40</td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Reflector 3</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="Reflector3X"></label>20</td>
+            <td><label class="label1" id="Reflector3Y"></label>30</td>
+            <td><label class="label1" id="Reflector3Z"></label>40</td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Reflector 4</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="Reflector4X"></label>20</td>
+            <td><label class="label1" id="Reflector4Y"></label>30</td>
+            <td><label class="label1" id="Reflector4Z"></label>40</td>
+          </tr>
+        </table>
+      </details>
+      <details>
+        <summary>Pilye</summary>
+        <table>
+          <thead>
+            <td title="Easting.">E (M)</td>
+            <td title="Northing.">N (M)</td>
+            <td title="Height.">H (M)</td>
+          </thead>
+          <tr>
+            <td><label class="label1" id="PilyeX"></label>20</td>
+            <td><label class="label1" id="PilyeY"></label>30</td>
+            <td><label class="label1" id="PilyeZ"></label>40</td>
+          </tr>
+        </table>
+      </details>
+    </details>
+  </div>
+  <script type="module" src="/main.js"></script>
 
-    <script type="module" src="/main.js"></script>
+  <a href="index.html" style="position: absolute;color: blue; text-decoration: none; font-weight: bold; padding: 5px 10px; background-color: #f2f2f2; border-radius: 5px;">Main</a>
 
-    <a href="index.html">main</a>
-  </body>
+</body>
+
 </html>
