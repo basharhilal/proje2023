@@ -25,8 +25,11 @@ const Settings = {
 };
 
 var deviceControl = new DeviceControl("measurement");
-var mode = document.querySelector('input[name="mode"]:checked');
-deviceControl.SetMode(mode.value);
+const modes = document.querySelectorAll('input[name="mode"]');
+
+modes.forEach((mode) => {
+  if(mode.checked) deviceControl.SetMode(mode.value);
+ });
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
@@ -433,65 +436,61 @@ const moveMouse = new THREE.Vector2(); // create once
 var draggable = new THREE.Object3D();
 var mouse = new THREE.Vector2();
 
-mode.onchange = function () {
+var modeFunction = function () {
+  modes.forEach((element) => {
+    if (element.checked) deviceControl.SetMode(element.value);
+  });
+  
+  window.removeEventListener("mousemove", mousemoveListener);
   if (deviceControl.GetMode() === "measurement") {
-    
-    window.removeEventListener("click", (event) => {
-      console.log(`draggable ${draggable?.userData?.name}`);
-      if (draggable != null) {
-        console.log(`dropping draggable ${draggable.userData.name}`);
-        draggable = null;
-        return;
-      }
-      // THREE RAYCASTER
-      clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      const found = intersect(clickMouse);
+    window.removeEventListener("click", onWindowClickListener);
+    window.removeEventListener("mousemove", mousemoveListener);
+    window.addEventListener("click", onDocumentClickListener);
 
-      if (found != null) {
-        draggable = found;
-        console.log(`found draggable ${draggable.userData.name}`);
-      }
-    });
-    window.removeEventListener("mousemove", (event) => {
-      moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
-
-    document.addEventListener("click", onDocumentClick, false);
   } else {
     
-    document.removeEventListener("click", onDocumentClick, false);
-    
-    window.addEventListener("click", (event) => {
-      console.log(`draggable ${draggable?.userData?.name}`);
-      if (draggable != null) {
-        console.log(`dropping draggable ${draggable.userData.name}`);
-        draggable = null;
-        return;
-      }
-      // THREE RAYCASTER
-      clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      const found = intersect(clickMouse);
-
-      if (found != null) {
-        draggable = found;
-        console.log(`found draggable ${draggable.userData.name}`);
-      }
-    });
-
-    window.addEventListener("mousemove", (event) => {
-      moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
+    window.removeEventListener("click", onDocumentClickListener);
+    window.addEventListener("click", onWindowClickListener);
+    window.addEventListener("mousemove", mousemoveListener);
   }
 };
-//
 
-function onDocumentClick(event) {
+
+
+modes.forEach(element => {
+  element.onchange = modeFunction;
+});
+//
+const onWindowClickListener = function (event) 
+  {
+    
+  window.removeEventListener("mousemove", mousemoveListener);
+    console.log(`draggable ${draggable?.userData?.name}`);
+    if (draggable != null) {
+      console.log(`dropping draggable ${draggable.userData.name}`);
+      draggable = null;
+      return;
+    }
+    // THREE RAYCASTER
+    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    const found = intersect(clickMouse);
+
+    if (found != null) {
+      draggable = found;
+      console.log(`found draggable ${draggable.userData.name}`);
+    }
+  }
+
+
+  const mousemoveListener = function (event) { 
+  moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+}
+const onDocumentClickListener = function (event) {
   {
     console.log(`draggable ${draggable}`);
     if (draggable != null) {
@@ -768,58 +767,6 @@ function onDocumentClick(event) {
     horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
     SelectedCircle = pilyeMesh.mesh;
   }
-  /////////////////////////////////////////////////////
-
-  var intersects2 = raycaster.intersectObject(circle2);
-  var circle2X = document.getElementById("circle2X");
-  var circle2Y = document.getElementById("circle2Y");
-  var circle2Z = document.getElementById("circle2Z");
-  if (intersects2.length > 0) {
-    alert("circle2 clicked!");
-    circle2X.textContent = circle2.position.x;
-    circle2Y.textContent = circle2.position.y;
-    circle2Z.textContent = circle2.position.z;
-
-    var verticalAngel = Math.atan(
-      (circle2.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(circle2.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-
-    verticalAngel = calculateHorizontalAngel(
-      blenderLathCube2Mesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.y,
-      circle2.position.z,
-      circle2.position.y
-    );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    var horizontalAngel = Math.atan(
-      (circle2.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(circle2.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
-
-    horizontalAngel = calculateHorizontalAngel(
-      circle2.position.x,
-      circle2.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-
-    // Define line geometry
-
-    SelectedCircle = circle2;
-  }
 
   var intersects7 = raycaster.intersectObject(blenderLathCube2Mesh.mesh);
 
@@ -850,7 +797,17 @@ for (let i = 0; i < 40; i++) {
     new THREE.Vector2(Math.sin(i * 0.3) * 0.2 + 0.3, (i - 20) * 0.075)
   );
 }
-
+for (let i = 0; i < 6; i++) {
+  if (i % 2 == 0) {
+    window.removeEventListener("click", onWindowClickListener);
+    window.removeEventListener("mousemove", mousemoveListener);
+    window.addEventListener("click", onDocumentClickListener);
+  } else {
+    window.removeEventListener("click", onDocumentClickListener);
+    window.addEventListener("click", onWindowClickListener);
+    window.addEventListener("mousemove", mousemoveListener);
+  }
+}
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
 const material2 = new THREE.MeshNormalMaterial({ color: 0xff0000 });
