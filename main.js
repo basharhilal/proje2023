@@ -23,6 +23,7 @@ var btnSet = document.getElementById("btnSet");
 var horizontalAngleTextValueInGrad = document.getElementById("horizontalAngleTextValueInGrad");
 var btnDraw = document.getElementById("btnDraw");
 var btnSetReference = document.getElementById("btnSetReference");
+var labelDistance = document.getElementById("labelDistance");
 
 
 const NumberOfGrads = 1;
@@ -38,7 +39,7 @@ const camera = new THREE.PerspectiveCamera(
 const _Settings = new Settings();
 
 var isLoaded = false;
-var SelectedCircle;
+var focusedMesh;
 
 var deviceControl = new DeviceControl("measurement");
 const modes = document.querySelectorAll('input[name="mode"]');
@@ -494,6 +495,10 @@ function calculateAngle(mesh)
 {
   var intersects = raycaster.intersectObject(mesh);
   if (intersects.length > 0) {
+
+    _Settings.SetCanDraw(false);
+    _Settings.SetCanMeasure(false);
+
     alert("reflektor clicked!");
 
     var verticalAngel = Math.atan(
@@ -526,12 +531,19 @@ function calculateAngle(mesh)
     horizontalAngel = Helper.ConvertRadToGrad(horizontalAngel);
     horizontalAngleTextValueInGrad.value = horizontalAngel;
     horizontalAngleTextValueInGrad.value = parseFloat(horizontalAngleTextValueInGrad.value).toFixed(4);
-    SelectedCircle = mesh;
+    focusedMesh = mesh;
   }
 }
 
 btnMeasure.onclick = function () {
-  DrawCircle1Line(SelectedCircle);
+  if(!_Settings.CanMeasure())
+    {
+      alert("Can't measure now");
+      return;
+    }
+  var distance = Helper.calculateDistance(blenderLathCube2Mesh.mesh.position, focusedMesh.position);
+  labelDistance.textContent = distance.toFixed(3);
+  DrawCircle1Line(focusedMesh);
 };
 const points1 = [];
 for (let i = 0; i < 40; i++) {
@@ -643,6 +655,12 @@ var previuosVerticalAngleTextValueMesh;
 btnDraw.onclick = function () {
   // verticalRotation
   //  horizontalRotation
+if(!_Settings.CanDraw())
+  {
+    alert("Can't draw now");
+    return;
+  }
+
   scene.remove(previuosVerticalArc, previuosHorizontalArc, previuosVerticalAngleTextValueMesh, previuosHorizontalAngleTextValueMesh);
 
   const horizontalArc = new THREE.Mesh(
@@ -732,6 +750,9 @@ function animateVerticalRotation() {
     ) < _Settings.GetRadianStep()
   ) {
     lblVerticalChange.textContent = verticalAngleTextValueInGrad.value;
+
+    _Settings.SetCanDraw(true);
+    _Settings.SetCanMeasure(true);
 
     rotateVertical = false;
   } else if (
@@ -857,31 +878,12 @@ function calculateDistance(point1, point2) {
 
 function DrawCircle1Line(circle) {
   scene.add(line);
-  //Define line geometry
-  var points = [];
-  points.push(
-    new THREE.Vector3(
-      blenderLathCube2Mesh.mesh.rotation.x - 0.33,
-      blenderLathCube2Mesh.mesh.rotation.y + 2.1,
-      blenderLathCube2Mesh.mesh.rotation.z
-    )
-  );
-  points.push(
-    new THREE.Vector3(circle.position.x, circle.position.y, circle.position.z)
-  ); /*
-  geometryLine.setFromPoints(points);
-  var light7x=circle.position.x-0.5
-  if ( circle.position.x>0 ) {
-    var light7x =+ 1;
-  } else if (code === 38) {
-     
-  }*/
 
-  const light7 = new THREE.PointLight(0xff0000, 50000, 1);
+  const light7 = new THREE.PointLight(0xff0000, 500000, 1);
   light7.position.set(
-    circle.position.x - 0.5,
-    circle.position.y + 0.5,
-    circle.position.z + 0.5
+    circle.position.x ,
+    circle.position.y ,
+    circle.position.z 
   );
   light7.rotation.set(0, 0, 0);
   scene.add(light7);

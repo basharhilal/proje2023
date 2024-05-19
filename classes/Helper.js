@@ -20,6 +20,15 @@ export function ConvertGradToRad(angel) {
         return calculateAngle(x1, y1, x2, y2);
   }
 
+  export function calculateDistance(pos1, pos2) {
+    return Math.sqrt(
+      (pos1.x - pos2.x) * (pos1.x - pos2.x) +
+        (pos1.y - pos2.y) * (pos1.y - pos2.y) +
+        (pos1.z - pos2.z) * (pos1.z - pos2.z)
+    );
+  }
+
+
   function calculateAngle(x1, y1, x2, y2) {
     var tmp =
       (x1 - x2) /

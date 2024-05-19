@@ -1,6 +1,8 @@
 export class Settings {
     #step = 1 / 10;
     #RadianStep = this.#step;
+    #canMeasure = true;
+    #canDraw = true;
 
     constructor() {
         this.GradStep = this.ConvertRadToGrad();
@@ -31,5 +33,21 @@ export class Settings {
 
   GetGradStep() {
     return this.GradStep;
+  }
+
+  SetCanMeasure(canMeasure) {
+    this.#canMeasure = canMeasure;
+  }
+
+  CanMeasure() {
+    return this.#canMeasure;
+  }
+
+  SetCanDraw(canDraw) {
+    this.#canDraw = canDraw;
+  }
+
+  CanDraw() {
+    return this.#canDraw;
   }
 }
