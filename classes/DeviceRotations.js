@@ -29,7 +29,7 @@ export class DeviceRotations {
     }
 
     DecreaseHorizontalRotationInGrad(decreaseValue) {
-        this.SetHorizontalRotationInGrad(this.#horizontalRotationInGrad - decreaseValue);
+        this.#horizontalRotationInGrad -= decreaseValue;
     }
 
     SetVerticalRotationInGrad(verticalRotation) {

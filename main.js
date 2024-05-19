@@ -7,6 +7,23 @@ import { DeviceRotations } from "./classes/DeviceRotations";
 import { DeviceControl } from "./classes/DeviceControl";
 import { Settings  } from "./classes/Settings";
 
+
+// define html controls
+var verticalResult = document.getElementById("verticalResult");
+var horizontalResult = document.getElementById("horizontalResult");
+var lblVerticalChange = document.getElementById("lblVerticalChange");
+var lblHorizontalChange = document.getElementById("lblHorizontalChange");
+var btnSetSpeed = document.getElementById("btnSetSpeed");
+var speedLabel = document.getElementById("speedLabel");
+var textSpeedValue = document.getElementById("speed");
+var verticalAngleTextValueInGrad = document.getElementById("verticalAngleTextValueInGrad");
+var btnMeasure = document.getElementById("btnMeasure");
+var btnSet = document.getElementById("btnSet");
+var horizontalAngleTextValueInGrad = document.getElementById("horizontalAngleTextValueInGrad");
+var btnDraw = document.getElementById("btnDraw");
+var btnSetReference = document.getElementById("btnSetReference");
+
+
 const NumberOfGrads = 1;
 
 const scene = new THREE.Scene();
@@ -45,10 +62,8 @@ var x0 = 0;
 //verticalGroup.position.sub(rotationPoint);
 //verticalGroup
 
-var btnSetSpeed = document.getElementById("btnSetSpeed");
-var speedLabel = document.getElementById("speedLabel");
 btnSetSpeed.onclick = function () {
-  _Settings.SetGradStep(document.getElementById("speed").value);
+  _Settings.SetGradStep(textSpeedValue.value);
   speedLabel.textContent = _Settings.GetGradStep() + " Grad";
 };
 
@@ -318,11 +333,6 @@ scene.add(plane); */
 
 //const verticalGroup = new THREE.Group(); //قروب الحركي العمودي
 
-// define html controls
-var verticalResult = document.getElementById("verticalResult");
-var horizontalResult = document.getElementById("horizontalResult");
-var lblVerticalChange = document.getElementById("lblVerticalChange");
-var lblHorizontalChange = document.getElementById("lblHorizontalChange");
 
 // Set the background color
 scene.background = new THREE.Color("");
@@ -497,7 +507,7 @@ function calculateAngle(mesh)
       mesh.position.y
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticalAngleTextValueInGrad = document.getElementById("verticalAngleTextValueInGrad");
+
     verticalAngleTextValueInGrad.value = verticalAngel;
     verticalAngleTextValueInGrad.value = parseFloat(verticalAngleTextValueInGrad.value).toFixed(4);
 
@@ -513,14 +523,12 @@ function calculateAngle(mesh)
       blenderLathCube2Mesh.mesh.position.z
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontalAngleValue = document.getElementById("horizontalAngleTextValueInGrad");
-    horizontalAngleValue.value = horizontalAngel;
-    horizontalAngleValue.value = parseFloat(horizontalAngleValue.value).toFixed(4);
+    horizontalAngleTextValueInGrad.value = horizontalAngel;
+    horizontalAngleTextValueInGrad.value = parseFloat(horizontalAngleTextValueInGrad.value).toFixed(4);
     SelectedCircle = mesh;
   }
 }
 
-var btnMeasure = document.getElementById("btnMeasure");
 btnMeasure.onclick = function () {
   DrawCircle1Line(SelectedCircle);
 };
@@ -609,13 +617,12 @@ var deviceRotation = new DeviceRotations();
 var rotateHorizontal = false;
 
 var rotateVertical = false;
-var btnSet = document.getElementById("btnSet");
 btnSet.onclick = function () {
   deviceRotation.SetVerticalRotationInGrad(
-    document.getElementById("verticalAngleTextValueInGrad").value
+    verticalAngleTextValueInGrad.value
   );
   deviceRotation.SetHorizontalRotationInGrad(
-    document.getElementById("horizontalAngleTextValueInGrad").value
+    horizontalAngleTextValueInGrad.value
   );
 
   rotateHorizontal = true;
@@ -627,7 +634,6 @@ btnSet.onclick = function () {
   horizontalResult.textContent = horizontalAngleTextValueInGrad.value;
 };
 
-var btnDraw = document.getElementById("btnDraw");
 btnDraw.onclick = function () {
   // verticalRotation
   //  horizontalRotation
@@ -698,7 +704,6 @@ btnDraw.onclick = function () {
   }, 30000);
 };
 
-var btnSetReference = document.getElementById("btnSetReference");
 btnSetReference.onclick = function () {
   x0 = 100;
 };
@@ -711,7 +716,7 @@ function animateVerticalRotation() {
     Math.abs(
       blenderLathCube2Mesh.mesh.rotation.x -
         deviceRotation.VerticalRotationInRadian()
-    ) < 0.01
+    ) < _Settings.GetRadianStep()
   ) {
     lblVerticalChange.textContent = verticalAngleTextValueInGrad.value;
 
@@ -720,7 +725,7 @@ function animateVerticalRotation() {
     blenderLathCube2Mesh.mesh.rotation.x >
     deviceRotation.VerticalRotationInRadian()
   ) {
-    blenderLathCube2Mesh.mesh.rotation.x -= _Settings.RadianStep;
+    blenderLathCube2Mesh.mesh.rotation.x -= _Settings.GetRadianStep();
 
     lblVerticalChange.textContent = parseFloat(
       (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
@@ -729,7 +734,7 @@ function animateVerticalRotation() {
     blenderLathCube2Mesh.mesh.rotation.x <
     deviceRotation.VerticalRotationInRadian()
   ) {
-    blenderLathCube2Mesh.mesh.rotation.x += _Settings.RadianStep;
+    blenderLathCube2Mesh.mesh.rotation.x += _Settings.GetRadianStep();
 
     lblVerticalChange.textContent = parseFloat(
       (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
@@ -742,7 +747,7 @@ function animateHorizontalRotation() {
   console.log("_Settings.GetRadianStep():" + _Settings.GetRadianStep());
   console.log("deviceGroup.rotation.y:" + deviceGroup.rotation.y);
   console.log("deviceRotation.HorizontalRotationInRadian():" + deviceRotation.HorizontalRotationInRadian());
-  console.log("difference:" + deviceGroup.rotation.y - deviceRotation.HorizontalRotationInRadian());
+  console.log("difference:" + (deviceGroup.rotation.y - deviceRotation.HorizontalRotationInRadian()));
   if (rotateHorizontal) requestAnimationFrame(animateHorizontalRotation);
 
   if (
@@ -772,8 +777,7 @@ function animateHorizontalRotation() {
 
   renderer.render(scene, camera);
 }
-document.getElementById("verticalAngleTextValueInGrad").onchange = function () {
-  var verticalAngleTextValueInGrad = document.getElementById("verticalAngleTextValueInGrad");
+verticalAngleTextValueInGrad.onchange = function () {
   while (verticalAngleTextValueInGrad.value < 0)
     verticalAngleTextValueInGrad.value = 400 + Number(verticalAngleTextValueInGrad.value);
   while (verticalAngleTextValueInGrad.value >= 400)
@@ -785,9 +789,8 @@ document.getElementById("verticalAngleTextValueInGrad").onchange = function () {
   verticalResult.textContent = verticalAngleTextValueInGrad.value;
 };
 
-document.getElementById("horizontalAngleTextValueInGrad").onchange = function () {
+horizontalAngleTextValueInGrad.onchange = function () {
   console.log("horizontalAngleTextValueInGrad.onchange");
-  var horizontalAngleTextValueInGrad = document.getElementById("horizontalAngleTextValueInGrad");
   console.log(horizontalAngleTextValueInGrad.value);
   while (horizontalAngleTextValueInGrad.value < 0)
     horizontalAngleTextValueInGrad.value = 400 + Number(horizontalAngleTextValueInGrad.value);
