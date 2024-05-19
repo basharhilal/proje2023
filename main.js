@@ -28,8 +28,8 @@ var deviceControl = new DeviceControl("measurement");
 const modes = document.querySelectorAll('input[name="mode"]');
 
 modes.forEach((mode) => {
-  if(mode.checked) deviceControl.SetMode(mode.value);
- });
+  if (mode.checked) deviceControl.SetMode(mode.value);
+});
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
@@ -264,15 +264,7 @@ LoadBlenderModel(
 );
 console.log("blender loaded");
 
-LoadBlenderModel(
-  "../ta_agrat/",
-  "scene.gltf",
-  -10,
-  -2 ,
-  -25,
-  mesh150,
-  callBack
-);
+LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
 
 function callBack() {
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {
@@ -436,377 +428,102 @@ const moveMouse = new THREE.Vector2(); // create once
 var draggable = new THREE.Object3D();
 var mouse = new THREE.Vector2();
 
-var modeFunction = function () {
+//
+const onWindowClickListener = function (event) {
   modes.forEach((element) => {
     if (element.checked) deviceControl.SetMode(element.value);
   });
-  
-  window.removeEventListener("mousemove", mousemoveListener);
+
   if (deviceControl.GetMode() === "measurement") {
+    // Calculate mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    window.removeEventListener("click", onWindowClickListener);
-    window.removeEventListener("mousemove", mousemoveListener);
-    window.addEventListener("click", onDocumentClickListener);
+    // Update the raycaster
+    raycaster.setFromCamera(mouse, camera);
 
+    // Check for intersections with the cube
+    calculateAngle(reflektorMesh.mesh);
+    calculateAngle(reflektorMesh2.mesh);
+    calculateAngle(reflektorMesh3.mesh);
+    calculateAngle(reflektorMesh4.mesh);
+    calculateAngle(pilyeMesh.mesh);
   } else {
-    
-    window.removeEventListener("click", onDocumentClickListener);
-    window.addEventListener("click", onWindowClickListener);
-    window.addEventListener("mousemove", mousemoveListener);
+    if (draggable != null) {
+      draggable = null;
+      return;
+    }
+    // THREE RAYCASTER
+    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    const found = intersect(clickMouse);
+
+    if (found != null) {
+      draggable = found;
+      console.log(`found draggable ${draggable.userData.name}`);
+    }
   }
 };
 
-
-
-modes.forEach(element => {
-  element.onchange = modeFunction;
-});
-//
-const onWindowClickListener = function (event) 
-  {
-    
-  window.removeEventListener("mousemove", mousemoveListener);
-    console.log(`draggable ${draggable?.userData?.name}`);
-    if (draggable != null) {
-      console.log(`dropping draggable ${draggable.userData.name}`);
-      draggable = null;
-      return;
-    }
-    // THREE RAYCASTER
-    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    const found = intersect(clickMouse);
-
-    if (found != null) {
-      draggable = found;
-      console.log(`found draggable ${draggable.userData.name}`);
-    }
-  }
-
-
-  const mousemoveListener = function (event) { 
+const mousemoveListener = function (event) {
   moveMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   moveMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+};
 
-}
-const onDocumentClickListener = function (event) {
-  {
-    console.log(`draggable ${draggable}`);
-    if (draggable != null) {
-      console.log(`dropping draggable ${draggable.userData.name}`);
-      draggable = null;
-      return;
-    }
-    // THREE RAYCASTER
-    clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+window.addEventListener("click", onWindowClickListener);
+window.addEventListener("mousemove", mousemoveListener);
 
-    const found = intersect(clickMouse);
-    //var found = raycaster.intersectObject(reflektorMesh.mesh);
-
-    if (found != null) {
-      draggable = found;
-      console.log(`found draggable ${draggable.userData.name}`);
-    }
-    // for (let i = 0; i < found.length; i++) {
-    //   if (found[i].object.userData.draggable) {
-    //     draggable = found[i].object
-    //     console.log(`found draggable ${draggable.userData.name}`)
-    //     break;
-    //   }}
-
-    //  if (found.length > 0) {
-    //    if (found[0].object.userData.draggable) {
-    //      draggable = found[0].object
-    //      console.log(`found draggable ${draggable.userData.name}`)
-    //    }
-    //  }
-  }
-
-  // Calculate mouse position in normalized device coordinates
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  // Update the raycaster
-  raycaster.setFromCamera(mouse, camera);
-
-  // Check for intersections with the cube
-
-  var intersects = raycaster.intersectObject(reflektorMesh.mesh);
-  var circle1X = document.getElementById("circle1X");
-  var circle1Y = document.getElementById("circle1Y");
-  var circle1Z = document.getElementById("circle1Z");
-
+function calculateAngle(mesh)
+{
+  var intersects = raycaster.intersectObject(mesh);
   if (intersects.length > 0) {
-    alert("reflektorMesh clicked!");
-    circle1X.textContent = reflektorMesh.mesh.position.x;
-    circle1Y.textContent = reflektorMesh.mesh.position.y;
-    circle1Z.textContent = reflektorMesh.mesh.position.z;
-
-    var verticalAngel = Math.atan(
-      (reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    horizontalAngel = Math.atan(
-      (reflektorMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
-
-    horizontalAngel = calculateHorizontalAngel(
-      reflektorMesh.mesh.position.x,
-      reflektorMesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-
-    SelectedCircle = reflektorMesh.mesh;
-  }
-  var intersects3 = raycaster.intersectObject(reflektorMesh.mesh);
-  if (intersects3.length > 0) {
     alert("reflektor clicked!");
 
     var verticalAngel = Math.atan(
-      (reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
+      (mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
+        -(mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateHorizontalAngel(
+    verticalAngel = calculateVerticalAngel(
       blenderLathCube2Mesh.mesh.position.z,
       blenderLathCube2Mesh.mesh.position.y,
-      reflektorMesh.mesh.position.z,
-      reflektorMesh.mesh.position.y
+      mesh.position.z,
+      mesh.position.y
     );
     verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
+    var verticalAngleValue = document.getElementById("verticaltest");
+    verticalAngleValue.value = verticalAngel;
+    verticalAngleValue.value = parseFloat(verticalAngleValue.value).toFixed(4);
 
     var horizontalAngel = Math.atan(
-      (reflektorMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
+      (mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
+        -(mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
     horizontalAngel = calculateHorizontalAngel(
-      reflektorMesh.mesh.position.x,
-      reflektorMesh.mesh.position.z,
+      mesh.position.x,
+      mesh.position.z,
       blenderLathCube2Mesh.mesh.position.x,
       blenderLathCube2Mesh.mesh.position.z
     );
     horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle = reflektorMesh.mesh;
-  }
-
-  var intersects4 = raycaster.intersectObject(reflektorMesh2.mesh);
-  if (intersects4.length > 0) {
-    alert("reflektor clicked!");
-    var verticalAngel = Math.atan(
-      (reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh2.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-
-    verticalAngel = calculateHorizontalAngel(
-      blenderLathCube2Mesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.y,
-      reflektorMesh2.mesh.position.z,
-      reflektorMesh2.mesh.position.y
-    );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    var horizontalAngel = Math.atan(
-      (reflektorMesh2.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh2.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
-
-    horizontalAngel = calculateHorizontalAngel(
-      reflektorMesh2.mesh.position.x,
-      reflektorMesh2.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle = reflektorMesh2.mesh;
-  }
-
-  var intersects5 = raycaster.intersectObject(reflektorMesh3.mesh);
-  if (intersects5.length > 0) {
-    alert("reflektor clicked!");
-
-    var verticalAngel = Math.atan(
-      (reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh3.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-    verticalAngel = calculateHorizontalAngel(
-      blenderLathCube2Mesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.y,
-      reflektorMesh3.mesh.position.z,
-      reflektorMesh3.mesh.position.y
-    );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    var horizontalAngel = Math.atan(
-      (reflektorMesh3.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(reflektorMesh3.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
-    horizontalAngel = calculateHorizontalAngel(
-      reflektorMesh3.mesh.position.x,
-      reflektorMesh3.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle = reflektorMesh3.mesh;
-  }
-
-  var intersects6 = raycaster.intersectObject(reflektorMesh4.mesh);
-  if (intersects6.length > 0) {
-    alert("reflektor clicked!");
-
-    var verticalAngel = Math.atan(
-      (reflektorMesh4.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(reflektorMesh4.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-
-    verticalAngel = calculateHorizontalAngel(
-      blenderLathCube2Mesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.y,
-      reflektorMesh4.mesh.position.z,
-      reflektorMesh4.mesh.position.y
-    );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    horizontalAngel = calculateHorizontalAngel(
-      reflektorMesh4.mesh.position.x,
-      reflektorMesh4.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle = reflektorMesh4.mesh;
-  }
-  var intersects8 = raycaster.intersectObject(pilyeMesh.mesh);
-  if (intersects8.length > 0) {
-    alert("pilye clicked!");
-
-    var verticalAngel = Math.atan(
-      (pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z) /
-        -(pilyeMesh.mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
-    );
-
-    verticalAngel = calculateHorizontalAngel(
-      blenderLathCube2Mesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.y,
-      pilyeMesh.mesh.position.z,
-      pilyeMesh.mesh.position.y
-    );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
-    var verticaltest = document.getElementById("verticaltest");
-    verticaltest.value = verticalAngel;
-    console.log(verticaltest.value);
-    verticaltest.value = parseFloat(verticaltest.value).toFixed(4);
-    console.log(verticaltest.value);
-
-    var horizontalAngel = Math.atan(
-      (pilyeMesh.mesh.position.x - blenderLathCube2Mesh.mesh.position.x) /
-        -(pilyeMesh.mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
-    );
-
-    horizontalAngel = calculateHorizontalAngel(
-      pilyeMesh.mesh.position.x,
-      pilyeMesh.mesh.position.z,
-      blenderLathCube2Mesh.mesh.position.x,
-      blenderLathCube2Mesh.mesh.position.z
-    );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
-    var horizontaltest = document.getElementById("horizontaltest");
-    horizontaltest.value = horizontalAngel;
-    horizontaltest.value = parseFloat(horizontaltest.value).toFixed(4);
-    SelectedCircle = pilyeMesh.mesh;
-  }
-
-  var intersects7 = raycaster.intersectObject(blenderLathCube2Mesh.mesh);
-
-  var cubeX = document.getElementById("cubeX");
-  var cubeY = document.getElementById("cubeY");
-  var cubeZ = document.getElementById("cubeZ");
-  if (intersects7.length > 0) {
-    alert("cube clicked!");
-    cubeX.textContent = blenderLathCube2Mesh.mesh.position.x;
-    cubeY.textContent = blenderLathCube2Mesh.mesh.position.y;
-    cubeZ.textContent = blenderLathCube2Mesh.mesh.position.z;
-  }
-
-  var btnMeasure = document.getElementById("btnMeasure");
-  btnMeasure.onclick = function () {
-    DrawCircle1Line(SelectedCircle);
-  };
-
-  var intersects4 = raycaster.intersectObject(cylinderMeaure);
-  if (intersects4.length > 0) {
-    DrawCircle1Line(SelectedCircle);
+    var horizontalAngleValue = document.getElementById("horizontaltest");
+    horizontalAngleValue.value = horizontalAngel;
+    horizontalAngleValue.value = parseFloat(horizontalAngleValue.value).toFixed(4);
+    SelectedCircle = mesh;
   }
 }
 
+var btnMeasure = document.getElementById("btnMeasure");
+btnMeasure.onclick = function () {
+  DrawCircle1Line(SelectedCircle);
+};
 const points1 = [];
 for (let i = 0; i < 40; i++) {
   points1.push(
     new THREE.Vector2(Math.sin(i * 0.3) * 0.2 + 0.3, (i - 20) * 0.075)
   );
-}
-for (let i = 0; i < 6; i++) {
-  if (i % 2 == 0) {
-    window.removeEventListener("click", onWindowClickListener);
-    window.removeEventListener("mousemove", mousemoveListener);
-    window.addEventListener("click", onDocumentClickListener);
-  } else {
-    window.removeEventListener("click", onDocumentClickListener);
-    window.addEventListener("click", onWindowClickListener);
-    window.addEventListener("mousemove", mousemoveListener);
-  }
 }
 // الداخلي
 const geometry2 = new THREE.BoxGeometry(1.1, 1.2, 2);
