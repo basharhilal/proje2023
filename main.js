@@ -6,6 +6,7 @@ import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import { DeviceRotations } from "./classes/DeviceRotations";
 import { DeviceControl } from "./classes/DeviceControl";
 import { Settings  } from "./classes/Settings";
+import  * as Helper  from "./classes/Helper";
 
 
 // define html controls
@@ -367,13 +368,13 @@ window.onkeydown = function (e) {
   }
 
   var verticalValue = parseFloat(
-    (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
+    (Helper.ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
   ).toFixed(4);
 
   verticalResult.textContent = verticalValue % 400;
 
   var horizontalValue = parseFloat(
-    ConvertRadToGrad(-deviceGroup.rotation.y - ConvertGradToRad(x0))
+    Helper.ConvertRadToGrad(-deviceGroup.rotation.y - Helper.ConvertGradToRad(x0))
   ).toFixed(4);
 
   horizontalResult.textContent = horizontalValue;
@@ -500,13 +501,13 @@ function calculateAngle(mesh)
         -(mesh.position.y - blenderLathCube2Mesh.mesh.position.y)
     );
 
-    verticalAngel = calculateVerticalAngel(
+    verticalAngel = Helper.calculateVerticalAngel(
       blenderLathCube2Mesh.mesh.position.z,
       blenderLathCube2Mesh.mesh.position.y,
       mesh.position.z,
       mesh.position.y
     );
-    verticalAngel = ConvertRadToGrad(verticalAngel);
+    verticalAngel = Helper.ConvertRadToGrad(verticalAngel);
 
     verticalAngleTextValueInGrad.value = verticalAngel;
     verticalAngleTextValueInGrad.value = parseFloat(verticalAngleTextValueInGrad.value).toFixed(4);
@@ -516,13 +517,13 @@ function calculateAngle(mesh)
         -(mesh.position.z - blenderLathCube2Mesh.mesh.position.z)
     );
 
-    horizontalAngel = calculateHorizontalAngel(
+    horizontalAngel = Helper.calculateHorizontalAngel(
       mesh.position.x,
       mesh.position.z,
       blenderLathCube2Mesh.mesh.position.x,
       blenderLathCube2Mesh.mesh.position.z
     );
-    horizontalAngel = ConvertRadToGrad(horizontalAngel);
+    horizontalAngel = Helper.ConvertRadToGrad(horizontalAngel);
     horizontalAngleTextValueInGrad.value = horizontalAngel;
     horizontalAngleTextValueInGrad.value = parseFloat(horizontalAngleTextValueInGrad.value).toFixed(4);
     SelectedCircle = mesh;
@@ -728,7 +729,7 @@ function animateVerticalRotation() {
     blenderLathCube2Mesh.mesh.rotation.x -= _Settings.GetRadianStep();
 
     lblVerticalChange.textContent = parseFloat(
-      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
+      (Helper.ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
     ).toFixed(4);
   } else if (
     blenderLathCube2Mesh.mesh.rotation.x <
@@ -737,7 +738,7 @@ function animateVerticalRotation() {
     blenderLathCube2Mesh.mesh.rotation.x += _Settings.GetRadianStep();
 
     lblVerticalChange.textContent = parseFloat(
-      (ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
+      (Helper.ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
     ).toFixed(4);
   }
 
@@ -767,7 +768,7 @@ function animateHorizontalRotation() {
 
     //blenderLathCube2Mesh.mesh.rotation.y -= Math.abs(Settings.RadianStep);
     lblHorizontalChange.textContent = parseFloat(
-      ConvertRadToGrad(-deviceGroup.rotation.y)
+      Helper.ConvertRadToGrad(-deviceGroup.rotation.y)
     ).toFixed(4);
   } else if (
     deviceGroup.rotation.y < deviceRotation.HorizontalRotationInRadian()
@@ -875,39 +876,6 @@ function DrawCircle1Line(circle) {
   setTimeout(() => {
     scene.remove(line, light7);
   }, 5000);
-}
-function ConvertGradToRad(angel) {
-  var result = (angel * 2 * Math.PI) / 400;
-  while (result < 0) result += 2 * Math.PI;
-  while (result >= 2 * Math.PI) result -= 2 * Math.PI;
-  return result;
-}
-
-function ConvertRadToGrad(angel) {
-  var result = (angel * 400) / (2 * Math.PI);
-  while (result < 0) result += 400;
-  while (result >= 400) result -= 400;
-  return result;
-}
-
-function calculateHorizontalAngel(x1, y1, x2, y2) {
-  var tmp =
-    (x1 - x2) /
-    (y2 - y1 - Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)));
-
-  var horizontalAngel = 2 * Math.atan(tmp) + Math.PI;
-
-  return horizontalAngel;
-}
-
-function calculateVerticalAngel(x1, y1, x2, y2) {
-  var tmp =
-    (x1 - x2) /
-    (y2 - y1 - Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)));
-
-  var horizontalAngel = 2 * Math.atan(tmp) + Math.PI;
-
-  return horizontalAngel;
 }
 
 function dragObject() {

@@ -25,7 +25,15 @@ export class DeviceRotations {
     }
 
     GetHorizontalArcLongAngle() {
-        return this.HorizontalRotationInRadian();
+        var value = this.HorizontalRotationInRadian();
+        while (value < 0) {
+            value += 2 * Math.PI;
+        }
+        while (value >= 2 * Math.PI) {
+            value -= 2 * Math.PI;
+        }
+        
+        return value;
     }
 
     DecreaseHorizontalRotationInGrad(decreaseValue) {
