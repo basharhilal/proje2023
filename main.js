@@ -39,7 +39,9 @@ const camera = new THREE.PerspectiveCamera(
 const _Settings = new Settings();
 
 var isLoaded = false;
-var focusedMesh;
+
+
+var focusedMeshs = [];
 
 var deviceControl = new DeviceControl("measurement");
 const modes = document.querySelectorAll('input[name="mode"]');
@@ -296,28 +298,28 @@ function callBack() {
 
   if (reflektorMesh.mesh) {
     reflektorMesh.mesh.userData.name = "reflektor";
-    reflektorMesh.mesh.lookAt(0, 5, +5);
+    //reflektorMesh.mesh.lookAt(0, 5, +5);
   }
 
   if (reflektorMesh2.mesh) {
     reflektorMesh2.mesh.userData.name = "reflektor2";
-    reflektorMesh2.mesh.lookAt(0, 5, +5);
+    //reflektorMesh2.mesh.lookAt(0, 5, +5);
   }
 
   if (reflektorMesh3.mesh) {
     reflektorMesh3.mesh.userData.name = "reflektor3";
-    reflektorMesh3.mesh.lookAt(0, 5, +5);
+    //reflektorMesh3.mesh.lookAt(0, 5, +5);
   }
 
   if (reflektorMesh4.mesh) {
     reflektorMesh4.mesh.userData.name = "reflektor4";
-    reflektorMesh4.mesh.lookAt(0, 5, +5);
+    //reflektorMesh4.mesh.lookAt(0, 5, +5);
   }
 
   if (pilyeMesh.mesh) {
     pilyeMesh.mesh.userData.draggable = true;
     pilyeMesh.mesh.userData.name = "pilye";
-    pilyeMesh.mesh.lookAt(0, 3, +5);
+    //pilyeMesh.mesh.lookAt(0, 3, +5);
   }
 
   if (mesh150.mesh) mesh150.mesh.userData.ground = true;
@@ -367,6 +369,38 @@ window.onkeydown = function (e) {
     //lathe.rotation.x -= NumberOfGrads * GRADE;
     blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
   }
+  else if (code === 100) //4 : left
+  {
+    focusedMeshs.forEach((element) => {element.position.x -= _Settings.GetMoveStep();});    
+  }
+  else if (code === 102) //6 : right
+  {
+    focusedMeshs.forEach((element) => {element.position.x += _Settings.GetMoveStep();});
+  }
+  else if (code === 104) //8 : up
+  {
+    focusedMeshs.forEach((element) => {element.position.z += _Settings.GetMoveStep();});
+  }
+  else if (code === 98) //2 : down
+  {
+    focusedMeshs.forEach((element) => {element.position.z -= _Settings.GetMoveStep();});
+  }
+  else if (code === 103) //7 : y-up
+  {
+    focusedMeshs.forEach((element) => {element.position.y += _Settings.GetMoveStep();});
+  }
+  else if (code === 97) //1 : y-down
+  {
+    focusedMeshs.forEach((element) => {element.position.y -= _Settings.GetMoveStep();});
+  }
+  else if (code === 105) //9 : rotate left
+  {
+    focusedMeshs.forEach((element) => {element.rotation.y -= _Settings.GetRotateStep();});
+  }
+  else if (code === 99) //3 : rotate right
+  {
+    focusedMeshs.forEach((element) => {element.rotation.y += _Settings.GetRotateStep();});
+  }
 
   var verticalValue = parseFloat(
     (Helper.ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
@@ -380,23 +414,7 @@ window.onkeydown = function (e) {
 
   horizontalResult.textContent = horizontalValue;
 };
-/*
-window.onkeydown = function (e) {
- var code = e.keyCode ? e.keyCode : e.which;
-  if (code === 37) {
-    //left key
-  deviceGroup.rotation.y += NumberOfGrads * GRADE;
-  } else if (code === 38) {
-    //up key//  8 
-  blenderLathCube2Mesh.mesh.rotation.x += NumberOfGrads * GRADE;
-  } else if (code === 39) {
-    //right key
-  deviceGroup.rotation.y -= NumberOfGrads * GRADE;
-  } else if (code === 40) {
-    //down key
-  blenderLathCube2Mesh.mesh.rotation.x -= NumberOfGrads * GRADE;
-  }
-};*/
+
 //  لاضافه خطوط المحاور بشكل ملون
 const axesHelper = new THREE.AxesHelper(8);
 scene.add(axesHelper);
@@ -465,6 +483,7 @@ const onWindowClickListener = function (event) {
     calculateAngle(reflektorMesh3.mesh);
     calculateAngle(reflektorMesh4.mesh);
     calculateAngle(pilyeMesh.mesh);
+    calculateAngle(blenderDeviceMesh.mesh);
   } else {
     if (draggable != null) {
       draggable = null;
@@ -490,6 +509,8 @@ const mousemoveListener = function (event) {
 
 window.addEventListener("click", onWindowClickListener);
 window.addEventListener("mousemove", mousemoveListener);
+
+
 
 function calculateAngle(mesh)
 {
@@ -531,8 +552,19 @@ function calculateAngle(mesh)
     horizontalAngel = Helper.ConvertRadToGrad(horizontalAngel);
     horizontalAngleTextValueInGrad.value = horizontalAngel;
     horizontalAngleTextValueInGrad.value = parseFloat(horizontalAngleTextValueInGrad.value).toFixed(4);
-    focusedMesh = mesh;
+    focusedMeshs.forEach((element) => {focusedMeshs.pop(element);});
+    if(mesh == blenderDeviceMesh.mesh)
+      SelectAllDeviceParts();
+    else
+    focusedMeshs.push(mesh);
   }
+}
+
+function SelectAllDeviceParts()
+{
+  focusedMeshs.push(blenderDeviceMesh.mesh);
+  focusedMeshs.push(blenderLathCube2Mesh.mesh);
+  focusedMeshs.push(blenderFeetsMesh.mesh);
 }
 
 btnMeasure.onclick = function () {
@@ -541,9 +573,9 @@ btnMeasure.onclick = function () {
       alert("Can't measure now");
       return;
     }
-  var distance = Helper.calculateDistance(blenderLathCube2Mesh.mesh.position, focusedMesh.position);
+  var distance = Helper.calculateDistance(blenderLathCube2Mesh.mesh.position, focusedMeshs.position);
   labelDistance.textContent = distance.toFixed(3);
-  DrawCircle1Line(focusedMesh);
+  DrawCircle1Line(focusedMeshs);
 };
 const points1 = [];
 for (let i = 0; i < 40; i++) {

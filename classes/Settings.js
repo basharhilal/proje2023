@@ -35,6 +35,14 @@ export class Settings {
     return this.GradStep;
   }
 
+  GetMoveStep() {
+    return this.GetGradStep() / 10;
+  }
+
+  GetRotateStep() {
+    return this.GetGradStep() / 50;
+  }
+
   SetCanMeasure(canMeasure) {
     this.#canMeasure = canMeasure;
   }

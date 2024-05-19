@@ -75,6 +75,16 @@ export class DeviceRotations {
 
 
     VerticalRotationInRadian() {
-        return this.#verticalRotationInGrad * (Math.PI / 200);
+        var value = this.#verticalRotationInGrad * (Math.PI / 200);
+        while(value > Math.PI) {
+            value = 2 * Math.PI -value;
+        }
+
+        while(value < -Math.PI) {
+            value = 2 * Math.PI + value;
+        }
+
+
+        return value;
     }
 }
