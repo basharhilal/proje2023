@@ -32,8 +32,8 @@ export class DeviceRotations {
         while (value >= 2 * Math.PI) {
             value -= 2 * Math.PI;
         }
-        
-        return value;
+
+        return -(2* Math.PI - value);
     }
 
     DecreaseHorizontalRotationInGrad(decreaseValue) {

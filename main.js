@@ -634,10 +634,16 @@ btnSet.onclick = function () {
   verticalResult.textContent = verticalAngleTextValueInGrad.value;
   horizontalResult.textContent = horizontalAngleTextValueInGrad.value;
 };
+var previuosVerticalArc ;
+var previuosHorizontalArc ;
+var previuosHorizontalAngleTextValueMesh;
+var previuosVerticalAngleTextValueMesh;
+
 
 btnDraw.onclick = function () {
   // verticalRotation
   //  horizontalRotation
+  scene.remove(previuosVerticalArc, previuosHorizontalArc, previuosVerticalAngleTextValueMesh, previuosHorizontalAngleTextValueMesh);
 
   const horizontalArc = new THREE.Mesh(
     new THREE.RingGeometry(
@@ -650,6 +656,7 @@ btnDraw.onclick = function () {
     ), //1,57=Pİ/4,,-1.57+
     new THREE.MeshBasicMaterial({ color: 0x0050ff, side: THREE.DoubleSide })
   );
+  previuosHorizontalArc = horizontalArc;
   horizontalArc.position.set(0, 2, 0);
   horizontalArc.rotation.x = Math.PI / 2;
   scene.add(horizontalArc);
@@ -664,11 +671,12 @@ btnDraw.onclick = function () {
     ), //1,57=Pİ/4,,-1.57+
     new THREE.MeshBasicMaterial({ color: 0xff0055, side: THREE.DoubleSide })
   );
+  previuosVerticalArc = verticalArc;
   verticalArc.position.set(0, 2, 0);
   verticalArc.rotation.y = deviceRotation.GetVerticalArcStartRotation();
   scene.add(verticalArc);
 
-  var n99, n100;
+  var horizontalAngleTextValueMesh, verticalAngleTextValueMesh;
   var text99 = horizontalAngleTextValueInGrad.value + ` grad`;
   var text100 = verticalAngleTextValueInGrad.value + ` grad`;
 
@@ -683,25 +691,29 @@ btnDraw.onclick = function () {
 
     const material = new THREE.MeshBasicMaterial({ color: 0xff0055 });
     const material1 = new THREE.MeshBasicMaterial({ color: 0x0050ff });
-    n100 = new THREE.Mesh(geometry100, material);
-    n100.position.set(0, 7, 0);
-    scene.add(n100);
-    n100.rotation.y = Math.PI / 2 + deviceRotation.HorizontalRotationInRadian();
+    verticalAngleTextValueMesh = new THREE.Mesh(geometry100, material);
+    verticalAngleTextValueMesh.position.set(0, 7, 0);
+    scene.add(verticalAngleTextValueMesh);
+    verticalAngleTextValueMesh.rotation.y = Math.PI / 2 + deviceRotation.HorizontalRotationInRadian();
     const geometry99 = new TextGeometry(text99, {
       font: font,
       size: 1,
       height: 0.1,
       curveSegments: 10,
     });
-    n99 = new THREE.Mesh(geometry99, material1);
-    n99.position.set(1, 2, -5);
-    n99.rotation.x = -Math.PI / 2;
-    n99.rotation.z = -Math.PI / 10;
-    scene.add(n99);
+    horizontalAngleTextValueMesh = new THREE.Mesh(geometry99, material1);
+    horizontalAngleTextValueMesh.position.set(1, 2, -5);
+    horizontalAngleTextValueMesh.rotation.x = -Math.PI / 2;
+    horizontalAngleTextValueMesh.rotation.z = -Math.PI / 10;
+
+    previuosVerticalAngleTextValueMesh = verticalAngleTextValueMesh;
+    previuosHorizontalAngleTextValueMesh = horizontalAngleTextValueMesh;
+    
+    scene.add(horizontalAngleTextValueMesh);
   });
 
   setTimeout(() => {
-    scene.remove(verticalArc, horizontalArc, n99, n100);
+    scene.remove(verticalArc, horizontalArc, horizontalAngleTextValueMesh, verticalAngleTextValueMesh);
   }, 30000);
 };
 
