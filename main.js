@@ -75,239 +75,78 @@ btnSetSpeed.onclick = function () {
 };
 
 const deviceGroup = new THREE.Group(); //قروب الحركي الافقيه
-
+const meshGroup = new THREE.Group(); 
 //1 : feets
 var blenderY = 2;
-const blenderFeetsMesh = {
-  mesh: null,
-};
+
+const blenderFeetsMesh = {mesh: null,};
 LoadBlenderModel("../blender/", "1.gltf", 0, blenderY, 0, blenderFeetsMesh);
 
 //2: horizontal device = device
-const blenderDeviceMesh = {
-  mesh: null,
-};
+const blenderDeviceMesh = {mesh: null,};
 LoadBlenderModel("../blender/", "2.gltf", 0, blenderY, 0, blenderDeviceMesh);
 //3: vertical device = lathe + cube2
-const blenderLathCube2Mesh = {
-  mesh: null,
-};
+const blenderLathCube2Mesh = { mesh: null,};
 LoadBlenderModel("../blender/", "3.gltf", 0, blenderY, 0, blenderLathCube2Mesh);
-console.log("blender loaded");
 
-const mesh150 = {
-  mesh: null,
-};
-///
-const reflektorMesh = {
-  mesh: null,
-};
-LoadBlenderModel(
-  "../blender/",
-  "reflektor.gltf",
-  10,
-  blenderY + 2,
-  -10,
-  reflektorMesh
-);
+const reflektorMesh = {mesh: null,};
+LoadBlenderModel("../blender/","reflektor.gltf",  10, blenderY + 2,-10,reflektorMesh);
 
-console.log("blender loaded");
+const reflektorMesh2 = {mesh: null,};
+LoadBlenderModel("../blender/","reflektor.gltf",  12,blenderY + 2,-8,reflektorMesh2);
+  
+const reflektorMesh3 = {mesh: null,};
+LoadBlenderModel("../blender/","reflektor.gltf",14, blenderY + 2,-6,reflektorMesh3);
+  
+const reflektorMesh4 = {mesh: null,};
+LoadBlenderModel("../blender/","reflektor.gltf",16, blenderY + 2, -4,reflektorMesh4);
 
-///
-const reflektorMesh2 = {
-  mesh: null,
-};
-LoadBlenderModel(
-  "../blender/",
-  "reflektor.gltf",
-  10,
-  blenderY + 2,
-  -10,
-  reflektorMesh2
-);
-
-console.log("blender loaded");
-///
-const reflektorMesh3 = {
-  mesh: null,
-};
-LoadBlenderModel(
-  "../blender/",
-  "reflektor.gltf",
-  10,
-  blenderY + 2,
-  -10,
-  reflektorMesh3
-);
-
-console.log("blender loaded");
-///
-const reflektorMesh4 = {
-  mesh: null,
-};
-LoadBlenderModel(
-  "../blender/",
-  "reflektor.gltf",
-  10,
-  blenderY + 2,
-  -10,
-  reflektorMesh4
-);
-
-console.log("blender loaded");
-
-//
-
-const pilyeMesh = {
-  mesh: null,
-};
+const pilyeMesh = {mesh: null,};
 LoadBlenderModel("../blender/", "pilye.gltf", -15, blenderY, -20, pilyeMesh);
 
-console.log("blender loaded");
+const mesh150 = {mesh: null,};
+const Model2Mesh = { mesh: null,};
+const Model3Mesh = { mesh: null,};
+const Model4Mesh = { mesh: null,};
+const Model5Mesh = { mesh: null,}; 
+const Model6Mesh = { mesh: null,};
+const Model7Mesh = { mesh: null,};
+const Model8Mesh = { mesh: null,};
+const Model9Mesh = { mesh: null,}; 
 
-
-  switch(selectedModel.textContent) {
-    case "model1":
-      LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
-      LoadBlenderModel("../blender/", "1.gltf", 0, blenderY, 0, blenderFeetsMesh);
-    case "model2":
-      //LoadBlenderModel("../chicken_gun_town3/", "scene.gltf", 200, -11, 0, Model3Mesh, callBack);
-    case "model3":
-  }
-  
-  //
-
-/*
-const Model2Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../jaaninoja_bridge_in_turku_kurala_finland/",
-  "scene.gltf",
-  -15,
-  blenderY-15,
-  -20,
-  Model2Mesh,
-)*/
-/*
-const Model4Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../terrain/",
-  "untitled.gltf",
- 0,
-  -10,
-  0,
-  Model4Mesh,
-  callBack
-);*/
-/*
-console.log("blender loaded");
-
-const Model5Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../modern_city_block/",
-  "untitled.gltf",
- 0,
- -10,
-  0,
-  Model5Mesh,
-  callBack
-);
-console.log("blender loaded");
-
-console.log("blender loaded");
-
-const Model6Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../wethumid_desert_-_terrain/",
-  "scene.gltf",
- 0,
- 0,
-  0,
-  Model6Mesh,
-  callBack
-);
-console.log("blender loaded");
-
-const Model7Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../simple_terrain_with_rock_debris/",
-  "scene.gltf",
- 0,
- -8,
-  0,
-  Model7Mesh,
-  callBack
-);
-console.log("blender loaded");
-const Model8Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../mountain_terrain_-_haytor_dartmoor_national_park/",
-  "scene.gltf",
- 0,
- -4,
-  0,
-  Model8Mesh,
-  callBack
-);
-console.log("blender loaded");
-
-const Model9Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../interstate_overpass/",
-  "scene.gltf",
- 0,
- -7,
-  0,
-  Model9Mesh,
-  callBack
-);
-console.log("blender loaded");
-
-const Model10Mesh = {
-  mesh: null,
-}; 
-LoadBlenderModel(
-  "../mcdonalds_at_night/",
-  "untitled.glb",
- 0,
- -7,
-  0,
-  Model10Mesh,
-  callBack
-);
-console.log("blender loaded");*/
-/**/ /**/
-// const Model3Mesh = {
-//   mesh: null,
-// };
-// LoadBlenderModel(
-//   "../chicken_gun_town3/",
-//   "scene.gltf",
-//   200,
-//   -11,
-//   0,
-//   Model3Mesh,
-//   callBack
-// );
-console.log("blender loaded");
-
+switch(selectedModel.textContent) {
+  case "model1":
+    LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
+    break;
+  case "model2":
+    LoadBlenderModel("../chicken_gun_town3/", "scene.gltf", 200, -11, 0, Model2Mesh, callBack);
+    break;
+  case "model3":
+    LoadBlenderModel( "../terrain/","untitled.gltf", 0,  -10,  0,Model3Mesh,callBack);
+     break;
+  case "model4":
+    LoadBlenderModel( "../modern_city_block/","untitled.gltf", 0,  -10,  0,Model4Mesh,callBack);
+    break;
+  case "model5":
+    LoadBlenderModel( "../wethumid_desert_-_terrain/","scene.gltf", 0, 0,  0,Model5Mesh,callBack);
+    break;  
+  case "model6":
+    LoadBlenderModel( "../simple_terrain_with_rock_debris/","scene.gltf", 0,-8,  0,Model6Mesh,callBack);
+    break; 
+  case "model7":
+    LoadBlenderModel("../mountain_terrain_-_haytor_dartmoor_national_park/","scene.gltf", 0,-4,  0,Model7Mesh,callBack);
+    break;
+  case "model8":
+    LoadBlenderModel( "../interstate_overpass/","scene.gltf", 0,-7,  0,Model8Mesh,callBack);
+    break;
+  case "model9":
+    LoadBlenderModel("../mcdonalds_at_night/","untitled.glb", 0,-7,  0,Model9Mesh,callBack);
+    break;      
+}
 
 function callBack() {
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {
-    deviceGroup.add(blenderDeviceMesh.mesh, blenderLathCube2Mesh.mesh);
+    
     scene.add(deviceGroup);
   }
 
@@ -418,50 +257,82 @@ window.onkeydown = function (e) {
   }
   else if (code === 87) //W : move up 
   {
+    meshGroup.position.y -= _Settings.GetMoveStep();
+/*
+    reflektorMesh.mesh.position.y -= _Settings.GetMoveStep();
+    reflektorMesh2.mesh.position.y -= _Settings.GetMoveStep();
+    reflektorMesh3.mesh.position.y -= _Settings.GetMoveStep();
+    reflektorMesh4.mesh.position.y -= _Settings.GetMoveStep();
+
     mesh150.mesh.position.y -= _Settings.GetMoveStep();
-   Model3Mesh.mesh.position.y -= _Settings.GetMoveStep();
-    //scene.position.y -= _Settings.GetMoveStep();
-    //blenderLathCube2Mesh.mesh.position.y += _Settings.GetMoveStep();
-    //blenderDeviceMesh.mesh.position.y += _Settings.GetMoveStep();
-    //blenderFeetsMesh.mesh.position.y += _Settings.GetMoveStep();
+    Model2Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model4Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model5Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model6Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model7Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model8Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model9Mesh.mesh.position.y -= _Settings.GetMoveStep();
+*/
   }
   else if (code === 83) //S : move dawn 
   {
+    reflektorMesh.mesh.position.y += _Settings.GetMoveStep();
+    reflektorMesh2.mesh.position.y += _Settings.GetMoveStep();
+    reflektorMesh3.mesh.position.y += _Settings.GetMoveStep();
+    reflektorMesh4.mesh.position.y += _Settings.GetMoveStep();
+
     mesh150.mesh.position.y += _Settings.GetMoveStep();
-   Model3Mesh.mesh.position.y += _Settings.GetMoveStep();
-    //scene.position.y += _Settings.GetMoveStep();
-    //blenderLathCube2Mesh.mesh.position.y -= _Settings.GetMoveStep();
-    //blenderDeviceMesh.mesh.position.y -= _Settings.GetMoveStep();
-   // blenderFeetsMesh.mesh.position.y -= _Settings.GetMoveStep();
+    Model2Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model4Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model5Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model6Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model7Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model8Mesh.mesh.position.y += _Settings.GetMoveStep();
+    Model9Mesh.mesh.position.y += _Settings.GetMoveStep();
+
+
   }
   else if (code === 68) //D : move right
   {
+    reflektorMesh.mesh.position.x -= _Settings.GetMoveStep();
+    reflektorMesh2.mesh.position.x -= _Settings.GetMoveStep();
+    reflektorMesh3.mesh.position.x -= _Settings.GetMoveStep();
+    reflektorMesh4.mesh.position.x -= _Settings.GetMoveStep();
+
     mesh150.mesh.position.x -= _Settings.GetMoveStep();
+    Model2Mesh.mesh.position.x -= _Settings.GetMoveStep();
     Model3Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    //scene.position.x -= _Settings.GetMoveStep();
-   // blenderLathCube2Mesh.mesh.position.x += _Settings.GetMoveStep();
-   // blenderDeviceMesh.mesh.position.x += _Settings.GetMoveStep();
-   // blenderFeetsMesh.mesh.position.x += _Settings.GetMoveStep();
+    Model4Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    Model5Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    Model6Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    Model7Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    Model8Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    Model9Mesh.mesh.position.x -= _Settings.GetMoveStep();
+
+
   }
   else if (code === 65) //A : move left
   {
     mesh150.mesh.position.x += _Settings.GetMoveStep();
     Model3Mesh.mesh.position.x += _Settings.GetMoveStep();
-    //scene.position.x += _Settings.GetMoveStep();
-    //blenderLathCube2Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    //blenderDeviceMesh.mesh.position.x -= _Settings.GetMoveStep();
-    //blenderFeetsMesh.mesh.position.x -= _Settings.GetMoveStep();
-    //axesHelper.position.x -= _Settings.GetMoveStep();
+
+
   }
   else if (code === 90) //Z : move left
   {
     mesh150.mesh.position.z += _Settings.GetMoveStep();
     Model3Mesh.mesh.position.z += _Settings.GetMoveStep();
+
+
   }
   else if (code === 88) //X : move left
   {
     mesh150.mesh.position.z -= _Settings.GetMoveStep();
     Model3Mesh.mesh.position.z -= _Settings.GetMoveStep();
+
+
   }
   
 

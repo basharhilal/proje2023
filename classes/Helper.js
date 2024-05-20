@@ -17,7 +17,12 @@ export function ConvertGradToRad(angel) {
   }
   
   export function calculateVerticalAngel(x1, y1, x2, y2) {
+    if (-x2+x1<0 ){
+        return 2*Math.PI-calculateAngle(x1, y1, x2, y2);
+      }
+      else {
         return calculateAngle(x1, y1, x2, y2);
+      }
   }
 
   export function calculateDistance(pos1, pos2) {
