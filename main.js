@@ -112,8 +112,9 @@ const Model5Mesh = { mesh: null,};
 const Model6Mesh = { mesh: null,};
 const Model7Mesh = { mesh: null,};
 const Model8Mesh = { mesh: null,};
-const Model9Mesh = { mesh: null,}; 
+const Model9Mesh = { mesh: null,};
 
+var selectedMesh = null;
 switch(selectedModel.textContent) {
   case "model1":
     LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
@@ -176,8 +177,36 @@ function callBack() {
     //pilyeMesh.mesh.lookAt(0, 3, +5);
   }
 
-  if (mesh150.mesh) mesh150.mesh.userData.ground = true;
-
+  switch(_Settings.GetSelectedModel()) {
+    case "model1":
+      selectedMesh = mesh150.mesh;
+      break;
+    case "model2":
+      selectedMesh = Model2Mesh.mesh;
+      break;
+    case "model3":
+      selectedMesh = Model3Mesh.mesh;
+       break;
+    case "model4":
+      selectedMesh = Model4Mesh.mesh;
+      break;
+    case "model5":
+      selectedMesh = Model5Mesh.mesh;
+      break;  
+    case "model6":
+      selectedMesh = Model6Mesh.mesh;
+      break; 
+    case "model7":
+      selectedMesh = Model7Mesh.mesh;
+      break;
+    case "model8":
+      selectedMesh = Model8Mesh.mesh;
+      break;
+    case "model9":
+      selectedMesh = Model9Mesh.mesh;
+      break;      
+  }
+  selectedMesh.userData.ground = true;
   isLoaded = true;
 }
 
@@ -282,17 +311,7 @@ window.onkeydown = function (e) {
     reflektorMesh3.mesh.position.y += _Settings.GetMoveStep();
     reflektorMesh4.mesh.position.y += _Settings.GetMoveStep();
 
-    mesh150.mesh.position.y += _Settings.GetMoveStep();
-    Model2Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model3Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model4Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model5Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model6Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model7Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model8Mesh.mesh.position.y += _Settings.GetMoveStep();
-    Model9Mesh.mesh.position.y += _Settings.GetMoveStep();
-
-
+    selectedMesh.mesh.position.y += _Settings.GetMoveStep();
   }
   else if (code === 68) //D : move right
   {
@@ -301,17 +320,7 @@ window.onkeydown = function (e) {
     reflektorMesh3.mesh.position.x -= _Settings.GetMoveStep();
     reflektorMesh4.mesh.position.x -= _Settings.GetMoveStep();
 
-    mesh150.mesh.position.x -= _Settings.GetMoveStep();
-    Model2Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model3Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model4Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model5Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model6Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model7Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model8Mesh.mesh.position.x -= _Settings.GetMoveStep();
-    Model9Mesh.mesh.position.x -= _Settings.GetMoveStep();
-
-
+    selectedMesh.position.x -= _Settings.GetMoveStep();
   }
   else if (code === 65) //A : move left
   {
