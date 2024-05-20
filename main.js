@@ -102,9 +102,9 @@ const reflektorMesh = {
 LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
-  -35,
-  blenderY + 5,
-  -20,
+  10,
+  blenderY + 2,
+  -10,
   reflektorMesh
 );
 
@@ -117,8 +117,8 @@ const reflektorMesh2 = {
 LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
-  20,
-  blenderY - 2,
+  10,
+  blenderY + 2,
   -10,
   reflektorMesh2
 );
@@ -131,9 +131,9 @@ const reflektorMesh3 = {
 LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
-  -5,
-  blenderY + 5,
-  -40,
+  10,
+  blenderY + 2,
+  -10,
   reflektorMesh3
 );
 
@@ -145,9 +145,9 @@ const reflektorMesh4 = {
 LoadBlenderModel(
   "../blender/",
   "reflektor.gltf",
-  30,
-  blenderY + 1,
-  25,
+  10,
+  blenderY + 2,
+  -10,
   reflektorMesh4
 );
 
@@ -288,7 +288,7 @@ LoadBlenderModel(
 );
 console.log("blender loaded");
 
-LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
+LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2-20000, -25, mesh150, callBack);
 
 function callBack() {
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {
@@ -401,6 +401,54 @@ window.onkeydown = function (e) {
   {
     focusedMeshs.forEach((element) => {element.rotation.y += _Settings.GetRotateStep();});
   }
+  else if (code === 87) //W : move up 
+  {
+    mesh150.mesh.position.y -= _Settings.GetMoveStep();
+   Model3Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    //scene.position.y -= _Settings.GetMoveStep();
+    //blenderLathCube2Mesh.mesh.position.y += _Settings.GetMoveStep();
+    //blenderDeviceMesh.mesh.position.y += _Settings.GetMoveStep();
+    //blenderFeetsMesh.mesh.position.y += _Settings.GetMoveStep();
+  }
+  else if (code === 83) //S : move dawn 
+  {
+    mesh150.mesh.position.y += _Settings.GetMoveStep();
+   Model3Mesh.mesh.position.y += _Settings.GetMoveStep();
+    //scene.position.y += _Settings.GetMoveStep();
+    //blenderLathCube2Mesh.mesh.position.y -= _Settings.GetMoveStep();
+    //blenderDeviceMesh.mesh.position.y -= _Settings.GetMoveStep();
+   // blenderFeetsMesh.mesh.position.y -= _Settings.GetMoveStep();
+  }
+  else if (code === 68) //D : move right
+  {
+    mesh150.mesh.position.x -= _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    //scene.position.x -= _Settings.GetMoveStep();
+   // blenderLathCube2Mesh.mesh.position.x += _Settings.GetMoveStep();
+   // blenderDeviceMesh.mesh.position.x += _Settings.GetMoveStep();
+   // blenderFeetsMesh.mesh.position.x += _Settings.GetMoveStep();
+  }
+  else if (code === 65) //A : move left
+  {
+    mesh150.mesh.position.x += _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.x += _Settings.GetMoveStep();
+    //scene.position.x += _Settings.GetMoveStep();
+    //blenderLathCube2Mesh.mesh.position.x -= _Settings.GetMoveStep();
+    //blenderDeviceMesh.mesh.position.x -= _Settings.GetMoveStep();
+    //blenderFeetsMesh.mesh.position.x -= _Settings.GetMoveStep();
+    //axesHelper.position.x -= _Settings.GetMoveStep();
+  }
+  else if (code === 90) //Z : move left
+  {
+    mesh150.mesh.position.z += _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.z += _Settings.GetMoveStep();
+  }
+  else if (code === 88) //X : move left
+  {
+    mesh150.mesh.position.z -= _Settings.GetMoveStep();
+    Model3Mesh.mesh.position.z -= _Settings.GetMoveStep();
+  }
+  
 
   var verticalValue = parseFloat(
     (Helper.ConvertRadToGrad(-blenderLathCube2Mesh.mesh.rotation.x) + 100) % 400
