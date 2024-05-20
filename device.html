@@ -77,28 +77,10 @@
     </details>
     <table hidden>
       <tr>
-        <td></td>
+        <td><label id="selectedModel"></label></td>
         <td>X</td>
         <td>Y</td>
         <td>Z</td>
-      </tr>
-      <tr>
-        <td>circle1</td>
-        <td><label class="label1" id="circle1X">100 </label></td>
-        <td><label class="label1" id="circle1Y">100 </label></td>
-        <td><label class="label1" id="circle1Z">100 </label></td>
-      </tr>
-      <tr>
-        <td>circle1</td>
-        <td><label class="label1" id="circle2X">100 </label></td>
-        <td><label class="label1" id="circle2Y">100 </label></td>
-        <td><label class="label1" id="circle2Z">100 </label></td>
-      </tr>
-      <tr>
-        <td>cube</td>
-        <td><label class="label1" id="cubeX">100 </label></td>
-        <td><label class="label1" id="cubeY">100 </label></td>
-        <td><label class="label1" id="cubeZ">100 </label></td>
       </tr>
     </table>
   </div>
@@ -203,5 +185,13 @@
   <a href="index.html" style="position: absolute;color: blue; text-decoration: none; font-weight: bold; padding: 5px 10px; background-color: #f2f2f2; border-radius: 5px;">Main</a>
 
 </body>
-
+<script>
+  // Get the parameter from the URI
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedModel = urlParams.get('selectedModel');
+var selectedModelLabel = document.getElementById('selectedModel');
+selectedModelLabel.innerText = selectedModel;
+  // Use the parameter in your code
+  console.log(selectedModel);
+</script>
 </html>

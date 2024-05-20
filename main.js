@@ -24,6 +24,7 @@ var horizontalAngleTextValueInGrad = document.getElementById("horizontalAngleTex
 var btnDraw = document.getElementById("btnDraw");
 var btnSetReference = document.getElementById("btnSetReference");
 var labelDistance = document.getElementById("labelDistance");
+var selectedModel = document.getElementById("selectedModel");
 
 
 const NumberOfGrads = 1;
@@ -37,6 +38,8 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 const _Settings = new Settings();
+
+_Settings.SetSelectedModel(selectedModel.textContent);
 
 var isLoaded = false;
 
@@ -161,6 +164,19 @@ const pilyeMesh = {
 LoadBlenderModel("../blender/", "pilye.gltf", -15, blenderY, -20, pilyeMesh);
 
 console.log("blender loaded");
+
+
+  switch(selectedModel.textContent) {
+    case "model1":
+      LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2, -25, mesh150, callBack);
+      LoadBlenderModel("../blender/", "1.gltf", 0, blenderY, 0, blenderFeetsMesh);
+    case "model2":
+      //LoadBlenderModel("../chicken_gun_town3/", "scene.gltf", 200, -11, 0, Model3Mesh, callBack);
+    case "model3":
+  }
+  
+  //
+
 /*
 const Model2Mesh = {
   mesh: null,
@@ -274,21 +290,20 @@ LoadBlenderModel(
 );
 console.log("blender loaded");*/
 /**/ /**/
-const Model3Mesh = {
-  mesh: null,
-};
-LoadBlenderModel(
-  "../chicken_gun_town3/",
-  "scene.gltf",
-  200,
-  -11,
-  0,
-  Model3Mesh,
-  callBack
-);
+// const Model3Mesh = {
+//   mesh: null,
+// };
+// LoadBlenderModel(
+//   "../chicken_gun_town3/",
+//   "scene.gltf",
+//   200,
+//   -11,
+//   0,
+//   Model3Mesh,
+//   callBack
+// );
 console.log("blender loaded");
 
-LoadBlenderModel("../ta_agrat/", "scene.gltf", -10, -2-20000, -25, mesh150, callBack);
 
 function callBack() {
   if ((blenderDeviceMesh?.mesh, blenderLathCube2Mesh?.mesh)) {

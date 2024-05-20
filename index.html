@@ -30,6 +30,12 @@
             <a class="aaaa" href="device.html">click here</a>
             <a class="aaaa" href="telescopeCamera.html">telescopeCamera</a>
             <a class="aaaa" href="telescope.html">telescope</a>
+            <select>
+                <option value="option0">please select</option>
+                <option value="option1">model 1</option>
+                <option value="option2">model 2</option>
+                <option value="option3">model 3</option>
+            </select>
 
         </div>
     </div>
@@ -37,5 +43,19 @@
 
 
 </body>
+
+<script>
+    document.querySelector('select').addEventListener('change', function() {
+        var selectedOption = this.value;
+        // Perform actions based on the selected option
+        if (selectedOption === 'option1') {
+            window.location.href = 'device.html?selectedModel=model1';
+        } else if (selectedOption === 'option2') {
+            window.location.href = 'device.html?selectedModel=model2';
+        } else if (selectedOption === 'option3') {
+            window.location.href = 'device.html?selectedModel=model3';
+        }
+    });
+</script>
 
 </html>

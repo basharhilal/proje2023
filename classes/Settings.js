@@ -3,6 +3,7 @@ export class Settings {
     #RadianStep = this.#step;
     #canMeasure = true;
     #canDraw = true;
+    #selectedModel = "model1";
 
     constructor() {
         this.GradStep = this.ConvertRadToGrad();
@@ -58,4 +59,13 @@ export class Settings {
   CanDraw() {
     return this.#canDraw;
   }
+
+  SetSelectedModel(model) {
+    this.#selectedModel = model;
+  }
+
+  GetSelectedModel(){
+    return this.#selectedModel;
+  }
+
 }
